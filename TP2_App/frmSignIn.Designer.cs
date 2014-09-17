@@ -1,0 +1,109 @@
+﻿namespace TP2_App
+{
+    partial class frmSignIn
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.btnSignIn = new System.Windows.Forms.Button();
+            this.email = new System.Windows.Forms.Label();
+            this.Password = new System.Windows.Forms.Label();
+            this.tbEmail = new System.Windows.Forms.TextBox();
+            this.tbPassword = new System.Windows.Forms.TextBox();
+            this.SuspendLayout();
+            // 
+            // btnSignIn
+            // 
+            this.btnSignIn.Location = new System.Drawing.Point(117, 134);
+            this.btnSignIn.Name = "btnSignIn";
+            this.btnSignIn.Size = new System.Drawing.Size(146, 23);
+            this.btnSignIn.TabIndex = 4;
+            this.btnSignIn.Text = "Sign In";
+            this.btnSignIn.UseVisualStyleBackColor = true;
+            this.btnSignIn.Click += new System.EventHandler(this.btnSignIn_Click);
+            // 
+            // email
+            // 
+            this.email.AutoSize = true;
+            this.email.Location = new System.Drawing.Point(37, 55);
+            this.email.Name = "email";
+            this.email.Size = new System.Drawing.Size(43, 12);
+            this.email.TabIndex = 1;
+            this.email.Text = "E-mail";
+            // 
+            // Password
+            // 
+            this.Password.AutoSize = true;
+            this.Password.Location = new System.Drawing.Point(37, 84);
+            this.Password.Name = "Password";
+            this.Password.Size = new System.Drawing.Size(62, 12);
+            this.Password.TabIndex = 2;
+            this.Password.Text = "Password";
+            // 
+            // tbEmail
+            // 
+            this.tbEmail.Location = new System.Drawing.Point(117, 52);
+            this.tbEmail.Name = "tbEmail";
+            this.tbEmail.Size = new System.Drawing.Size(235, 21);
+            this.tbEmail.TabIndex = 0;
+            this.tbEmail.Text = "inseok.lee@3dsystems.com";
+            // 
+            // tbPassword
+            // 
+            this.tbPassword.Location = new System.Drawing.Point(117, 84);
+            this.tbPassword.Name = "tbPassword";
+            this.tbPassword.Size = new System.Drawing.Size(235, 21);
+            this.tbPassword.TabIndex = 4;
+            this.tbPassword.Text = "dldlstjr";
+            this.tbPassword.UseSystemPasswordChar = true;
+            // 
+            // frmSignIn
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(391, 200);
+            this.Controls.Add(this.tbPassword);
+            this.Controls.Add(this.tbEmail);
+            this.Controls.Add(this.Password);
+            this.Controls.Add(this.email);
+            this.Controls.Add(this.btnSignIn);
+            this.Name = "frmSignIn";
+            this.Text = "TP2 Application";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Button btnSignIn;
+        private System.Windows.Forms.Label email;
+        private System.Windows.Forms.Label Password;
+        private System.Windows.Forms.TextBox tbEmail;
+        private System.Windows.Forms.TextBox tbPassword;
+    }
+}
+
