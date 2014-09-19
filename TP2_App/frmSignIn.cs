@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using TeamPlatform.TP2_SDK;
+using TeamPlatform.TP2_SDK.Object;
 
 namespace TP2_App
 {
@@ -24,13 +25,10 @@ namespace TP2_App
         {
             string Email = tbEmail.Text;
             string Password = tbPassword.Text;
-
-            if (TpClient.authenticate(Email, Password))
+            
+            if (User.IsValid(TpClient.authenticate(Email, Password)))
             {
-                //MessageBox.Show(String.Format("Authenticated! \r API TOKEN : {0}", TpClient.ApiToken));
-
-                frmFileList FileList = new frmFileList();
-                FileList.ApiToken = TpClient.ApiToken;
+                frmModelList FileList = new frmModelList(TpClient);
                 FileList.Show();
                 this.Hide();
             }

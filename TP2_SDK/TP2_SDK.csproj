@@ -46,12 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TpResponse\AuthenticateResponse.cs" />
-    <Compile Include="File.cs" />
+    <Compile Include="Object\Acl.cs" />
+    <Compile Include="Object\User.cs" />
+    <Compile Include="Types\ModelType.cs" />
+    <Compile Include="TpModelClient.cs" />
     <Compile Include="TP2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TpResponse\FileListResponse.cs" />
-    <Compile Include="TpResponse\FileResponse.cs" />
+    <Compile Include="Object\Model.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
