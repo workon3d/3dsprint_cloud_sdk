@@ -156,6 +156,7 @@
             // 
             this.tbKey.Location = new System.Drawing.Point(90, 57);
             this.tbKey.Name = "tbKey";
+            this.tbKey.ReadOnly = true;
             this.tbKey.Size = new System.Drawing.Size(256, 21);
             this.tbKey.TabIndex = 8;
             this.tbKey.TextChanged += new System.EventHandler(this.tbKey_TextChanged);
@@ -164,6 +165,7 @@
             // 
             this.tbFtype.Location = new System.Drawing.Point(90, 84);
             this.tbFtype.Name = "tbFtype";
+            this.tbFtype.ReadOnly = true;
             this.tbFtype.Size = new System.Drawing.Size(256, 21);
             this.tbFtype.TabIndex = 9;
             this.tbFtype.TextChanged += new System.EventHandler(this.tbFtype_TextChanged);

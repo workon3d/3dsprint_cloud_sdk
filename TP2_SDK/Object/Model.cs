@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,6 +27,7 @@ namespace TeamPlatform.TP2_SDK.Object
         public string created_at;
         public string updated_at;
         public string message;
+        public HttpStatusCode status_code;
 
         public Model(string strMessage)
         {

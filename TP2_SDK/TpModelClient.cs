@@ -93,9 +93,11 @@ namespace TeamPlatform.TP2_SDK
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
-                Model jsonResponse = JsonConvert.DeserializeObject<Model>(httpResponse.Content);
+                Model model = JsonConvert.DeserializeObject<Model>(httpResponse.Content);
+                model.status_code = httpResponse.StatusCode;
+                model.message = httpResponse.ErrorMessage;
 
-                return jsonResponse;
+                return model;
             }
             catch (Exception ee)
             {
@@ -141,9 +143,11 @@ namespace TeamPlatform.TP2_SDK
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
-                Model jsonResponse = JsonConvert.DeserializeObject<Model>(httpResponse.Content);
+                Model model = JsonConvert.DeserializeObject<Model>(httpResponse.Content);
+                model.status_code = httpResponse.StatusCode;
+                model.message = httpResponse.ErrorMessage;
 
-                return jsonResponse;
+                return model;
             }
             catch (Exception ee)
             {

@@ -72,10 +72,20 @@ namespace TP2_App
             string ModelName = tbFilename.Text;
             string Key = tbKey.Text;
             string Ftype = tbFtype.Text;
-            string Meta = tbMeta.Text;
-            string Acl = tbAcl.Text;
+            string Meta = tbMeta.Text.Replace("\r\n","");
+            string Acl = tbAcl.Text.Replace("\r\n","");
 
-            ModelClient.Update(ModelId, ModelName, null, Meta, Acl);
+            Model update_result = ModelClient.Update(ModelId, ModelName, null, Meta, Acl);
+
+            if (update_result.status_code == System.Net.HttpStatusCode.OK)
+            {
+                MessageBox.Show("Model has successfully updated");
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show(String.Format("Model updating has failed with reason {0}", update_result.message));
+            }
         }
     }
 }
