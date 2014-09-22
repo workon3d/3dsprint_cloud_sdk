@@ -29,6 +29,17 @@ namespace TeamPlatform.TP2_SDK.Object
         public string message;
         public HttpStatusCode status_code;
 
+        public Model(string strMessage, HttpStatusCode codeStatusCode)
+        {
+            message = strMessage;
+            status_code = codeStatusCode;
+        }
+
+        public Model(HttpStatusCode codeStatusCode)
+        {
+            status_code = codeStatusCode;
+        }
+
         public Model(string strMessage)
         {
             message = strMessage;

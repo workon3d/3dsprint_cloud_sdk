@@ -37,9 +37,10 @@
             // 
             // btnSignIn
             // 
-            this.btnSignIn.Location = new System.Drawing.Point(117, 134);
+            this.btnSignIn.Location = new System.Drawing.Point(117, 116);
+            this.btnSignIn.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnSignIn.Name = "btnSignIn";
-            this.btnSignIn.Size = new System.Drawing.Size(146, 23);
+            this.btnSignIn.Size = new System.Drawing.Size(146, 29);
             this.btnSignIn.TabIndex = 4;
             this.btnSignIn.Text = "Sign In";
             this.btnSignIn.UseVisualStyleBackColor = true;
@@ -48,48 +49,53 @@
             // email
             // 
             this.email.AutoSize = true;
-            this.email.Location = new System.Drawing.Point(37, 55);
+            this.email.Location = new System.Drawing.Point(37, 35);
             this.email.Name = "email";
-            this.email.Size = new System.Drawing.Size(43, 12);
+            this.email.Size = new System.Drawing.Size(41, 15);
             this.email.TabIndex = 1;
             this.email.Text = "E-mail";
             // 
             // Password
             // 
             this.Password.AutoSize = true;
-            this.Password.Location = new System.Drawing.Point(37, 84);
+            this.Password.Location = new System.Drawing.Point(37, 71);
             this.Password.Name = "Password";
-            this.Password.Size = new System.Drawing.Size(62, 12);
+            this.Password.Size = new System.Drawing.Size(57, 15);
             this.Password.TabIndex = 2;
             this.Password.Text = "Password";
             // 
             // tbEmail
             // 
-            this.tbEmail.Location = new System.Drawing.Point(117, 52);
+            this.tbEmail.Location = new System.Drawing.Point(117, 31);
+            this.tbEmail.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tbEmail.Name = "tbEmail";
-            this.tbEmail.Size = new System.Drawing.Size(235, 21);
+            this.tbEmail.Size = new System.Drawing.Size(235, 23);
             this.tbEmail.TabIndex = 0;
             this.tbEmail.Text = "inseok.lee@3dsystems.com";
             // 
             // tbPassword
             // 
-            this.tbPassword.Location = new System.Drawing.Point(117, 84);
+            this.tbPassword.Location = new System.Drawing.Point(117, 71);
+            this.tbPassword.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tbPassword.Name = "tbPassword";
-            this.tbPassword.Size = new System.Drawing.Size(235, 21);
+            this.tbPassword.Size = new System.Drawing.Size(235, 23);
             this.tbPassword.TabIndex = 4;
             this.tbPassword.Text = "dldlstjr";
             this.tbPassword.UseSystemPasswordChar = true;
             // 
             // frmSignIn
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(391, 200);
+            this.ClientSize = new System.Drawing.Size(391, 172);
             this.Controls.Add(this.tbPassword);
             this.Controls.Add(this.tbEmail);
             this.Controls.Add(this.Password);
             this.Controls.Add(this.email);
             this.Controls.Add(this.btnSignIn);
+            this.Font = new System.Drawing.Font("Malgun Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.MaximizeBox = false;
             this.Name = "frmSignIn";
             this.Text = "TP2 Application";
             this.ResumeLayout(false);

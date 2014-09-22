@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 
 // TP2_SDK
 using TeamPlatform.TP2_SDK.Object;
+using System.Net;
 
 namespace TeamPlatform.TP2_SDK
 {
@@ -42,7 +43,7 @@ namespace TeamPlatform.TP2_SDK
 
                 return models.contents;
             }
-            catch (Exception ee)
+            catch
             {
                 return new List<Model>();
             }
@@ -70,8 +71,6 @@ namespace TeamPlatform.TP2_SDK
             RestRequest request = new RestRequest(String.Format("{0}/models", ApiPath), Method.POST);
             string strModelName;
 
-            Acl = this.GetAcl();
-            
             if (Acl == null)
                 Acl = this.GetAcl();
 
@@ -123,22 +122,45 @@ namespace TeamPlatform.TP2_SDK
 
         public Model Update(int ModelId, string ModelName, string FilePath, object MetaJson, string Acl)
         {
+            #region JSON parameter checking
+            try
+            {
+                if (MetaJson != null)
+                {
+                    JsonConvert.DeserializeObject(MetaJson.ToString());
+                }
+            }
+            catch
+            {
+                return new Model("Invalid JSON meta");
+            }
+
+            try
+            {
+                JsonConvert.DeserializeObject(Acl);
+            }
+            catch
+            {
+                return new Model("Invalid JSON ACL");
+            }
+            #endregion
+
             RestRequest request = new RestRequest(String.Format("{0}/models/{1}", ApiPath, ModelId.ToString()), Method.PUT);
             request.AddParameter("api_token", ApiToken);
 
-            if (Acl == null)
-                Acl = this.GetAcl();
-
-            if (!String.IsNullOrEmpty(ModelName))
+            if(String.IsNullOrEmpty(ModelName) && !String.IsNullOrWhiteSpace(FilePath))
+                request.AddParameter("name", Path.GetFileName(FilePath));
+            else 
                 request.AddParameter("name", ModelName);
 
-            //if (!String.IsNullOrEmpty(FilePath))
-            //  request.AddFile("file", FilePath); // Not supported yet
+            if(!String.IsNullOrEmpty(FilePath))
+                request.AddFile("file", FilePath);
 
-            if (MetaJson != null)
+            if(MetaJson != null)
                 request.AddParameter("meta", MetaJson);
-
-            request.AddParameter("acl", Acl);
+            
+            if(!String.IsNullOrEmpty(Acl))
+                request.AddParameter("acl", Acl);
 
             try
             {
@@ -167,22 +189,34 @@ namespace TeamPlatform.TP2_SDK
             return Update(ModelId, null, null, MetaJson, null);
         }
 
-        public string Download(int ModelId)
+        public byte[] Download(int ModelId)
         {
-            RestRequest request = new RestRequest(String.Format("{0}/files", ApiPath), Method.GET);
+            RestRequest request = new RestRequest(String.Format("{0}/models/{1}/download", ApiPath, Convert.ToString(ModelId)), Method.GET);
             request.AddParameter("api_token", ApiToken);
-            request.AddParameter("id", ModelId);
+            
+            try
+            {
+                return RestClient.DownloadData(request);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public Model Delete(int ModelId)
+        {
+            RestRequest request = new RestRequest(String.Format("{0}/models/{1}", ApiPath, Convert.ToString(ModelId)), Method.DELETE);
+            request.AddParameter("api_token", ApiToken);
 
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
-                Model jsonResponse = JsonConvert.DeserializeObject<Model>(httpResponse.Content);
-
-                return "";
+                return new Model(httpResponse.StatusCode);
             }
-            catch (Exception ee)
+            catch(Exception ee)
             {
-                return "";
+                return new Model(ee.ToString(), System.Net.HttpStatusCode.InternalServerError);
             }
         }
 
@@ -195,6 +229,5 @@ namespace TeamPlatform.TP2_SDK
             return JsonConvert.SerializeObject(AclObject, Formatting.None);
         }
         #endregion
-
-    }    
+    }
 }

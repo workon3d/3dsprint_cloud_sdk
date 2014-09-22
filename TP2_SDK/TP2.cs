@@ -16,6 +16,7 @@ namespace TeamPlatform.TP2_SDK
     {
         #region member variables
         public RestClient RestClient;
+        private readonly int m_SDK_VERSION = 1;
         private readonly string m_Tp2Host = "http://tp2.dev:3000/";
         private readonly string m_ApiPath = "api/v1";
         private string m_ApiToken = null;
@@ -41,6 +42,10 @@ namespace TeamPlatform.TP2_SDK
             get { return m_CurrentUser; }
             set { m_CurrentUser = value; }
         }
+        public int SDK_VERSION
+        {
+            get { return m_SDK_VERSION; }
+        } 
         #endregion
 
         #region constructor

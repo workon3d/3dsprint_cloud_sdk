@@ -34,7 +34,6 @@
             this.btnUpload = new System.Windows.Forms.Button();
             this.dlgUploadModel = new System.Windows.Forms.OpenFileDialog();
             this.panList = new System.Windows.Forms.Panel();
-            this.btnDelete = new System.Windows.Forms.Button();
             this.panList.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,7 +44,7 @@
             this.chFilename});
             this.lvFileList.Location = new System.Drawing.Point(3, 3);
             this.lvFileList.Name = "lvFileList";
-            this.lvFileList.Size = new System.Drawing.Size(662, 489);
+            this.lvFileList.Size = new System.Drawing.Size(671, 489);
             this.lvFileList.TabIndex = 0;
             this.lvFileList.UseCompatibleStateImageBehavior = false;
             this.lvFileList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lvFileList_MouseDoubleClick);
@@ -63,7 +62,7 @@
             // 
             this.btnUpload.Location = new System.Drawing.Point(680, 12);
             this.btnUpload.Name = "btnUpload";
-            this.btnUpload.Size = new System.Drawing.Size(143, 23);
+            this.btnUpload.Size = new System.Drawing.Size(143, 30);
             this.btnUpload.TabIndex = 1;
             this.btnUpload.Text = "Upload Model";
             this.btnUpload.UseVisualStyleBackColor = true;
@@ -75,23 +74,14 @@
             // 
             // panList
             // 
-            this.panList.Controls.Add(this.btnDelete);
             this.panList.Controls.Add(this.btnUpload);
             this.panList.Controls.Add(this.lvFileList);
             this.panList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panList.Font = new System.Drawing.Font("Malgun Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.panList.Location = new System.Drawing.Point(0, 0);
             this.panList.Name = "panList";
             this.panList.Size = new System.Drawing.Size(835, 495);
             this.panList.TabIndex = 3;
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.Location = new System.Drawing.Point(680, 52);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(143, 23);
-            this.btnDelete.TabIndex = 2;
-            this.btnDelete.Text = "Delete Model";
-            this.btnDelete.UseVisualStyleBackColor = true;
             // 
             // frmModelList
             // 
@@ -114,6 +104,5 @@
         private System.Windows.Forms.Button btnUpload;
         private System.Windows.Forms.OpenFileDialog dlgUploadModel;
         private System.Windows.Forms.Panel panList;
-        private System.Windows.Forms.Button btnDelete;
     }
 }

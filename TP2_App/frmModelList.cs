@@ -31,6 +31,12 @@ namespace TP2_App
             getFileList();
         }
 
+        public void updateFileList(Object obj)
+        {
+            lvFileList.Items.Clear();
+            getFileList();
+        }
+
         private void getFileList()
         {
             List<Model> models = ModelClient.All();
@@ -59,10 +65,13 @@ namespace TP2_App
         {
             if (dlgUploadModel.ShowDialog() == DialogResult.OK)
             {
-                string FilePath = dlgUploadModel.FileName;
+                for (int i = 0; i < 100; i++)
+                {
+                    string FilePath = dlgUploadModel.FileName;
 
-                Model result = ModelClient.Create(FilePath);
-                insertModel(result);
+                    Model result = ModelClient.Create(FilePath);
+                    updateFileList(null);
+                }
             }
         }
 
@@ -76,6 +85,7 @@ namespace TP2_App
                 Model model = ModelClient.Get(Int32.Parse(lv.SelectedItems[0].Text));
 
                 frmModelView ModelView = new frmModelView(ModelClient, model);
+                ModelView.FormSendEvent += new frmModelView.UpdateList(updateFileList);
                 ModelView.Show();
             }
         }
