@@ -14,9 +14,17 @@ namespace TeamPlatform.TP2_SDK.Object
         public string message;
         public HttpStatusCode status_code;
 
+        public User(HttpStatusCode StatusCode, string strMessage)
+        {
+            status_code = StatusCode;
+            message = strMessage;
+        }
         public User(string strMessage)
         {
             message = strMessage;
+        }
+        public User()
+        {
         }
 
         static public bool IsValid(User user)

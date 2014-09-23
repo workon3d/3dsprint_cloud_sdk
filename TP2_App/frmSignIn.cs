@@ -21,17 +21,32 @@ namespace TP2_App
             InitializeComponent();
         }
 
-        private void btnSignIn_Click(object sender, EventArgs e)
+        private void doSignin()
         {
             string Email = tbEmail.Text;
             string Password = tbPassword.Text;
-            
+
             if (User.IsValid(TpClient.authenticate(Email, Password)))
             {
                 frmModelList FileList = new frmModelList(TpClient);
                 FileList.Show();
                 this.Hide();
             }
+        }
+
+        private void btnSignIn_Click(object sender, EventArgs e)
+        {
+            doSignin();
+        }
+
+        private void tbPassword_KeyDown(object sender, KeyEventArgs e)
+        {
+            doSignin();
+        }
+
+        private void tbEmail_TextChanged(object sender, EventArgs e)
+        {
+            doSignin();
         }
     }
 }

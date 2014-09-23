@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 
 // TP2_SDK
 using TeamPlatform.TP2_SDK.Object;
+using TeamPlatform.TP2_SDK.Types;
+
 using System.Net;
 
 namespace TeamPlatform.TP2_SDK
@@ -21,7 +23,6 @@ namespace TeamPlatform.TP2_SDK
         public TpModelClient()
         {
         }
-
         public TpModelClient(TP2 TpClient) : this()
         {
             RestClient = new RestClient(Tp2Host);
@@ -33,20 +34,7 @@ namespace TeamPlatform.TP2_SDK
         #region public method
         public List<Model> All()
         {
-            RestRequest request = new RestRequest(String.Format("{0}/models", ApiPath), Method.GET);
-            request.AddParameter("api_token",  ApiToken);
-
-            try
-            {
-                IRestResponse httpResponse = RestClient.Execute(request);
-                Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content);
-
-                return models.contents;
-            }
-            catch
-            {
-                return new List<Model>();
-            }
+            return index(0);
         }
         public Model Get(int FileId)
         {
@@ -72,7 +60,7 @@ namespace TeamPlatform.TP2_SDK
             string strModelName;
 
             if (Acl == null)
-                Acl = this.GetAcl();
+                Acl = this.get_acl();
 
             if (ParentId != 0)
                 request.AddParameter("parent_id", ParentId.ToString());
@@ -216,17 +204,181 @@ namespace TeamPlatform.TP2_SDK
             }
             catch(Exception ee)
             {
-                return new Model(ee.ToString(), System.Net.HttpStatusCode.InternalServerError);
+                return new Model(System.Net.HttpStatusCode.InternalServerError, ee.ToString());
             }
         }
 
+        public List<Model> Find(string key, string value)
+        {
+            return search_by_meta(key, value);
+        }
+        public List<Model> Find(string query)
+        {
+            if (IsMetaSearch(query))
+            {
+                Meta Meta = get_meta(query);
+                return search_by_meta(Meta.Key, Meta.Value);
+            }
+            else
+            {
+                return search_by_query(query);
+            }
+        }
         #endregion
 
         #region private method
-        private string GetAcl()
+        private string get_acl()
         {
             Acl AclObject = new Acl(Int32.Parse(CurrentUser.id.ToString()));
             return JsonConvert.SerializeObject(AclObject, Formatting.None);
+        }
+
+        private bool IsMetaSearch(string query)
+        {
+            if (String.IsNullOrWhiteSpace(query))
+                return false;
+
+            try
+            {
+                if (query.Contains("="))
+                    return true;
+            }
+            catch
+            {
+                throw;
+            }
+
+            return false;   
+        }
+
+        private Meta get_meta(string query)
+        {
+            if (!IsMetaSearch(query))
+                return new Meta();
+
+            try
+            {
+                string[] Split = query.Split('=');
+                string key = Split[0].Trim();
+                string value = Split[1].Trim();
+                if (value[0] == '"' || value[0] == '\'')
+                    value = value.Remove(0, 1);
+                if (value[value.Length-1] == '"' || value[value.Length-1] == '\'')
+                    value = value.Remove(value.Length-1, 1);
+
+                return new Meta(key, value);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        
+        private List<Model> index(int Page)
+        {
+            RestRequest request = new RestRequest(String.Format("{0}/models", ApiPath), Method.GET);
+            request.AddParameter("api_token", ApiToken);
+            if(Page != 0)
+                request.AddParameter("page", Page); 
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+                Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content);
+
+                int num_pages = Int32.Parse(Convert.ToString(models.pagination.num_pages));
+                if (Page == 0)
+                {
+                    List<Model> model_list = new List<Model>();
+
+                    for (int i = 1; i <= num_pages; i++)
+                    {
+                        model_list.AddRange(index(i));
+                    }
+
+                    return model_list;
+                }
+                return models.contents;
+            }
+            catch
+            {
+                return new List<Model>();
+            }
+        }
+
+        private List<Model> search_by_query(string query, int Page)
+        {
+            RestRequest request = new RestRequest(String.Format("{0}/models", ApiPath), Method.GET);
+            request.AddParameter("q", query);
+            request.AddParameter("api_token", ApiToken);
+            if (Page != 0)
+                request.AddParameter("page", Page);
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+                Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content);
+
+                int num_pages = Int32.Parse(Convert.ToString(models.pagination.num_pages));
+                if (Page == 0)
+                {
+                    List<Model> model_list = new List<Model>();
+
+                    for (int i = 1; i <= num_pages; i++)
+                    {
+                        model_list.AddRange(search_by_query(query, i));
+                    }
+
+                    return model_list;
+                }
+                return models.contents;
+
+            }
+            catch
+            {
+                return new List<Model>();
+            }
+        }
+        private List<Model> search_by_query(string query)
+        {
+            return search_by_query(query, 0);
+        }
+
+        private List<Model> search_by_meta(string key, string value, int Page)
+        {
+            RestRequest request = new RestRequest(String.Format("{0}/models", ApiPath), Method.GET);
+            request.AddParameter("meta", String.Format("{0}:{1}", key, value));
+            request.AddParameter("api_token", ApiToken);
+            if (Page != 0)
+                request.AddParameter("page", Page);
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+                Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content);
+
+                int num_pages = Int32.Parse(Convert.ToString(models.pagination.num_pages));
+                if (Page == 0)
+                {
+                    List<Model> model_list = new List<Model>();
+
+                    for (int i = 1; i <= num_pages; i++)
+                    {
+                        model_list.AddRange(search_by_meta(key, value, i));
+                    }
+
+                    return model_list;
+                }
+                return models.contents;
+            }
+            catch
+            {
+                return new List<Model>();
+            }
+        }
+        private List<Model> search_by_meta(string key, string value)
+        {
+            return search_by_meta(key, value, 0);
         }
         #endregion
     }

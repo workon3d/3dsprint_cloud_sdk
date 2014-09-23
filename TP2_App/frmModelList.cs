@@ -36,46 +36,45 @@ namespace TP2_App
             lvFileList.Items.Clear();
             getFileList();
         }
-
+        
+        #region private method
         private void getFileList()
         {
             List<Model> models = ModelClient.All();
 
-            foreach(Model model in models)
+            foreach (Model model in models)
             {
                 insertModel(model);
             }
         }
-
         private void insertModel(Model model)
         {
             ListViewItem item = new ListViewItem(model.id.ToString());
             item.SubItems.Add(model.name);
+            try
+            {
+                item.SubItems.Add(model.meta.ToString());
+            }
+            catch { }
             lvFileList.Items.Add(item);
         }
-
         private void setListColumn()
         {
             lvFileList.FullRowSelect = true;
             lvFileList.View = View.Details;
             lvFileList.BeginUpdate();
         }
-
-        private void btnUpload_Click(object sender, EventArgs e)
+        private void doSearch()
         {
-            if (dlgUploadModel.ShowDialog() == DialogResult.OK)
-            {
-                for (int i = 0; i < 100; i++)
-                {
-                    string FilePath = dlgUploadModel.FileName;
+            lvFileList.Items.Clear();
+            List<Model> models = ModelClient.Find(tbQuery.Text);
 
-                    Model result = ModelClient.Create(FilePath);
-                    updateFileList(null);
-                }
+            foreach (Model model in models)
+            {
+                insertModel(model);
             }
         }
-
-        private void lvFileList_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void showItem(object sender)
         {
             if (lvFileList.SelectedItems.Count == 1)
             {
@@ -89,5 +88,55 @@ namespace TP2_App
                 ModelView.Show();
             }
         }
+        #endregion
+
+        #region Event
+        private void btnUpload_Click(object sender, EventArgs e)
+        {
+            if (dlgUploadModel.ShowDialog() == DialogResult.OK)
+            {
+                string FilePath = dlgUploadModel.FileName;
+
+                Model result = ModelClient.Create(FilePath);
+                updateFileList(null);
+            }
+        }
+        private void lvFileList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            showItem(sender);
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            doSearch();
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            updateFileList(1);
+        }
+
+        private void tbQuery_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                doSearch();
+            }
+
+            if (e.KeyCode == Keys.Escape)
+            {
+                ((TextBox)sender).Text = String.Empty;
+                updateFileList(1);
+            }
+        }
+
+        private void lvFileList_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                showItem(sender);
+            }
+        }
+        #endregion
     }
 }

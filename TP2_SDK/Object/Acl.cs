@@ -27,7 +27,7 @@ namespace TeamPlatform.TP2_SDK.Object
                 else
                     return true;
             }
-            catch (Exception ee)
+            catch
             {
                 return false;
             }

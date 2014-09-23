@@ -49,8 +49,6 @@ namespace TP2_App
 
             tbAcl.ScrollBars = ScrollBars.Vertical;
             tbMeta.ScrollBars = ScrollBars.Vertical;
-
-            this.KeyUp += new KeyEventHandler(frmModelView_KeyUp);
         }
 
         private void tbId_TextChanged(object sender, EventArgs e)
@@ -94,9 +92,11 @@ namespace TP2_App
 
             if(update_result.status_code == System.Net.HttpStatusCode.OK)
             {
-                MessageBox.Show("Model has successfully updated");
                 Filepath = null;
-                this.Close();
+                this.FormSendEvent(1);
+                
+                if(MessageBox.Show("Model has successfully updated") == DialogResult.OK)
+                    this.Close();
             }
             else
             {
@@ -148,7 +148,7 @@ namespace TP2_App
             }
         }
 
-        private void frmModelView_KeyUp(object sender, KeyEventArgs e)
+        private void frmModelView_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
             {

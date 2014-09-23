@@ -17,6 +17,7 @@ namespace TeamPlatform.TP2_SDK.Object
 
     public class Model
     {
+        #region member variable
         public int id;
         public string name;
         public string key;
@@ -28,28 +29,28 @@ namespace TeamPlatform.TP2_SDK.Object
         public string updated_at;
         public string message;
         public HttpStatusCode status_code;
+        #endregion
 
-        public Model(string strMessage, HttpStatusCode codeStatusCode)
+        #region constructor
+        public Model(HttpStatusCode codeStatusCode, string strMessage)
         {
             message = strMessage;
             status_code = codeStatusCode;
         }
-
         public Model(HttpStatusCode codeStatusCode)
         {
             status_code = codeStatusCode;
         }
-
         public Model(string strMessage)
         {
             message = strMessage;
         }
-
         public Model()
         {
-            // TODO: Complete member initialization
         }
+        #endregion
 
+        #region static method
         static public bool IsValid(Model model)
         {
             try
@@ -59,10 +60,27 @@ namespace TeamPlatform.TP2_SDK.Object
                 else
                     return true;
             }
-            catch(Exception ee)
+            catch
             {
                 return false;
             }
+        }
+        #endregion
+    }
+
+    public class Meta
+    {
+        public string Key;
+        public string Value;
+
+        public Meta()
+        {
+        }
+
+        public Meta(string strKey, string strValue)
+        {
+            Key = strKey;
+            Value = strValue;
         }
     }
     

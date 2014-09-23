@@ -72,6 +72,7 @@
             this.tbEmail.Size = new System.Drawing.Size(235, 23);
             this.tbEmail.TabIndex = 0;
             this.tbEmail.Text = "inseok.lee@3dsystems.com";
+            this.tbEmail.TextChanged += new System.EventHandler(this.tbEmail_TextChanged);
             // 
             // tbPassword
             // 
@@ -82,6 +83,7 @@
             this.tbPassword.TabIndex = 4;
             this.tbPassword.Text = "dldlstjr";
             this.tbPassword.UseSystemPasswordChar = true;
+            this.tbPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbPassword_KeyDown);
             // 
             // frmSignIn
             // 
@@ -97,7 +99,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.Name = "frmSignIn";
-            this.Text = "TP2 Application";
+            this.Text = "TP2 Sample App";
             this.ResumeLayout(false);
             this.PerformLayout();
 

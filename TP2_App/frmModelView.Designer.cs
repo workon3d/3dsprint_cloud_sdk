@@ -271,15 +271,15 @@
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Font = new System.Drawing.Font("Malgun Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmModelView";
             this.ShowInTaskbar = false;
             this.Text = "ModelView";
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmModelView_KeyUp);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.frmModelView_KeyUp);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmModelView_KeyDown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
