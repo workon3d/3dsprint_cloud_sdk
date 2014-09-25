@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TeamPlatform.TP2_SDK.Object
+namespace TeamPlatform.TP2_SDK.Datas
 {
     public class Acl
     {

@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using TeamPlatform.TP2_SDK;
-using TeamPlatform.TP2_SDK.Object;
+using TeamPlatform.TP2_SDK.Datas;
 
 namespace TP2_App
 {

@@ -6,7 +6,7 @@ using System.Text;
 
 using TeamPlatform.TP2_SDK.Types;
 
-namespace TeamPlatform.TP2_SDK.Object
+namespace TeamPlatform.TP2_SDK.Datas
 {
     public class Models
     {
@@ -27,23 +27,23 @@ namespace TeamPlatform.TP2_SDK.Object
         public object acl;
         public string created_at;
         public string updated_at;
-        public string message;
-        public HttpStatusCode status_code;
+        public string Message;
+        public HttpStatusCode StatusCode;
         #endregion
 
         #region constructor
-        public Model(HttpStatusCode codeStatusCode, string strMessage)
+        public Model(HttpStatusCode status_code, string strMessage)
         {
-            message = strMessage;
-            status_code = codeStatusCode;
+            Message = strMessage;
+            StatusCode = status_code;
         }
-        public Model(HttpStatusCode codeStatusCode)
+        public Model(HttpStatusCode status_code)
         {
-            status_code = codeStatusCode;
+            StatusCode = status_code;
         }
         public Model(string strMessage)
         {
-            message = strMessage;
+            Message = strMessage;
         }
         public Model()
         {
@@ -64,6 +64,10 @@ namespace TeamPlatform.TP2_SDK.Object
             {
                 return false;
             }
+        }
+        public bool IsValid()
+        {
+            return Model.IsValid(this);
         }
         #endregion
     }

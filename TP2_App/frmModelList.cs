@@ -9,7 +9,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using TeamPlatform.TP2_SDK;
-using TeamPlatform.TP2_SDK.Object;
+using TeamPlatform.TP2_SDK.Datas;
 
 namespace TP2_App
 {
@@ -17,6 +17,8 @@ namespace TP2_App
     {
         private TpModelClient ModelClient;
         private User CurrentUser;
+
+        public int SelectedFolder;
 
         public frmModelList()
         {
@@ -138,5 +140,18 @@ namespace TP2_App
             }
         }
         #endregion
+
+        private void btnCreateFolder_Click(object sender, EventArgs e)
+        {
+            frmCreateFolder target = new frmCreateFolder(ModelClient);
+            if (target.ShowDialog(this) == DialogResult.OK)
+            {
+                Model folder = ModelClient.Create(target.ModelName, target.ModelId);
+
+                if (Model.IsValid(folder))
+                {
+                }
+            }
+        }
     }
 }

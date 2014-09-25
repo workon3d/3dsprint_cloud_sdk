@@ -5,5 +5,9 @@ using System.Text;
 
 namespace TeamPlatform.TP2_SDK.Types
 {
-    public enum Ftype { file, folder, all }
+    public enum Ftype { 
+        All,
+        File,
+        Folder,
+    }
 }

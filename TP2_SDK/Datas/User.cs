@@ -4,24 +4,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TeamPlatform.TP2_SDK.Object
+namespace TeamPlatform.TP2_SDK.Datas
 {
     public class User
     {
         public object id;
         public string email;
         public string api_token;
-        public string message;
-        public HttpStatusCode status_code;
+        public string Message;
+        public HttpStatusCode StatusCode;
 
-        public User(HttpStatusCode StatusCode, string strMessage)
+        public User(HttpStatusCode status_code, string strMessage)
         {
-            status_code = StatusCode;
-            message = strMessage;
+            StatusCode = status_code;
+            Message = strMessage;
         }
         public User(string strMessage)
         {
-            message = strMessage;
+            Message = strMessage;
         }
         public User()
         {

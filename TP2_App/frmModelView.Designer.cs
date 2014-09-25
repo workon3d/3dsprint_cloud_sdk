@@ -47,6 +47,8 @@
             this.dlgUploadModel = new System.Windows.Forms.OpenFileDialog();
             this.btnDownload = new System.Windows.Forms.Button();
             this.dlgDownloadModel = new System.Windows.Forms.SaveFileDialog();
+            this.btnCopy = new System.Windows.Forms.Button();
+            this.btnMove = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -260,11 +262,33 @@
             this.btnDownload.UseVisualStyleBackColor = true;
             this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
             // 
+            // btnCopy
+            // 
+            this.btnCopy.Location = new System.Drawing.Point(368, 192);
+            this.btnCopy.Name = "btnCopy";
+            this.btnCopy.Size = new System.Drawing.Size(128, 27);
+            this.btnCopy.TabIndex = 5;
+            this.btnCopy.Text = "Copy to...";
+            this.btnCopy.UseVisualStyleBackColor = true;
+            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
+            // 
+            // btnMove
+            // 
+            this.btnMove.Location = new System.Drawing.Point(369, 225);
+            this.btnMove.Name = "btnMove";
+            this.btnMove.Size = new System.Drawing.Size(128, 27);
+            this.btnMove.TabIndex = 6;
+            this.btnMove.Text = "Move to...";
+            this.btnMove.UseVisualStyleBackColor = true;
+            this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
+            // 
             // frmModelView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(509, 545);
+            this.Controls.Add(this.btnMove);
+            this.Controls.Add(this.btnCopy);
             this.Controls.Add(this.btnDownload);
             this.Controls.Add(this.btnUpload);
             this.Controls.Add(this.btnDelete);
@@ -307,5 +331,7 @@
         private System.Windows.Forms.OpenFileDialog dlgUploadModel;
         private System.Windows.Forms.Button btnDownload;
         private System.Windows.Forms.SaveFileDialog dlgDownloadModel;
+        private System.Windows.Forms.Button btnCopy;
+        private System.Windows.Forms.Button btnMove;
     }
 }

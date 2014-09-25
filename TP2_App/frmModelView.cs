@@ -10,7 +10,7 @@ using System.IO;
 using System.Net;
 
 using TeamPlatform.TP2_SDK;
-using TeamPlatform.TP2_SDK.Object;
+using TeamPlatform.TP2_SDK.Datas;
 
 namespace TP2_App
 {
@@ -21,6 +21,15 @@ namespace TP2_App
 
         public delegate void UpdateList(Object obj);
         public event UpdateList FormSendEvent;
+
+        private int ModelId;
+        private int m_Selected_Target_Folder;
+
+        public int Selected_Target_Folder
+        {
+            get { return m_Selected_Target_Folder; }
+            set { m_Selected_Target_Folder = value; }
+        }
 
         public frmModelView(TpModelClient tpModelClient, Model model)
         {
@@ -36,9 +45,10 @@ namespace TP2_App
             }
 
             tbId.Text = model.id.ToString();
+            ModelId = model.id;
             tbFilename.Text = !String.IsNullOrEmpty(model.name) ? model.name.ToString() : String.Empty;
             tbKey.Text = !String.IsNullOrEmpty(model.key) ? model.key.ToString() : String.Empty;
-            tbFtype.Text = model.ftype != null ? model.ftype.ToString() : String.Empty;
+            tbFtype.Text = model.ftype.ToString();
             tbMeta.Text = model.meta != null ? model.meta.ToString() : String.Empty;
             tbAcl.Text = model.acl.ToString();
 
@@ -90,7 +100,7 @@ namespace TP2_App
             
             Model update_result = ModelClient.Update(ModelId, ModelName, Filepath, Meta, Acl);
 
-            if(update_result.status_code == System.Net.HttpStatusCode.OK)
+            if(update_result.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 Filepath = null;
                 this.FormSendEvent(1);
@@ -100,7 +110,7 @@ namespace TP2_App
             }
             else
             {
-                MessageBox.Show(String.Format("Model updating has failed with reason {0}.", update_result.message));
+                MessageBox.Show(String.Format("Model updating has failed with reason {0}.", update_result.Message));
             }
         }
 
@@ -137,7 +147,7 @@ namespace TP2_App
             {
                 int ModelId = Int32.Parse(tbId.Text);
 
-                if (ModelClient.Delete(ModelId).status_code == HttpStatusCode.OK)
+                if (ModelClient.Delete(ModelId).StatusCode == HttpStatusCode.OK)
                 {
                     if (MessageBox.Show(String.Format("Model '{0}' has deleted", tbFilename.Text)) == DialogResult.OK)
                     {
@@ -153,6 +163,35 @@ namespace TP2_App
             if (e.KeyCode == Keys.Escape)
             {
                 this.Close();
+            }
+        }
+
+        private void btnCopy_Click(object sender, EventArgs e)
+        {
+            frmTarget target = new frmTarget(ModelClient);
+            if (target.ShowDialog(this) == DialogResult.OK)
+            {
+                HttpStatusCode Result = ModelClient.Copy(ModelId, Selected_Target_Folder);
+
+                if (Result == HttpStatusCode.OK)
+                {
+                    MessageBox.Show("File has copied to...");
+                }
+
+            }
+        }
+
+        private void btnMove_Click(object sender, EventArgs e)
+        {
+            frmTarget target = new frmTarget(ModelClient);
+            if (target.ShowDialog(this) == DialogResult.OK)
+            {
+                HttpStatusCode Result = ModelClient.Move(ModelId, Selected_Target_Folder);
+
+                if (Result == HttpStatusCode.OK)
+                {
+                    MessageBox.Show("File has moved to...");
+                }
             }
         }
     }

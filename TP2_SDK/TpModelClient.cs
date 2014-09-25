@@ -1,19 +1,16 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Linq;
+using System.Net;
 using System.Text;
-using System.Runtime.Serialization.Formatters;
 
 // External Library
 using RestSharp;
 using Newtonsoft.Json;
 
 // TP2_SDK
-using TeamPlatform.TP2_SDK.Object;
+using TeamPlatform.TP2_SDK.Datas;
 using TeamPlatform.TP2_SDK.Types;
-
-using System.Net;
 
 namespace TeamPlatform.TP2_SDK
 {
@@ -32,9 +29,13 @@ namespace TeamPlatform.TP2_SDK
         #endregion
 
         #region public method
+        public List<Model> All(Ftype type)
+        {
+            return index(0, type);
+        }
         public List<Model> All()
         {
-            return index(0);
+            return All(Ftype.All);
         }
         public Model Get(int FileId)
         {
@@ -81,8 +82,8 @@ namespace TeamPlatform.TP2_SDK
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
                 Model model = JsonConvert.DeserializeObject<Model>(httpResponse.Content);
-                model.status_code = httpResponse.StatusCode;
-                model.message = httpResponse.ErrorMessage;
+                model.StatusCode = httpResponse.StatusCode;
+                model.Message = httpResponse.ErrorMessage;
 
                 return model;
             }
@@ -102,6 +103,10 @@ namespace TeamPlatform.TP2_SDK
         public Model Create(string FilePath, object MetaJson)
         {
             return Create(null, 0, FilePath, MetaJson, null);
+        }
+        public Model Create(string ModelName, int ParentId)
+        {
+            return Create(ModelName, ParentId, null, null,null);
         }
         public Model Create(string FilePath)
         {
@@ -154,8 +159,8 @@ namespace TeamPlatform.TP2_SDK
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
                 Model model = JsonConvert.DeserializeObject<Model>(httpResponse.Content);
-                model.status_code = httpResponse.StatusCode;
-                model.message = httpResponse.ErrorMessage;
+                model.StatusCode = httpResponse.StatusCode;
+                model.Message = httpResponse.ErrorMessage;
 
                 return model;
             }
@@ -214,7 +219,7 @@ namespace TeamPlatform.TP2_SDK
         }
         public List<Model> Find(string query)
         {
-            if (IsMetaSearch(query))
+            if (is_meta_search(query))
             {
                 Meta Meta = get_meta(query);
                 return search_by_meta(Meta.Key, Meta.Value);
@@ -224,16 +229,90 @@ namespace TeamPlatform.TP2_SDK
                 return search_by_query(query);
             }
         }
+
+        public HttpStatusCode Copy(int[] ModelIds, int TargetModelId)
+        {
+            RestRequest request = new RestRequest(String.Format("{0}/models/copy", ApiPath), Method.PUT);
+            request.AddParameter("ids", this.parse_model_ids(ModelIds));
+            request.AddParameter("parent_id", Convert.ToString(TargetModelId));
+            request.AddParameter("api_token", ApiToken);
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+                return httpResponse.StatusCode;
+            }
+            catch
+            {
+                return HttpStatusCode.InternalServerError;
+            }
+        }
+        public HttpStatusCode Copy(int ModelId, int TargetModelId)
+        {
+            int[] ModelIds = {ModelId};
+            return Copy(ModelIds, TargetModelId);
+        }
+        
+        public HttpStatusCode Move(int[] ModelIds, int TargetModelId)
+        {
+            RestRequest request = new RestRequest(String.Format("{0}/models/move", ApiPath), Method.PUT);
+            request.AddParameter("ids", this.parse_model_ids(ModelIds));
+            request.AddParameter("parent_id", Convert.ToString(TargetModelId));
+            request.AddParameter("api_token", ApiToken);
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+                return httpResponse.StatusCode;
+            }
+            catch
+            {
+                return HttpStatusCode.InternalServerError;
+            }
+        }
+        public HttpStatusCode Move(int ModelId, int TargetModelId)
+        {
+            int[] ModelIds = { ModelId };
+            return Move(ModelIds, TargetModelId);
+        }
         #endregion
 
         #region private method
+        private string parse_model_ids(int[] model_ids)
+        {
+            int length = model_ids.Length;
+            string strResult = null;
+
+            if (length == 1)
+                return Convert.ToString(model_ids[0]);
+
+            try
+            {
+                StringBuilder buildString = new StringBuilder();
+
+                for (int i = 0; i < model_ids.Length; i++)
+                {
+                    buildString = buildString.Append(Convert.ToString(model_ids[i]));
+                    if (i != length)
+                        buildString = buildString.Append(',');
+                }
+
+                strResult = buildString.ToString();
+            }
+            catch
+            {
+                throw;
+            }
+
+            return strResult;
+        }
         private string get_acl()
         {
             Acl AclObject = new Acl(Int32.Parse(CurrentUser.id.ToString()));
             return JsonConvert.SerializeObject(AclObject, Formatting.None);
         }
 
-        private bool IsMetaSearch(string query)
+        private bool is_meta_search(string query)
         {
             if (String.IsNullOrWhiteSpace(query))
                 return false;
@@ -253,7 +332,7 @@ namespace TeamPlatform.TP2_SDK
 
         private Meta get_meta(string query)
         {
-            if (!IsMetaSearch(query))
+            if (!is_meta_search(query))
                 return new Meta();
 
             try
@@ -273,10 +352,17 @@ namespace TeamPlatform.TP2_SDK
                 throw;
             }
         }
-        
-        private List<Model> index(int Page)
+
+        private List<Model> index(int Page, Ftype ftype)
+        {
+            return index(0, Page, ftype);
+        }
+
+        private List<Model> index(int ModelId, int Page, Ftype ftype)
         {
             RestRequest request = new RestRequest(String.Format("{0}/models", ApiPath), Method.GET);
+            if(ftype != Ftype.All)
+                request.AddParameter("ftype", ftype.ToString());
             request.AddParameter("api_token", ApiToken);
             if(Page != 0)
                 request.AddParameter("page", Page); 
@@ -293,12 +379,28 @@ namespace TeamPlatform.TP2_SDK
 
                     for (int i = 1; i <= num_pages; i++)
                     {
-                        model_list.AddRange(index(i));
+                        model_list.AddRange(index(ModelId, i, ftype));
                     }
 
                     return model_list;
                 }
-                return models.contents;
+
+                List<Model> filtered_model_list = new List<Model>();
+
+                if (ftype != Ftype.All)
+                {
+                    foreach (Model model in models.contents)
+                    {
+                        if (Convert.ToString(model.ftype) == ftype.ToString())
+                            filtered_model_list.Add(model);
+                    }
+
+                    return filtered_model_list;
+                }
+                else
+                {
+                    return models.contents;
+                }
             }
             catch
             {

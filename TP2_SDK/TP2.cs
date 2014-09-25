@@ -8,7 +8,7 @@ using RestSharp;
 using Newtonsoft.Json;
 
 // TP2_SDK
-using TeamPlatform.TP2_SDK.Object;
+using TeamPlatform.TP2_SDK.Datas;
 
 namespace TeamPlatform.TP2_SDK
 {
@@ -67,7 +67,7 @@ namespace TeamPlatform.TP2_SDK
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
-                User CurrentUser = JsonConvert.DeserializeObject<Object.User>(httpResponse.Content);
+                User CurrentUser = JsonConvert.DeserializeObject<Datas.User>(httpResponse.Content);
                 this.CurrentUser = CurrentUser;
                 m_ApiToken = CurrentUser.api_token;
 

@@ -38,6 +38,7 @@
             this.btnClear = new System.Windows.Forms.Button();
             this.tbQuery = new System.Windows.Forms.TextBox();
             this.btnSearch = new System.Windows.Forms.Button();
+            this.btnCreateFolder = new System.Windows.Forms.Button();
             this.panList.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -87,6 +88,7 @@
             // 
             // panList
             // 
+            this.panList.Controls.Add(this.btnCreateFolder);
             this.panList.Controls.Add(this.btnClear);
             this.panList.Controls.Add(this.tbQuery);
             this.panList.Controls.Add(this.btnSearch);
@@ -127,6 +129,16 @@
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
+            // btnCreateFolder
+            // 
+            this.btnCreateFolder.Location = new System.Drawing.Point(125, 4);
+            this.btnCreateFolder.Name = "btnCreateFolder";
+            this.btnCreateFolder.Size = new System.Drawing.Size(115, 23);
+            this.btnCreateFolder.TabIndex = 5;
+            this.btnCreateFolder.Text = "Create folder";
+            this.btnCreateFolder.UseVisualStyleBackColor = true;
+            this.btnCreateFolder.Click += new System.EventHandler(this.btnCreateFolder_Click);
+            // 
             // frmModelList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -154,5 +166,6 @@
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.ColumnHeader chMeta;
+        private System.Windows.Forms.Button btnCreateFolder;
     }
 }
