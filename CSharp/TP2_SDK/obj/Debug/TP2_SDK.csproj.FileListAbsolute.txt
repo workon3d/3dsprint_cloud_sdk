@@ -1,0 +1,9 @@
+D:\workspace\TP2_SDK\TP2_SDK\bin\Debug\TP2_SDK.dll
+D:\workspace\TP2_SDK\TP2_SDK\bin\Debug\TP2_SDK.pdb
+D:\workspace\TP2_SDK\TP2_SDK\bin\Debug\Newtonsoft.Json.dll
+D:\workspace\TP2_SDK\TP2_SDK\bin\Debug\RestSharp.dll
+D:\workspace\TP2_SDK\TP2_SDK\bin\Debug\Newtonsoft.Json.xml
+D:\workspace\TP2_SDK\TP2_SDK\bin\Debug\RestSharp.xml
+D:\workspace\TP2_SDK\TP2_SDK\obj\Debug\TP2_SDK.csprojResolveAssemblyReference.cache
+D:\workspace\TP2_SDK\TP2_SDK\obj\Debug\TP2_SDK.dll
+D:\workspace\TP2_SDK\TP2_SDK\obj\Debug\TP2_SDK.pdb

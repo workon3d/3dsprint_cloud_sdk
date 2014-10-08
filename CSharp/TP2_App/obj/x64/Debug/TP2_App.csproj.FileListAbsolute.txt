@@ -1,0 +1,5 @@
+D:\workspace\TP2_SDK\TP2_App\obj\x64\Debug\TP2_App.frmModelList.resources
+D:\workspace\TP2_SDK\TP2_App\obj\x64\Debug\TP2_App.frmModelView.resources
+D:\workspace\TP2_SDK\TP2_App\obj\x64\Debug\TP2_App.frmSignIn.resources
+D:\workspace\TP2_SDK\TP2_App\obj\x64\Debug\TP2_App.Properties.Resources.resources
+D:\workspace\TP2_SDK\TP2_App\obj\x64\Debug\TP2_App.csproj.GenerateResource.Cache
