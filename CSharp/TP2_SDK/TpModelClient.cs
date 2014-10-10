@@ -75,6 +75,9 @@ namespace TeamPlatform.TP2_SDK
             request.AddParameter("name", strModelName);
             request.AddParameter("api_token", ApiToken);
 
+            if (MetaJson != null)
+                request.AddParameter("meta", MetaJson);
+
             if(!String.IsNullOrEmpty(FilePath))
                 request.AddFile("file", FilePath);
 

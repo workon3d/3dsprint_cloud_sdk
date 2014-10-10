@@ -1,4 +1,10 @@
-TP2_App/bin/*
-TP2_App/obj/*
-TP2_SDK/bin/*
-TP2_SDK/obj/*
+CSharp/TP2_App/bin/*
+CSharp/TP2_App/obj/*
+CSharp/TP2_SDK/bin/*
+CSharp/TP2_SDK/obj/*
+CSharp/TP2_WINCPP_SDK/Debug/*
+CSharp/TP2_WINCPP_SDK/Release/*
+CSharp/TP2_WINCPP_TEST/Debug/*
+CSharp/TP2_WINCPP_TEST/Release/*
+CSharp/ipch/*
+

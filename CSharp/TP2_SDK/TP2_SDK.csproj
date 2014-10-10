@@ -79,7 +79,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TpPrinter.cs" />
     <Compile Include="Datas\Acl.cs" />
+    <Compile Include="Datas\Printer.cs" />
     <Compile Include="Datas\User.cs" />
     <Compile Include="Types\ModelType.cs" />
     <Compile Include="TpModelClient.cs" />

@@ -32,13 +32,9 @@ namespace TeamPlatform.TP2_SDK.Datas
         #endregion
 
         #region constructor
-        public Model(HttpStatusCode status_code, string strMessage)
+        public Model(HttpStatusCode status_code, string strMessage = null)
         {
             Message = strMessage;
-            StatusCode = status_code;
-        }
-        public Model(HttpStatusCode status_code)
-        {
             StatusCode = status_code;
         }
         public Model(string strMessage)
