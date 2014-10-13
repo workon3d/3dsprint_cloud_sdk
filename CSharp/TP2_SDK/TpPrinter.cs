@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Net;
 
 // External Library
 using RestSharp;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 // TP2_SDK
 using TeamPlatform.TP2_SDK.Datas;
@@ -33,7 +35,7 @@ namespace TeamPlatform.TP2_SDK
             RestRequest request = new RestRequest(String.Format("{0}/printers", ApiPath), Method.POST);
             string Acl = this.get_acl();
 
-            if (!String.IsNullOrEmpty(PrinterName))
+            if (String.IsNullOrEmpty(PrinterName))
                 return new Printer("printer cannot be created without name");
             
             request.AddParameter("acl", Acl);
@@ -54,6 +56,45 @@ namespace TeamPlatform.TP2_SDK
             catch (Exception ee)
             {
                 return new Printer(ee.ToString());
+            }
+        }
+
+        public void CreateAsync(string PrinterName, object MetaJson)
+        {
+            RestRequest request = new RestRequest(String.Format("{0}/printers", ApiPath), Method.POST);
+            string Acl = this.get_acl();
+
+            if (String.IsNullOrEmpty(PrinterName))
+                return;
+
+            request.AddParameter("acl", Acl);
+            request.AddParameter("name", PrinterName);
+            request.AddParameter("api_token", ApiToken);
+            if (MetaJson != null)
+                request.AddParameter("meta", MetaJson);
+
+            try
+            {
+                RestClient.ExecuteAsync(request, null);
+            }
+            catch
+            {
+            }
+        }
+
+        public void BatchUpdate(string dataJson)
+        {
+            RestRequest request = new RestRequest(String.Format("{0}/printers/batch_update", ApiPath), Method.PUT);
+            
+            request.AddParameter("data", dataJson);
+            request.AddParameter("api_token", ApiToken);
+            
+            try
+            {
+                RestClient.ExecuteAsync(request, null);
+            }
+            catch
+            {
             }
         }
         #endregion
