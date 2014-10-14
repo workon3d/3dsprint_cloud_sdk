@@ -36,7 +36,7 @@ namespace TeamPlatform {
 		
 		public:
 			std::wstring authenticate(std::wstring Email, std::wstring Password);
-			bool authenticate(std::wstring ApiToken);
+			std::wstring authenticate(std::wstring ApiToken);
 			bool Create(std::wstring PrinterName, std::wstring MetaJson);
 			void CreateAsync(std::wstring PrinterName, std::wstring MetaJson);
 			void BatchUpdate(std::wstring DataJson);

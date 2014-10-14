@@ -17,7 +17,7 @@ namespace TeamPlatform {
 			virtual ~PrinterAPI() {}
 
 			virtual std::wstring authenticate(std::wstring Email, std::wstring Password) = 0;
-			virtual bool authenticate(std::wstring ApiToken) = 0;
+			virtual std::wstring authenticate(std::wstring ApiToken) = 0;
 			virtual bool Create(std::wstring PrinterName, std::wstring MetaJson) = 0;
 			virtual void CreateAsync(std::wstring PrinterName, std::wstring MetaJson) = 0;
 			virtual void BatchUpdate(std::wstring DataJson) = 0;

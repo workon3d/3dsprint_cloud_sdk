@@ -56,11 +56,14 @@ namespace TeamPlatform {
 			return std::wstring(L"");
 		}
 
-		bool PrinterAPICore::authenticate(std::wstring ApiToken)
+		std::wstring PrinterAPICore::authenticate(std::wstring ApiToken)
 		{
 			msclr::auto_gcroot<TeamPlatform::TP2_SDK::Datas::User^> user = m_tp2->authenticate(StringConverter::nativeToManaged(ApiToken));
 
-			return (user->api_token && user->api_token->Length != 0) ? true : false;
+			if (user->api_token && user->api_token->Length != 0)
+				return StringConverter::managedToNative(user->email);
+
+			return std::wstring(L"");
 		}
 
 		bool PrinterAPICore::Create(std::wstring PrinterName, std::wstring MetaJson)
