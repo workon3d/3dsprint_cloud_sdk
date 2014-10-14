@@ -2,7 +2,7 @@
 
 #pragma once
 #include <vcclr.h>
-#include "interop.h"
+#include "include/TP2_SDK.h"
 #include "StringConverter.h"
 #include <msclr/auto_gcroot.h>
 
@@ -36,6 +36,7 @@ namespace TeamPlatform {
 		
 		public:
 			std::wstring authenticate(std::wstring Email, std::wstring Password);
+			bool authenticate(std::wstring ApiToken);
 			bool Create(std::wstring PrinterName, std::wstring MetaJson);
 			void CreateAsync(std::wstring PrinterName, std::wstring MetaJson);
 			void BatchUpdate(std::wstring DataJson);

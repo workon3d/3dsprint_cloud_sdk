@@ -24,10 +24,10 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="interop.h">
+    <ClInclude Include="StringConverter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StringConverter.h">
+    <ClInclude Include="include\TP2_SDK.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -41,7 +41,7 @@
     <ClCompile Include="Stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="interop.cpp">
+    <ClCompile Include="TP2_SDK.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

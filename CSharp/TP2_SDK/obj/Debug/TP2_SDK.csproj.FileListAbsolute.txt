@@ -15,4 +15,3 @@ C:\work\tp2_sdk\CSharp\TP2_SDK\bin\Debug\Newtonsoft.Json.xml
 C:\work\tp2_sdk\CSharp\TP2_SDK\bin\Debug\RestSharp.xml
 C:\work\tp2_sdk\CSharp\TP2_SDK\obj\Debug\TP2_SDK.dll
 C:\work\tp2_sdk\CSharp\TP2_SDK\obj\Debug\TP2_SDK.pdb
-C:\work\tp2_sdk\CSharp\TP2_SDK\obj\Debug\TP2_SDK.csprojResolveAssemblyReference.cache
