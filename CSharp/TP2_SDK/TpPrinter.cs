@@ -47,6 +47,7 @@ namespace TeamPlatform.TP2_SDK
                 CurrentUser.StatusCode = httpResponse.StatusCode;
                 CurrentUser.api_token = api_token;
                 this.CurrentUser = CurrentUser;
+                this.ApiToken = api_token;
 
                 return CurrentUser;
             }
@@ -60,6 +61,8 @@ namespace TeamPlatform.TP2_SDK
         {
             RestRequest request = new RestRequest(String.Format("{0}/printers", ApiPath), Method.POST);
             string Acl = this.get_acl();
+            if (Acl.Length == 0)
+                return new Printer("printer cannot be created without acl");
 
             if (String.IsNullOrEmpty(PrinterName))
                 return new Printer("printer cannot be created without name");
@@ -89,6 +92,8 @@ namespace TeamPlatform.TP2_SDK
         {
             RestRequest request = new RestRequest(String.Format("{0}/printers", ApiPath), Method.POST);
             string Acl = this.get_acl();
+            if (Acl.Length == 0)
+                return;
 
             if (String.IsNullOrEmpty(PrinterName))
                 return;
@@ -130,6 +135,8 @@ namespace TeamPlatform.TP2_SDK
         #region private method
         private string get_acl()
         {
+            if (CurrentUser == null)
+                return "";
             Acl AclObject = new Acl(Int32.Parse(CurrentUser.id.ToString()));
             return JsonConvert.SerializeObject(AclObject, Formatting.None);
         }
