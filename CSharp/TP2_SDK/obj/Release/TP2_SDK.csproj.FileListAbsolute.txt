@@ -7,3 +7,11 @@ D:\workspace\TP2_SDK\TP2_SDK\bin\Release\RestSharp.xml
 D:\workspace\TP2_SDK\TP2_SDK\obj\Release\TP2_SDK.dll
 D:\workspace\TP2_SDK\TP2_SDK\obj\Release\TP2_SDK.pdb
 D:\workspace\TP2_SDK\TP2_SDK\obj\Release\TP2_SDK.csprojResolveAssemblyReference.cache
+C:\work\tp2_sdk\CSharp\TP2_SDK\bin\Release\TP2_SDK.dll
+C:\work\tp2_sdk\CSharp\TP2_SDK\bin\Release\TP2_SDK.pdb
+C:\work\tp2_sdk\CSharp\TP2_SDK\bin\Release\Newtonsoft.Json.dll
+C:\work\tp2_sdk\CSharp\TP2_SDK\bin\Release\RestSharp.dll
+C:\work\tp2_sdk\CSharp\TP2_SDK\bin\Release\Newtonsoft.Json.xml
+C:\work\tp2_sdk\CSharp\TP2_SDK\bin\Release\RestSharp.xml
+C:\work\tp2_sdk\CSharp\TP2_SDK\obj\Release\TP2_SDK.dll
+C:\work\tp2_sdk\CSharp\TP2_SDK\obj\Release\TP2_SDK.pdb

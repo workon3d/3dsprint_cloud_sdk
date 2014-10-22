@@ -23,7 +23,7 @@ namespace TeamPlatform.TP2_SDK
         public TpPrinter(TP2 TpClient)
             : this()
         {
-            RestClient = new RestClient(Tp2Host);
+            RestClient = new RestClient(TpClient.Tp2Host);
             ApiToken = TpClient.ApiToken;
             CurrentUser = TpClient.CurrentUser;
         }
