@@ -57,22 +57,31 @@ namespace TeamPlatform.TP2_SDK
             }
         }
 
-        public Printer Create(string PrinterName, object MetaJson)
+        private RestRequest CreateRequest(string PrinterName, object MetaJson)
         {
             RestRequest request = new RestRequest(String.Format("{0}/printers", ApiPath), Method.POST);
             string Acl = this.get_acl();
             if (Acl.Length == 0)
-                return new Printer("printer cannot be created without acl");
+                return null;
 
             if (String.IsNullOrEmpty(PrinterName))
-                return new Printer("printer cannot be created without name");
-            
+                return null;
+
             request.AddParameter("acl", Acl);
             request.AddParameter("name", PrinterName);
             request.AddParameter("api_token", ApiToken);
             if (MetaJson != null)
                 request.AddParameter("meta", MetaJson);
 
+            return request;
+        }
+
+        public Printer Create(string PrinterName, object MetaJson)
+        {
+            RestRequest request = CreateRequest(PrinterName, MetaJson);
+            if (request == null)
+                return new Printer("printer cannot be created without acl or printer name");
+            
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
@@ -90,20 +99,10 @@ namespace TeamPlatform.TP2_SDK
 
         public void CreateAsync(string PrinterName, object MetaJson)
         {
-            RestRequest request = new RestRequest(String.Format("{0}/printers", ApiPath), Method.POST);
-            string Acl = this.get_acl();
-            if (Acl.Length == 0)
+            RestRequest request = CreateRequest(PrinterName, MetaJson);
+            if (request == null)
                 return;
-
-            if (String.IsNullOrEmpty(PrinterName))
-                return;
-
-            request.AddParameter("acl", Acl);
-            request.AddParameter("name", PrinterName);
-            request.AddParameter("api_token", ApiToken);
-            if (MetaJson != null)
-                request.AddParameter("meta", MetaJson);
-
+            
             try
             {
                 RestClient.ExecuteAsync(request, null);
