@@ -30,3 +30,5 @@ Class GSWinApp.StringConverter: AutoLayout, AnsiClass, Class, Public, BeforeFiel
     nativeToManaged(basic_string<wchar_t\,std::char_traits<wchar_t>\,std::allocator<wchar_t> >* IsImplicitlyDereferenced): PrivateScope, Public, Static, HideBySig
     managedToNative(vector<std::basic_string<wchar_t\,std::char_traits<wchar_t>\,std::allocator<wchar_t> >\,std::allocator<std::basic_string<wchar_t\,std::char_traits<wchar_t>\,std::allocator<wchar_t> > > >*, ManagedStringArray): PrivateScope, Public, Static, HideBySig
     managedToNative(basic_string<wchar_t\,std::char_traits<wchar_t>\,std::allocator<wchar_t> >*, String): PrivateScope, Public, Static, HideBySig
+    s2ws(basic_string<wchar_t\,std::char_traits<wchar_t>\,std::allocator<wchar_t> >*, basic_string<char\,std::char_traits<char>\,std::allocator<char> >* IsImplicitlyDereferenced): PrivateScope, Public, Static, HideBySig
+    ws2s(basic_string<char\,std::char_traits<char>\,std::allocator<char> >*, basic_string<wchar_t\,std::char_traits<wchar_t>\,std::allocator<wchar_t> >* IsImplicitlyDereferenced): PrivateScope, Public, Static, HideBySig

@@ -27,6 +27,11 @@ namespace TeamPlatform.TP2_SDK.Datas
         {
         }
 
+        public int GetId()
+        {
+            return Convert.ToInt32(id);
+        }
+
         static public bool IsValid(User user)
         {
             if (user.id == null || String.IsNullOrEmpty(user.email) || String.IsNullOrEmpty(user.api_token))

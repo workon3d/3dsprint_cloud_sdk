@@ -50,10 +50,10 @@ BOOL CTP2_WINCPP_TESTDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
-	TeamPlatform::TP2_WINCPP_SDK::PrinterAPI* test = TeamPlatform::TP2_WINCPP_SDK::createPrinterAPI(std::wstring(L"http://192.168.2.16:3000/"));
+	TeamPlatform::TP2_WINCPP_SDK::PrinterAPI* test = TeamPlatform::TP2_WINCPP_SDK::createPrinterAPI(std::wstring(L"http://192.168.1.163:3000"));
 //	std::wstring result = test->authenticate();
-//	std::wstring email = test->authenticate(std::wstring(L"49ab202d6b6edf0325c5c83f2a0b5f05"));
-//	test->CreateAsync(std::wstring(L"VISPOWER-PC"), std::wstring(L"{\"id\": \"00-26-B9-E2-FA-68\"}"));
+	std::wstring email = test->authenticate(std::wstring(L"be595d04ae9a1222c6b031ad9eb36132"));
+	test->CreateAsync(std::wstring(L"Test_PC"), std::wstring(L"{\"id\": \"00-26-B9-E2-FA-67\", \"name\": \"test\"}"));
 //	test->BatchUpdate(std::wstring(L"{\"printers\":[{\"complete_percentage\":100,\"device_type\":2005,\"engine_type\":3,\"id\":\"00-26-B9-E2-FA-68\",\"ip\":\"192.168.2.3\",\"material\":\"\",\"model_name\":\"Projet 360\",\"name\":\"VISPOWER-PC\",\"queue\":[{\"create_time\":\"2014-10-07T23:30:04Z\",\"filename\":\"\",\"id\":\"00-26-B9-E2-FA-68-cylinder_20141007162943\",\"material\":\"\",\"name\":\"cylinder_20141007162943\",\"remaining_time\":0,\"status\":0},{\"create_time\":\"2014-10-07T23:27:56Z\",\"filename\":\"\",\"id\":\"00-26-B9-E2-FA-68-cylinder_20141007152000\",\"material\":\"\",\"name\":\"cylinder_20141007152000\",\"remaining_time\":0,\"status\":2}],\"remaining_time\":0,\"status\":1}],\"update_time\":\"2014-10-08T22:24:15Z\"}"));
 
 	return TRUE;  // return TRUE  unless you set the focus to a control

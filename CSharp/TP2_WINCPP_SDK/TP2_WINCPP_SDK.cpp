@@ -3,6 +3,8 @@
 #include "stdafx.h"
 
 #include "TP2_WINCPP_SDK.h"
+#include "json.h"
+
 
 namespace TeamPlatform { 
 	namespace TP2_WINCPP_SDK {
@@ -25,10 +27,18 @@ namespace TeamPlatform {
 				StringConverter::nativeToManaged(Email),
 				StringConverter::nativeToManaged(Password));
 
-			if (user->api_token && user->api_token->Length != 0)
-				return StringConverter::managedToNative(user->api_token);
+			if (user->api_token && user->api_token->Length != 0) {
+				Json::Value result;
+				result["id"] = user->GetId();
+				result["api_token"] = StringConverter::ws2s(StringConverter::managedToNative(user->api_token));
+				result["email"] = StringConverter::ws2s(StringConverter::managedToNative(user->email));
 
-			return std::wstring(L"");
+				Json::FastWriter writer;
+				std::string s = writer.write(result);
+				return StringConverter::s2ws(s);
+			}
+	
+			return std::wstring(L"{}");
 		}
 
 		/////////////////////
@@ -50,20 +60,36 @@ namespace TeamPlatform {
 				StringConverter::nativeToManaged(Email),
 				StringConverter::nativeToManaged(Password));
 
-			if (user->api_token && user->api_token->Length != 0)
-				return StringConverter::managedToNative(user->api_token);
+			if (user->api_token && user->api_token->Length != 0) {
+				Json::Value result;
+				result["id"] = user->GetId();
+				result["api_token"] = StringConverter::ws2s(StringConverter::managedToNative(user->api_token));
+				result["email"] = StringConverter::ws2s(StringConverter::managedToNative(user->email));
 
-			return std::wstring(L"");
+				Json::FastWriter writer;
+				std::string s = writer.write(result);
+				return StringConverter::s2ws(s);
+			}
+	
+			return std::wstring(L"{}");
 		}
 
 		std::wstring PrinterAPICore::authenticate(std::wstring ApiToken)
 		{
 			msclr::auto_gcroot<TeamPlatform::TP2_SDK::Datas::User^> user = m_tp2->authenticate(StringConverter::nativeToManaged(ApiToken));
 
-			if (user->api_token && user->api_token->Length != 0)
-				return StringConverter::managedToNative(user->email);
+			if (user->api_token && user->api_token->Length != 0) {
+				Json::Value result;
+				result["id"] = user->GetId();
+				result["api_token"] = StringConverter::ws2s(StringConverter::managedToNative(user->api_token));
+				result["email"] = StringConverter::ws2s(StringConverter::managedToNative(user->email));
 
-			return std::wstring(L"");
+				Json::FastWriter writer;
+				std::string s = writer.write(result);
+				return StringConverter::s2ws(s);
+			}
+	
+			return std::wstring(L"{}");
 		}
 
 		bool PrinterAPICore::Create(std::wstring PrinterName, std::wstring MetaJson)

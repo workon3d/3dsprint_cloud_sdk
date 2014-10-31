@@ -65,5 +65,33 @@ namespace GSWinApp
 			return strings;
 		}
 
+		static std::wstring s2ws(const std::string& s)
+		{
+			std::wstring ws(s.size(), L' '); // Overestimate number of code points.
+			ws.resize(mbstowcs(&ws[0], s.c_str(), s.size())); // Shrink to fit.
+			return ws;
+		}
+
+		static std::string ws2s(const std::wstring& wstr)
+		{
+			if (wstr.length() == 0)
+				return std::string("");
+
+			const std::locale locale("");
+			typedef std::codecvt<wchar_t, char, std::mbstate_t> converter_type;
+			const converter_type& converter = std::use_facet<converter_type>(locale);
+			std::vector<char> to(wstr.length() * converter.max_length());
+			std::mbstate_t state;
+			const wchar_t* from_next;
+			char* to_next;
+			const converter_type::result result = converter.out(state, wstr.data(), wstr.data() + wstr.length(), from_next, &to[0], &to[0] + to.size(), to_next);
+			if (result == converter_type::ok || result == converter_type::noconv) {
+				const std::string s(&to[0], to_next);
+				return s;
+			}
+
+			return std::string("");
+		}
+
 	};
 }
