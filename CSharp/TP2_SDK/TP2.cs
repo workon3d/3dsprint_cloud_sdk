@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Net;
 
 // External Library
 using RestSharp;
@@ -82,6 +83,34 @@ namespace TeamPlatform.TP2_SDK
                 return new User(ee.ToString());
             }
         }
+
+        public User authenticate(string api_token)
+        {
+            if (RestClient == null)
+                RestClient = new RestClient(Tp2Host);
+
+            RestRequest request = new RestRequest(String.Format("{0}/profiles", ApiPath), Method.GET);
+            request.AddParameter("api_token", api_token);
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+                if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
+                    return new User("Unauthorized"); ;
+                User CurrentUser = JsonConvert.DeserializeObject<Datas.User>(httpResponse.Content);
+                CurrentUser.StatusCode = httpResponse.StatusCode;
+                CurrentUser.api_token = api_token;
+                this.CurrentUser = CurrentUser;
+                this.ApiToken = api_token;
+
+                return CurrentUser;
+            }
+            catch (Exception ee)
+            {
+                return new User(ee.ToString());
+            }
+        }
+
         #endregion
     }
 }

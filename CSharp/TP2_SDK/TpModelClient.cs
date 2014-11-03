@@ -22,6 +22,7 @@ namespace TeamPlatform.TP2_SDK
         }
         public TpModelClient(TP2 TpClient) : this()
         {
+            Tp2Host = TpClient.Tp2Host;
             RestClient = new RestClient(Tp2Host);
             ApiToken = TpClient.ApiToken;
             CurrentUser = TpClient.CurrentUser;
@@ -39,7 +40,7 @@ namespace TeamPlatform.TP2_SDK
         }
         public Model Get(int FileId)
         {
-            RestRequest request = new RestRequest(String.Format("{0}/models/{1}", ApiPath, FileId.ToString()), Method.GET);
+            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", ApiPath, FileId.ToString()), Method.GET);
             request.AddParameter("api_token", ApiToken);
 
             try
@@ -57,7 +58,7 @@ namespace TeamPlatform.TP2_SDK
 
         public Model Create(string ModelName, int ParentId, string FilePath, object MetaJson, string Acl)
         {
-            RestRequest request = new RestRequest(String.Format("{0}/models", ApiPath), Method.POST);
+            RestRequest request = new RestRequest(String.Format("{0}/folders", ApiPath), Method.POST);
             string strModelName;
 
             if (Acl == null)
@@ -141,7 +142,7 @@ namespace TeamPlatform.TP2_SDK
             }
             #endregion
 
-            RestRequest request = new RestRequest(String.Format("{0}/models/{1}", ApiPath, ModelId.ToString()), Method.PUT);
+            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", ApiPath, ModelId.ToString()), Method.PUT);
             request.AddParameter("api_token", ApiToken);
 
             if(String.IsNullOrEmpty(ModelName) && !String.IsNullOrWhiteSpace(FilePath))
@@ -187,7 +188,7 @@ namespace TeamPlatform.TP2_SDK
 
         public byte[] Download(int ModelId)
         {
-            RestRequest request = new RestRequest(String.Format("{0}/models/{1}/download", ApiPath, Convert.ToString(ModelId)), Method.GET);
+            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}/download", ApiPath, Convert.ToString(ModelId)), Method.GET);
             request.AddParameter("api_token", ApiToken);
             
             try
@@ -200,9 +201,14 @@ namespace TeamPlatform.TP2_SDK
             }
         }
 
+        public string GetDownloadURL(int ModelId)
+        {
+            return String.Format("{0}/{1}/folders/{2}/download?api_token={3}", Tp2Host, ApiPath, Convert.ToString(ModelId), System.Uri.EscapeUriString(ApiToken));
+        }
+
         public Model Delete(int ModelId)
         {
-            RestRequest request = new RestRequest(String.Format("{0}/models/{1}", ApiPath, Convert.ToString(ModelId)), Method.DELETE);
+            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", ApiPath, Convert.ToString(ModelId)), Method.DELETE);
             request.AddParameter("api_token", ApiToken);
 
             try
@@ -235,7 +241,7 @@ namespace TeamPlatform.TP2_SDK
 
         public HttpStatusCode Copy(int[] ModelIds, int TargetModelId)
         {
-            RestRequest request = new RestRequest(String.Format("{0}/models/copy", ApiPath), Method.PUT);
+            RestRequest request = new RestRequest(String.Format("{0}/folders/copy", ApiPath), Method.PUT);
             request.AddParameter("ids", this.parse_model_ids(ModelIds));
             request.AddParameter("parent_id", Convert.ToString(TargetModelId));
             request.AddParameter("api_token", ApiToken);
@@ -258,7 +264,7 @@ namespace TeamPlatform.TP2_SDK
         
         public HttpStatusCode Move(int[] ModelIds, int TargetModelId)
         {
-            RestRequest request = new RestRequest(String.Format("{0}/models/move", ApiPath), Method.PUT);
+            RestRequest request = new RestRequest(String.Format("{0}/folders/move", ApiPath), Method.PUT);
             request.AddParameter("ids", this.parse_model_ids(ModelIds));
             request.AddParameter("parent_id", Convert.ToString(TargetModelId));
             request.AddParameter("api_token", ApiToken);
@@ -363,7 +369,7 @@ namespace TeamPlatform.TP2_SDK
 
         private List<Model> index(int ModelId, int Page, Ftype ftype)
         {
-            RestRequest request = new RestRequest(String.Format("{0}/models", ApiPath), Method.GET);
+            RestRequest request = new RestRequest(String.Format("{0}/folders", ApiPath), Method.GET);
             if(ftype != Ftype.All)
                 request.AddParameter("ftype", ftype.ToString());
             request.AddParameter("api_token", ApiToken);
@@ -413,7 +419,7 @@ namespace TeamPlatform.TP2_SDK
 
         private List<Model> search_by_query(string query, int Page)
         {
-            RestRequest request = new RestRequest(String.Format("{0}/models", ApiPath), Method.GET);
+            RestRequest request = new RestRequest(String.Format("{0}/folders", ApiPath), Method.GET);
             request.AddParameter("q", query);
             request.AddParameter("api_token", ApiToken);
             if (Page != 0)
@@ -451,7 +457,7 @@ namespace TeamPlatform.TP2_SDK
 
         private List<Model> search_by_meta(string key, string value, int Page)
         {
-            RestRequest request = new RestRequest(String.Format("{0}/models", ApiPath), Method.GET);
+            RestRequest request = new RestRequest(String.Format("{0}/folders", ApiPath), Method.GET);
             request.AddParameter("meta", String.Format("{0}:{1}", key, value));
             request.AddParameter("api_token", ApiToken);
             if (Page != 0)
