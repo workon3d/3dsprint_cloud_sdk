@@ -9,5 +9,6 @@ namespace TeamPlatform.TP2_SDK.Types
         All,
         File,
         Folder,
+        vPrint,
     }
 }

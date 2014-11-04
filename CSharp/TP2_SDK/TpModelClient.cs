@@ -46,8 +46,7 @@ namespace TeamPlatform.TP2_SDK
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
-                Model jsonResponse = JsonConvert.DeserializeObject<Model>(httpResponse.Content);
-
+                Model jsonResponse = JsonConvert.DeserializeObject<Model>(httpResponse.Content, serializer_settings());
                 return jsonResponse;
             }
             catch (Exception ee)
@@ -85,7 +84,7 @@ namespace TeamPlatform.TP2_SDK
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
-                Model model = JsonConvert.DeserializeObject<Model>(httpResponse.Content);
+                Model model = JsonConvert.DeserializeObject<Model>(httpResponse.Content, serializer_settings());
                 model.StatusCode = httpResponse.StatusCode;
                 model.Message = httpResponse.ErrorMessage;
 
@@ -162,7 +161,7 @@ namespace TeamPlatform.TP2_SDK
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
-                Model model = JsonConvert.DeserializeObject<Model>(httpResponse.Content);
+                Model model = JsonConvert.DeserializeObject<Model>(httpResponse.Content, serializer_settings());
                 model.StatusCode = httpResponse.StatusCode;
                 model.Message = httpResponse.ErrorMessage;
 
@@ -490,6 +489,14 @@ namespace TeamPlatform.TP2_SDK
         private List<Model> search_by_meta(string key, string value)
         {
             return search_by_meta(key, value, 0);
+        }
+
+        private JsonSerializerSettings serializer_settings()
+        {
+            JsonSerializerSettings setting = new JsonSerializerSettings();
+            setting.MissingMemberHandling = MissingMemberHandling.Ignore;
+
+            return setting;
         }
         #endregion
     }
