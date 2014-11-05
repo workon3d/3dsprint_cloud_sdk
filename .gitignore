@@ -6,6 +6,8 @@
 *.user
 *.sln.docstates
 *.sdf
+*.vcxproj.user
+*.vcxproj.filters
 
 # Build results
 [Dd]ebug/
@@ -16,6 +18,8 @@ x86/
 build/
 bld/
 [Oo]bj/
+*.exp
+*.dll.metagen
 
 # Roslyn cache directories
 *.ide/
