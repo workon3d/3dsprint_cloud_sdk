@@ -8,6 +8,7 @@
 *.sdf
 *.vcxproj.user
 *.vcxproj.filters
+*.pdb
 
 # Build results
 [Dd]ebug/
