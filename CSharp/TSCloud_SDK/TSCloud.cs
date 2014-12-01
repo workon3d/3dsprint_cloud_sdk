@@ -16,15 +16,15 @@ namespace TDSPRINT.Cloud.SDK
     {
         #region member variables
         public RestClient RestClient;
-        private readonly int m_SDK_VERSION = 1;
-        private string m_TcHost = "http://tp2.dev:3000/";
+        private readonly int m_SDK_VERSION = 2;
+        private string m_TcHost = "https://184.73.206.209/";
         private readonly string m_ApiPath = "api/v1";
         private string m_ApiToken = null;
         private User m_CurrentUser;
         #endregion
 
         #region getter/setter
-        public string TcHost
+        public string Hostname
         {
             get { return m_TcHost; }
             set { m_TcHost = value; }
@@ -55,12 +55,17 @@ namespace TDSPRINT.Cloud.SDK
             m_ApiToken = null;
             m_CurrentUser = null;
         }
+        public TSCloud(string Hostname) : this()
+        {
+            this.Hostname = Hostname;
+        }
+
         #endregion
 
         #region public method
         public User authenticate(string Email, string Password)
         {
-            RestClient = new RestClient(TcHost);
+            RestClient = new RestClient(Hostname);
             var request = new RestRequest(ApiPath + "/authenticates", Method.POST);
             request.AddParameter("email", Email);
             request.AddParameter("password", Password);
@@ -86,7 +91,7 @@ namespace TDSPRINT.Cloud.SDK
         public User authenticate(string api_token)
         {
             if (RestClient == null)
-                RestClient = new RestClient(TcHost);
+                RestClient = new RestClient(Hostname);
 
             RestRequest request = new RestRequest(String.Format("{0}/profiles", ApiPath), Method.GET);
             request.AddParameter("api_token", api_token);

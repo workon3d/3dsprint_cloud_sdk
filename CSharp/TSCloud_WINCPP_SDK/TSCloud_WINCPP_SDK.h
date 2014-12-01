@@ -33,7 +33,7 @@ namespace TDSPRINT{
 				PrinterAPICore(const std::wstring& host);
 		
 			protected:
-				msclr::auto_gcroot<TDSPRINT::Cloud::SDK::PrinterClient^> m_tp2;
+				msclr::auto_gcroot<TDSPRINT::Cloud::SDK::PrinterClient^> m_TSCloud;
 		
 			public:
 				std::wstring authenticate(std::wstring Email, std::wstring Password);

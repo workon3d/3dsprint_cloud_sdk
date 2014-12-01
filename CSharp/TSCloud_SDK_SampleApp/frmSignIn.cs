@@ -14,8 +14,8 @@ namespace TSCloud_SampleApp
 {
     public partial class frmSignIn : Form
     {
-        TSCloud TcClient = new TSCloud();
-
+        TSCloud TSCloud = new TSCloud("http://ec2-54-92-241-236.compute-1.amazonaws.com");
+        
         public frmSignIn()
         {
             InitializeComponent();
@@ -26,9 +26,9 @@ namespace TSCloud_SampleApp
             string Email = tbEmail.Text;
             string Password = tbPassword.Text;
 
-            if (User.IsValid(TcClient.authenticate(Email, Password)))
+            if (User.IsValid(TSCloud.authenticate(Email, Password)))
             {
-                frmModelList FileList = new frmModelList(TcClient);
+                frmModelList FileList = new frmModelList(TSCloud);
                 FileList.Show();
                 this.Hide();
             }

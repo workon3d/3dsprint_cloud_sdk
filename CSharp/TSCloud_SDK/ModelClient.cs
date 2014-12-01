@@ -19,12 +19,12 @@ namespace TDSPRINT.Cloud.SDK
         public ModelClient()
         {
         }
-        public ModelClient(TSCloud TcClient) : this()
+        public ModelClient(TSCloud TSCloud) : this()
         {
-            TcHost = TcClient.TcHost;
-            RestClient = new RestClient(TcHost);
-            ApiToken = TcClient.ApiToken;
-            CurrentUser = TcClient.CurrentUser;
+            Hostname = TSCloud.Hostname;
+            RestClient = new RestClient(Hostname);
+            ApiToken = TSCloud.ApiToken;
+            CurrentUser = TSCloud.CurrentUser;
         }
         #endregion
 
@@ -201,7 +201,7 @@ namespace TDSPRINT.Cloud.SDK
 
         public string GetDownloadURL(int ModelId)
         {
-            return String.Format("{0}/{1}/folders/{2}/download?api_token={3}", TcHost, ApiPath, Convert.ToString(ModelId), System.Uri.EscapeUriString(ApiToken));
+            return String.Format("{0}/{1}/folders/{2}/download?api_token={3}", Hostname, ApiPath, Convert.ToString(ModelId), System.Uri.EscapeUriString(ApiToken));
         }
 
         public Model Delete(int ModelId)

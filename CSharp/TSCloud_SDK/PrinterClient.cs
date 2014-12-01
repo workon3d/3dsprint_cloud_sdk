@@ -19,12 +19,12 @@ namespace TDSPRINT.Cloud.SDK
         public PrinterClient()
         {
         }
-        public PrinterClient(TSCloud TcClient)
+        public PrinterClient(TSCloud TSCloud)
             : this()
         {
-            RestClient = new RestClient(TcClient.TcHost);
-            ApiToken = TcClient.ApiToken;
-            CurrentUser = TcClient.CurrentUser;
+            RestClient = new RestClient(TSCloud.Hostname);
+            ApiToken = TSCloud.ApiToken;
+            CurrentUser = TSCloud.CurrentUser;
         }
         #endregion
 
@@ -88,7 +88,7 @@ namespace TDSPRINT.Cloud.SDK
         public void BatchUpdate(string dataJson)
         {
             if (RestClient == null)
-                RestClient = new RestClient(TcHost);
+                RestClient = new RestClient(Hostname);
             RestRequest request = new RestRequest(String.Format("{0}/printers/batch_update", ApiPath), Method.PUT);
             
             request.AddParameter("data", dataJson);
