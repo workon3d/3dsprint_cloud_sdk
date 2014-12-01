@@ -196,3 +196,5 @@ CSharp/TP2_WINCPP_TEST/Intermediate/*
 CSharp/ipch/*
 
 
+CSharp/TSCloud_SDK/bin/
+CSharp/TSCloud_SDK_SampleApp/bin/
