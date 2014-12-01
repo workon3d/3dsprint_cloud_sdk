@@ -37,9 +37,9 @@ namespace TDSPRINT.Cloud.SDK
         {
             return All(Ftype.All);
         }
-        public Model Get(int FileId)
+        public Model Get(int ModelId)
         {
-            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", ApiPath, FileId.ToString()), Method.GET);
+            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", ApiPath, ModelId.ToString()), Method.GET);
             request.AddParameter("api_token", ApiToken);
 
             try
@@ -176,7 +176,7 @@ namespace TDSPRINT.Cloud.SDK
             return Update(ModelId, ModelName, FilePath, null, null);
         }
         public Model Update(int ModelId, string ModelName)
-        {
+        {   
             return Update(ModelId, ModelName, null, null, null);
         }
         public Model Update(int ModelId, object MetaJson)

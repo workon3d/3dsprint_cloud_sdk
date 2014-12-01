@@ -20,11 +20,15 @@ namespace TDSPRINT.Cloud.SDK.Datas
         #region member variable
         public int id;
         public string name;
+        public int size;
         public string key;
         public object meta;
         public object ancestry;
         public Ftype ftype;
         public object acl;
+        public string api_url;
+        public string preview;
+        public string description;
         public string created_at;
         public string updated_at;
         public string Message;
