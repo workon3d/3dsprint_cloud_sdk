@@ -16,7 +16,6 @@ namespace TDSPRINT.Cloud.SDK
     {
         #region member variables
         public RestClient RestClient;
-        private readonly int m_SDK_VERSION = 2;
         private string m_TcHost = "https://184.73.206.209/";
         private readonly string m_ApiPath = "api/v1";
         private string m_ApiToken = null;
@@ -43,10 +42,6 @@ namespace TDSPRINT.Cloud.SDK
             get { return m_CurrentUser; }
             set { m_CurrentUser = value; }
         }
-        public int SDK_VERSION
-        {
-            get { return m_SDK_VERSION; }
-        } 
         #endregion
 
         #region constructor
@@ -63,6 +58,7 @@ namespace TDSPRINT.Cloud.SDK
         #endregion
 
         #region public method
+
         public User authenticate(string Email, string Password)
         {
             RestClient = new RestClient(Hostname);
