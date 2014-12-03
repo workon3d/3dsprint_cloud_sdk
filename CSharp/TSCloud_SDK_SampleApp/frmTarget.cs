@@ -36,14 +36,14 @@ namespace TSCloud_SampleApp
             List<Model> models = ModelClient.All(Ftype.Folder);
             foreach(Model model in models)
             {
-                cbFolderList.Items.Add(model.name);
+                cbFolderList.Items.Add(model.Name);
                 ModelList.Add(model);
             }
         }
 
         private void btnConfirm_Click(object sender, EventArgs e)
         {
-            SelectedModel = ModelList[cbFolderList.SelectedIndex].id;
+            SelectedModel = ModelList[cbFolderList.SelectedIndex].Id;
             //((frmModelView)(this.Owner)).Selected_Target_Folder = SelectedModel;
             this.DialogResult = DialogResult.OK;
             this.Close();

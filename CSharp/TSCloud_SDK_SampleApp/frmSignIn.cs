@@ -22,7 +22,7 @@ namespace TSCloud_SampleApp
         }
 
         private void doSignin()
-        {
+        {   
             string Email = tbEmail.Text;
             string Password = tbPassword.Text;
 
@@ -41,12 +41,14 @@ namespace TSCloud_SampleApp
 
         private void tbPassword_KeyDown(object sender, KeyEventArgs e)
         {
-            doSignin();
+            if (e.KeyCode == Keys.Enter)
+            {
+                doSignin();
+            }
         }
 
         private void tbEmail_TextChanged(object sender, EventArgs e)
         {
-            doSignin();
         }
     }
 }

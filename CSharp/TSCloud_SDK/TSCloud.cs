@@ -71,7 +71,7 @@ namespace TDSPRINT.Cloud.SDK
                 IRestResponse httpResponse = RestClient.Execute(request);
                 User CurrentUser = JsonConvert.DeserializeObject<Datas.User>(httpResponse.Content);
                 this.CurrentUser = CurrentUser;
-                m_ApiToken = CurrentUser.api_token;
+                m_ApiToken = CurrentUser.ApiToken;
 
                 if (m_ApiToken != null)
                     return CurrentUser;
@@ -99,7 +99,7 @@ namespace TDSPRINT.Cloud.SDK
                     return new User("Unauthorized"); ;
                 User CurrentUser = JsonConvert.DeserializeObject<Datas.User>(httpResponse.Content);
                 CurrentUser.StatusCode = httpResponse.StatusCode;
-                CurrentUser.api_token = api_token;
+                CurrentUser.ApiToken = api_token;
                 this.CurrentUser = CurrentUser;
                 this.ApiToken = api_token;
 

@@ -51,11 +51,11 @@ namespace TSCloud_SampleApp
         }
         private void insertModel(Model model)
         {
-            ListViewItem item = new ListViewItem(model.id.ToString());
-            item.SubItems.Add(model.name);
+            ListViewItem item = new ListViewItem(model.Id.ToString());
+            item.SubItems.Add(model.Name);
             try
             {
-                item.SubItems.Add(model.meta.ToString());
+                item.SubItems.Add(model.Meta.ToString());
             }
             catch { }
             lvFileList.Items.Add(item);
@@ -84,7 +84,7 @@ namespace TSCloud_SampleApp
                 int SelectRow = lv.SelectedItems[0].Index;
 
                 Model model = ModelClient.Get(Int32.Parse(lv.SelectedItems[0].Text));
-
+                
                 frmModelView ModelView = new frmModelView(ModelClient, model);
                 ModelView.FormSendEvent += new frmModelView.UpdateList(updateFileList);
                 ModelView.Show();

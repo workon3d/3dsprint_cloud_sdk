@@ -134,6 +134,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmModelList.resx">
       <DependentUpon>frmModelList.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="frmModelView.resx">
       <DependentUpon>frmModelView.cs</DependentUpon>

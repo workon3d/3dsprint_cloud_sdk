@@ -28,11 +28,11 @@ namespace TDSPRINT{
 					StringConverter::nativeToManaged(Email),
 					StringConverter::nativeToManaged(Password));
 
-				if (user->api_token && user->api_token->Length != 0) {
+				if (user->ApiToken && user->ApiToken->Length != 0) {
 					Json::Value result;
 					result["id"] = user->GetId();
-					result["api_token"] = StringConverter::ws2s(StringConverter::managedToNative(user->api_token));
-					result["email"] = StringConverter::ws2s(StringConverter::managedToNative(user->email));
+					result["api_token"] = StringConverter::ws2s(StringConverter::managedToNative(user->ApiToken));
+					result["email"] = StringConverter::ws2s(StringConverter::managedToNative(user->Email));
 
 					Json::FastWriter writer;
 					std::string s = writer.write(result);
@@ -61,11 +61,11 @@ namespace TDSPRINT{
 					StringConverter::nativeToManaged(Email),
 					StringConverter::nativeToManaged(Password));
 
-				if (user->api_token && user->api_token->Length != 0) {
+				if (user->ApiToken && user->ApiToken->Length != 0) {
 					Json::Value result;
 					result["id"] = user->GetId();
-					result["api_token"] = StringConverter::ws2s(StringConverter::managedToNative(user->api_token));
-					result["email"] = StringConverter::ws2s(StringConverter::managedToNative(user->email));
+					result["api_token"] = StringConverter::ws2s(StringConverter::managedToNative(user->ApiToken));
+					result["email"] = StringConverter::ws2s(StringConverter::managedToNative(user->Email));
 
 					Json::FastWriter writer;
 					std::string s = writer.write(result);
@@ -79,11 +79,11 @@ namespace TDSPRINT{
 			{
 				msclr::auto_gcroot<TDSPRINT::Cloud::SDK::Datas::User^> user = m_TSCloud->authenticate(StringConverter::nativeToManaged(ApiToken));
 
-				if (user->api_token && user->api_token->Length != 0) {
+				if (user->ApiToken && user->ApiToken->Length != 0) {
 					Json::Value result;
 					result["id"] = user->GetId();
-					result["api_token"] = StringConverter::ws2s(StringConverter::managedToNative(user->api_token));
-					result["email"] = StringConverter::ws2s(StringConverter::managedToNative(user->email));
+					result["api_token"] = StringConverter::ws2s(StringConverter::managedToNative(user->ApiToken));
+					result["email"] = StringConverter::ws2s(StringConverter::managedToNative(user->Email));
 
 					Json::FastWriter writer;
 					std::string s = writer.write(result);

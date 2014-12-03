@@ -109,7 +109,7 @@ namespace TDSPRINT.Cloud.SDK
         {
             if (CurrentUser == null)
                 return "";
-            Acl AclObject = new Acl(Int32.Parse(CurrentUser.id.ToString()));
+            Acl AclObject = new Acl(Int32.Parse(CurrentUser.Id.ToString()));
             return JsonConvert.SerializeObject(AclObject, Formatting.None);
         }
         #endregion

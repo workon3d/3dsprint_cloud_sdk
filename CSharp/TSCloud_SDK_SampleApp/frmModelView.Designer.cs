@@ -49,6 +49,7 @@
             this.dlgDownloadModel = new System.Windows.Forms.SaveFileDialog();
             this.btnCopy = new System.Windows.Forms.Button();
             this.btnMove = new System.Windows.Forms.Button();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -282,11 +283,19 @@
             this.btnMove.UseVisualStyleBackColor = true;
             this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
             // 
+            // progressBar
+            // 
+            this.progressBar.Location = new System.Drawing.Point(369, 510);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(134, 23);
+            this.progressBar.TabIndex = 7;
+            // 
             // frmModelView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(509, 545);
+            this.Controls.Add(this.progressBar);
             this.Controls.Add(this.btnMove);
             this.Controls.Add(this.btnCopy);
             this.Controls.Add(this.btnDownload);
@@ -333,5 +342,6 @@
         private System.Windows.Forms.SaveFileDialog dlgDownloadModel;
         private System.Windows.Forms.Button btnCopy;
         private System.Windows.Forms.Button btnMove;
+        private System.Windows.Forms.ProgressBar progressBar;
     }
 }

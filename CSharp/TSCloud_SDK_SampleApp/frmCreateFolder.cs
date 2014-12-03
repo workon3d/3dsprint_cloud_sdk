@@ -44,7 +44,7 @@ namespace TSCloud_SampleApp
             List<Model> models = ModelClient.All(Ftype.Folder);
             foreach (Model model in models)
             {
-                cbModelList.Items.Add(model.name);
+                cbModelList.Items.Add(model.Name);
                 ModelList.Add(model);
             }
         }
@@ -54,7 +54,7 @@ namespace TSCloud_SampleApp
             if (cbModelList.SelectedIndex > -1)
             {
                 Model selected_model = ModelList[cbModelList.SelectedIndex];
-                ModelId = selected_model.id;
+                ModelId = selected_model.Id;
             }
             else
             {

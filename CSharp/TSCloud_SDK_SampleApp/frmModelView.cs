@@ -11,6 +11,7 @@ using System.Net;
 
 using TDSPRINT.Cloud.SDK;
 using TDSPRINT.Cloud.SDK.Datas;
+using System.Threading;
 
 namespace TSCloud_SampleApp
 {
@@ -24,6 +25,7 @@ namespace TSCloud_SampleApp
 
         private int ModelId;
         private int m_Selected_Target_Folder;
+        Thread DownloadThread;
 
         public int Selected_Target_Folder
         {
@@ -44,21 +46,24 @@ namespace TSCloud_SampleApp
                 }
             }
 
-            tbId.Text = model.id.ToString();
-            ModelId = model.id;
-            tbFilename.Text = !String.IsNullOrEmpty(model.name) ? model.name.ToString() : String.Empty;
-            tbKey.Text = !String.IsNullOrEmpty(model.key) ? model.key.ToString() : String.Empty;
-            tbFtype.Text = model.ftype.ToString();
-            tbMeta.Text = model.meta != null ? model.meta.ToString() : String.Empty;
-            tbAcl.Text = model.acl.ToString();
+            tbId.Text = model.Id.ToString();
+            ModelId = model.Id;
+            tbFilename.Text = !String.IsNullOrEmpty(model.Name) ? model.Name.ToString() : String.Empty;
+            tbKey.Text = !String.IsNullOrEmpty(model.Key) ? model.Key.ToString() : String.Empty;
+            tbFtype.Text = model.Ftype.ToString();
+            tbMeta.Text = model.Meta != null ? model.Meta.ToString() : String.Empty;
+            tbAcl.Text = model.Acl.ToString();
 
             ModelClient = tpModelClient;
             
-            this.Text = model.name;
+            this.Text = model.Name;
             btnUpdate.Enabled = false;
 
             tbAcl.ScrollBars = ScrollBars.Vertical;
             tbMeta.ScrollBars = ScrollBars.Vertical;
+
+            progressBar.Style = ProgressBarStyle.Blocks;
+            CheckForIllegalCrossThreadCalls = false;
         }
 
         private void tbId_TextChanged(object sender, EventArgs e)
@@ -125,19 +130,37 @@ namespace TSCloud_SampleApp
             }
         }
 
+        private void UpdateProgress(float fPercent)
+        {
+            progressBar.Value = Convert.ToInt32(fPercent);
+        }
+
+        private void Download()
+        {
+            if (ModelClient.Download(ModelId, dlgDownloadModel.FileName, UpdateProgress) != HttpStatusCode.OK)
+            {
+                MessageBox.Show("Failed to download file");
+            }
+            else
+            {
+                DialogResult result = MessageBox.Show("Successfully downloaded.");
+                if (result == DialogResult.OK)
+                {
+                    progressBar.Value = 0;
+                }
+            }
+        }
+
         private void btnDownload_Click(object sender, EventArgs e)
         {
+            int ModelId = (Int32.Parse(tbId.Text)); 
             dlgDownloadModel.FileName = tbFilename.Text;
 
             if(dlgDownloadModel.ShowDialog() == DialogResult.OK)
             {
-                string Filepath = dlgDownloadModel.FileName;
-
-                using (FileStream FileStream = new FileStream(Filepath, FileMode.Create, FileAccess.Write))
-                {
-                    byte[] bytes = ModelClient.Download(Int32.Parse(tbId.Text));
-                    FileStream.Write(bytes, 0, bytes.Length);
-                }
+                Model file = ModelClient.Get(ModelId);
+                DownloadThread = new Thread(new ThreadStart(Download));
+                DownloadThread.Start();
             }
         }
 

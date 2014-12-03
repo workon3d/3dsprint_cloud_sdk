@@ -28,6 +28,10 @@ namespace TDSPRINT.Cloud.SDK
         }
         #endregion
 
+        #region deligate
+        public delegate void onProgress(float fPercent);
+        #endregion
+
         #region public method
         public List<Model> All(Ftype type)
         {
@@ -184,6 +188,50 @@ namespace TDSPRINT.Cloud.SDK
             return Update(ModelId, null, null, MetaJson, null);
         }
 
+        public HttpStatusCode Download(int ModelId, string strDownloadPath, onProgress _onProgress)
+        {
+            if (!Directory.Exists(Path.GetDirectoryName(strDownloadPath)))
+                return HttpStatusCode.BadRequest;
+
+            Model file = this.Get(ModelId);
+            int filesize = Convert.ToInt32(file.Size);
+            string download_url = this.GetDownloadURL(ModelId);
+            //try
+            //{
+                HttpWebRequest Request = (HttpWebRequest)HttpWebRequest.Create(download_url);
+                Request.Method = "GET";
+                Request.AllowAutoRedirect = true;
+
+                HttpWebResponse Response = (HttpWebResponse)Request.GetResponse();
+                using (Stream ResponseStream = Response.GetResponseStream())
+                {
+                    using (FileStream fs = new FileStream(strDownloadPath, FileMode.OpenOrCreate, FileAccess.Write))
+                    {
+                        int current = 0;
+                        float percentage = 0;
+                        int chunkSize = 1024 * 1024;
+                        byte[] buffer = new byte[chunkSize];
+                        int BytesRead;
+                        while ((BytesRead = ResponseStream.Read(buffer, 0, chunkSize)) > 0)
+                        {
+                            fs.Write(buffer, 0, BytesRead);
+                            current += BytesRead;
+
+                            percentage = (float)(Math.Round((double)current / (double)filesize, 4) * 100);
+                            _onProgress(percentage);
+                        }
+                    }
+                }
+
+                return Response.StatusCode;
+            //}
+            //catch (Exception ee)
+            //{
+            //    throw ee;
+            //}
+        }
+        
+        [Obsolete("This method will be deprecated, so use Download(int, string)", false)]
         public byte[] Download(int ModelId)
         {
             RestRequest request = new RestRequest(String.Format("{0}/folders/{1}/download", ApiPath, Convert.ToString(ModelId)), Method.GET);
@@ -315,7 +363,7 @@ namespace TDSPRINT.Cloud.SDK
         }
         private string get_acl()
         {
-            Acl AclObject = new Acl(Int32.Parse(CurrentUser.id.ToString()));
+            Acl AclObject = new Acl(Int32.Parse(CurrentUser.Id.ToString()));
             return JsonConvert.SerializeObject(AclObject, Formatting.None);
         }
 
@@ -372,10 +420,10 @@ namespace TDSPRINT.Cloud.SDK
                 request.AddParameter("ftype", ftype.ToString());
             request.AddParameter("api_token", ApiToken);
             if(Page != 0)
-                request.AddParameter("page", Page); 
+                request.AddParameter("page", Page);
 
-            try
-            {
+            //try
+            //{
                 IRestResponse httpResponse = RestClient.Execute(request);
                 Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content);
 
@@ -398,7 +446,7 @@ namespace TDSPRINT.Cloud.SDK
                 {
                     foreach (Model model in models.contents)
                     {
-                        if (Convert.ToString(model.ftype) == ftype.ToString())
+                        if (Convert.ToString(model.Ftype) == ftype.ToString())
                             filtered_model_list.Add(model);
                     }
 
@@ -408,11 +456,11 @@ namespace TDSPRINT.Cloud.SDK
                 {
                     return models.contents;
                 }
-            }
-            catch
-            {
-                return new List<Model>();
-            }
+            //}
+            //catch
+            //{
+            //    return new List<Model>();
+            //}
         }
 
         private List<Model> search_by_query(string query, int Page)
