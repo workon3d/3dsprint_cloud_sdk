@@ -422,8 +422,8 @@ namespace TDSPRINT.Cloud.SDK
             if(Page != 0)
                 request.AddParameter("page", Page);
 
-            //try
-            //{
+            try
+            {
                 IRestResponse httpResponse = RestClient.Execute(request);
                 Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content);
 
@@ -456,11 +456,11 @@ namespace TDSPRINT.Cloud.SDK
                 {
                     return models.contents;
                 }
-            //}
-            //catch
-            //{
-            //    return new List<Model>();
-            //}
+            }
+            catch
+            {
+                return new List<Model>();
+            }
         }
 
         private List<Model> search_by_query(string query, int Page)
