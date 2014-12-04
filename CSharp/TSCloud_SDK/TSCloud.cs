@@ -69,7 +69,7 @@ namespace TDSPRINT.Cloud.SDK
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
-                User CurrentUser = JsonConvert.DeserializeObject<Datas.User>(httpResponse.Content);
+                User CurrentUser = JsonConvert.DeserializeObject<Datas.User>(httpResponse.Content, TSCloud.serializer_settings());
                 this.CurrentUser = CurrentUser;
                 m_ApiToken = CurrentUser.ApiToken;
 
@@ -96,8 +96,8 @@ namespace TDSPRINT.Cloud.SDK
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
                 if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
-                    return new User("Unauthorized"); ;
-                User CurrentUser = JsonConvert.DeserializeObject<Datas.User>(httpResponse.Content);
+                    return new User("Unauthorized");
+                User CurrentUser = JsonConvert.DeserializeObject<Datas.User>(httpResponse.Content, TSCloud.serializer_settings());
                 CurrentUser.StatusCode = httpResponse.StatusCode;
                 CurrentUser.ApiToken = api_token;
                 this.CurrentUser = CurrentUser;
@@ -110,7 +110,16 @@ namespace TDSPRINT.Cloud.SDK
                 return new User(ee.ToString());
             }
         }
+        #endregion
 
+        #region methods
+        public static JsonSerializerSettings serializer_settings()
+        {
+            JsonSerializerSettings setting = new JsonSerializerSettings();
+            setting.MissingMemberHandling = MissingMemberHandling.Ignore;
+
+            return setting;
+        }
         #endregion
     }
 }

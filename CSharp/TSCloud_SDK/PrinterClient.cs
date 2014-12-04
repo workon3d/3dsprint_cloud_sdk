@@ -58,7 +58,7 @@ namespace TDSPRINT.Cloud.SDK
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
-                Printer printer = JsonConvert.DeserializeObject<Printer>(httpResponse.Content);
+                Printer printer = JsonConvert.DeserializeObject<Printer>(httpResponse.Content, TSCloud.serializer_settings());
                 printer.StatusCode = httpResponse.StatusCode;
                 printer.Message = httpResponse.ErrorMessage;
 

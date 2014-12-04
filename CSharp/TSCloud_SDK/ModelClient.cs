@@ -49,7 +49,7 @@ namespace TDSPRINT.Cloud.SDK
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
-                Model jsonResponse = JsonConvert.DeserializeObject<Model>(httpResponse.Content, serializer_settings());
+                Model jsonResponse = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
                 return jsonResponse;
             }
             catch (Exception ee)
@@ -87,7 +87,7 @@ namespace TDSPRINT.Cloud.SDK
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
-                Model model = JsonConvert.DeserializeObject<Model>(httpResponse.Content, serializer_settings());
+                Model model = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
                 model.StatusCode = httpResponse.StatusCode;
                 model.Message = httpResponse.ErrorMessage;
 
@@ -164,7 +164,7 @@ namespace TDSPRINT.Cloud.SDK
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
-                Model model = JsonConvert.DeserializeObject<Model>(httpResponse.Content, serializer_settings());
+                Model model = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
                 model.StatusCode = httpResponse.StatusCode;
                 model.Message = httpResponse.ErrorMessage;
 
@@ -425,7 +425,7 @@ namespace TDSPRINT.Cloud.SDK
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
-                Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content);
+                Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content, TSCloud.serializer_settings());
 
                 int num_pages = Int32.Parse(Convert.ToString(models.pagination.num_pages));
                 if (Page == 0)
@@ -474,7 +474,7 @@ namespace TDSPRINT.Cloud.SDK
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
-                Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content);
+                Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content, TSCloud.serializer_settings());
 
                 int num_pages = Int32.Parse(Convert.ToString(models.pagination.num_pages));
                 if (Page == 0)
@@ -512,7 +512,7 @@ namespace TDSPRINT.Cloud.SDK
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
-                Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content);
+                Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content, TSCloud.serializer_settings());
 
                 int num_pages = Int32.Parse(Convert.ToString(models.pagination.num_pages));
                 if (Page == 0)
@@ -538,13 +538,6 @@ namespace TDSPRINT.Cloud.SDK
             return search_by_meta(key, value, 0);
         }
 
-        private JsonSerializerSettings serializer_settings()
-        {
-            JsonSerializerSettings setting = new JsonSerializerSettings();
-            setting.MissingMemberHandling = MissingMemberHandling.Ignore;
-
-            return setting;
-        }
         #endregion
     }
 }
