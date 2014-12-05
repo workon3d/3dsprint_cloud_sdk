@@ -35,15 +35,22 @@ namespace TDSPRINT.Cloud.SDK.Datas
         private string m_updated_at;
         private string m_message;
         private HttpStatusCode m_StatusCode;
+        private User m_owner;
+
+        public User Owner
+        {
+            get { return m_owner; }
+            set { m_owner = value; }
+        }
         #endregion
 
         #region constructor
-        public Model(HttpStatusCode status_code, string strMessage = null)
+        public Model(HttpStatusCode status_code, string strMessage = null) : this()
         {
             Message = strMessage;
             StatusCode = status_code;
         }
-        public Model(string strMessage)
+        public Model(string strMessage) : this()
         {
             Message = strMessage;
         }

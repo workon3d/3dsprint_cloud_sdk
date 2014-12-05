@@ -20,6 +20,7 @@ namespace TDSPRINT.Cloud.SDK
         private readonly string m_ApiPath = "api/v1";
         private string m_ApiToken = null;
         private User m_CurrentUser;
+        private Users m_users;
         #endregion
 
         #region getter/setter
@@ -42,6 +43,11 @@ namespace TDSPRINT.Cloud.SDK
             get { return m_CurrentUser; }
             set { m_CurrentUser = value; }
         }
+        public Users Users
+        {
+            get { return m_users; }
+            set { m_users = value; }
+        }
         #endregion
 
         #region constructor
@@ -54,11 +60,9 @@ namespace TDSPRINT.Cloud.SDK
         {
             this.Hostname = Hostname;
         }
-
         #endregion
 
         #region public method
-
         public User authenticate(string Email, string Password)
         {
             RestClient = new RestClient(Hostname);
@@ -72,6 +76,9 @@ namespace TDSPRINT.Cloud.SDK
                 User CurrentUser = JsonConvert.DeserializeObject<Datas.User>(httpResponse.Content, TSCloud.serializer_settings());
                 this.CurrentUser = CurrentUser;
                 m_ApiToken = CurrentUser.ApiToken;
+
+                UserClient UserClient = new UserClient(this);
+                m_users = UserClient.All();
 
                 if (m_ApiToken != null)
                     return CurrentUser;

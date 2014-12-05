@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 
 using TDSPRINT.Cloud.SDK.Datas;
 using TDSPRINT.Cloud.SDK.Types;
+using System.Collections;
 
 namespace TDSPRINT.Cloud.SDK
 {
@@ -25,6 +26,7 @@ namespace TDSPRINT.Cloud.SDK
             RestClient = new RestClient(Hostname);
             ApiToken = TSCloud.ApiToken;
             CurrentUser = TSCloud.CurrentUser;
+            Users = TSCloud.Users;
         }
         #endregion
 
@@ -49,8 +51,13 @@ namespace TDSPRINT.Cloud.SDK
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
-                Model jsonResponse = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
-                return jsonResponse;
+                Model model = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
+
+                int owner_id = 0;
+                Hashtable hash = JsonConvert.DeserializeObject<Hashtable>(model.Acl.ToString());
+                owner_id = Convert.ToInt32(hash["owner"]);
+                model.Owner = Users.FindById(owner_id);
+                return model;
             }
             catch (Exception ee)
             {

@@ -26,10 +26,10 @@ namespace TSCloud_SampleApp
             setListColumn();
         }
 
-        public frmModelList(TSCloud TsClient) : this()
+        public frmModelList(TSCloud TSCloud) : this()
         {
-            ModelClient = new ModelClient(TsClient);
-            CurrentUser = TsClient.CurrentUser;
+            ModelClient = new ModelClient(TSCloud);
+            CurrentUser = TSCloud.CurrentUser;
             getFileList();
         }
 

@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UserClient.cs" />
     <Compile Include="PrinterClient.cs" />
     <Compile Include="Datas\Acl.cs" />
     <Compile Include="Datas\Printer.cs" />
