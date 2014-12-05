@@ -32,17 +32,19 @@
             this.tbOwner = new System.Windows.Forms.TextBox();
             this.tbId = new System.Windows.Forms.TextBox();
             this.labelId = new System.Windows.Forms.Label();
-            this.tbAcl = new System.Windows.Forms.TextBox();
-            this.tbMeta = new System.Windows.Forms.TextBox();
             this.tbFtype = new System.Windows.Forms.TextBox();
             this.tbKey = new System.Windows.Forms.TextBox();
             this.tbFilename = new System.Windows.Forms.TextBox();
-            this.labelAcl = new System.Windows.Forms.Label();
-            this.labelMeta = new System.Windows.Forms.Label();
             this.labelFtype = new System.Windows.Forms.Label();
             this.labelKey = new System.Windows.Forms.Label();
             this.labelFilename = new System.Windows.Forms.Label();
             this.labelOwner = new System.Windows.Forms.Label();
+            this.tbAcl = new System.Windows.Forms.TextBox();
+            this.labelAcl = new System.Windows.Forms.Label();
+            this.labelMeta = new System.Windows.Forms.Label();
+            this.tbMeta = new System.Windows.Forms.TextBox();
+            this.labelPreview = new System.Windows.Forms.Label();
+            this.pbPreview = new System.Windows.Forms.PictureBox();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnUpload = new System.Windows.Forms.Button();
@@ -53,6 +55,7 @@
             this.btnMove = new System.Windows.Forms.Button();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -63,28 +66,31 @@
             this.tableLayoutPanel1.Controls.Add(this.tbOwner, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.tbId, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.labelId, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tbAcl, 1, 6);
-            this.tableLayoutPanel1.Controls.Add(this.tbMeta, 1, 5);
             this.tableLayoutPanel1.Controls.Add(this.tbFtype, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.tbKey, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.tbFilename, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.labelAcl, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.labelMeta, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.labelFtype, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.labelKey, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.labelFilename, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.labelOwner, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.tbAcl, 1, 7);
+            this.tableLayoutPanel1.Controls.Add(this.labelAcl, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.labelMeta, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.tbMeta, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.labelPreview, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.pbPreview, 1, 5);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 15);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 7;
+            this.tableLayoutPanel1.RowCount = 8;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.219178F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 91.78082F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 265F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.6087F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 87.3913F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 188F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 175F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(349, 678);
             this.tableLayoutPanel1.TabIndex = 0;
@@ -119,26 +125,6 @@
             this.labelId.Text = "Id";
             this.labelId.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // tbAcl
-            // 
-            this.tbAcl.Location = new System.Drawing.Point(90, 416);
-            this.tbAcl.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tbAcl.Multiline = true;
-            this.tbAcl.Name = "tbAcl";
-            this.tbAcl.Size = new System.Drawing.Size(256, 252);
-            this.tbAcl.TabIndex = 11;
-            this.tbAcl.TextChanged += new System.EventHandler(this.tbAcl_TextChanged);
-            // 
-            // tbMeta
-            // 
-            this.tbMeta.Location = new System.Drawing.Point(90, 149);
-            this.tbMeta.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tbMeta.Multiline = true;
-            this.tbMeta.Name = "tbMeta";
-            this.tbMeta.Size = new System.Drawing.Size(256, 259);
-            this.tbMeta.TabIndex = 10;
-            this.tbMeta.TextChanged += new System.EventHandler(this.tbMeta_TextChanged);
-            // 
             // tbFtype
             // 
             this.tbFtype.Location = new System.Drawing.Point(90, 126);
@@ -167,30 +153,6 @@
             this.tbFilename.Size = new System.Drawing.Size(256, 23);
             this.tbFilename.TabIndex = 7;
             this.tbFilename.TextChanged += new System.EventHandler(this.tbFilename_TextChanged);
-            // 
-            // labelAcl
-            // 
-            this.labelAcl.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.labelAcl.AutoSize = true;
-            this.labelAcl.Location = new System.Drawing.Point(53, 537);
-            this.labelAcl.Margin = new System.Windows.Forms.Padding(3, 0, 10, 0);
-            this.labelAcl.Name = "labelAcl";
-            this.labelAcl.Size = new System.Drawing.Size(24, 15);
-            this.labelAcl.TabIndex = 5;
-            this.labelAcl.Text = "Acl";
-            this.labelAcl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // labelMeta
-            // 
-            this.labelMeta.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.labelMeta.AutoSize = true;
-            this.labelMeta.Location = new System.Drawing.Point(43, 271);
-            this.labelMeta.Margin = new System.Windows.Forms.Padding(3, 0, 10, 0);
-            this.labelMeta.Name = "labelMeta";
-            this.labelMeta.Size = new System.Drawing.Size(34, 15);
-            this.labelMeta.TabIndex = 4;
-            this.labelMeta.Text = "Meta";
-            this.labelMeta.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelFtype
             // 
@@ -238,6 +200,72 @@
             this.labelOwner.TabIndex = 8;
             this.labelOwner.Text = "Owner";
             this.labelOwner.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // tbAcl
+            // 
+            this.tbAcl.Location = new System.Drawing.Point(90, 506);
+            this.tbAcl.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tbAcl.Multiline = true;
+            this.tbAcl.Name = "tbAcl";
+            this.tbAcl.Size = new System.Drawing.Size(256, 168);
+            this.tbAcl.TabIndex = 11;
+            this.tbAcl.TextChanged += new System.EventHandler(this.tbAcl_TextChanged);
+            // 
+            // labelAcl
+            // 
+            this.labelAcl.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelAcl.AutoSize = true;
+            this.labelAcl.Location = new System.Drawing.Point(53, 582);
+            this.labelAcl.Margin = new System.Windows.Forms.Padding(3, 0, 10, 0);
+            this.labelAcl.Name = "labelAcl";
+            this.labelAcl.Size = new System.Drawing.Size(24, 15);
+            this.labelAcl.TabIndex = 5;
+            this.labelAcl.Text = "Acl";
+            this.labelAcl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelMeta
+            // 
+            this.labelMeta.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelMeta.AutoSize = true;
+            this.labelMeta.Location = new System.Drawing.Point(43, 400);
+            this.labelMeta.Margin = new System.Windows.Forms.Padding(3, 0, 10, 0);
+            this.labelMeta.Name = "labelMeta";
+            this.labelMeta.Size = new System.Drawing.Size(34, 15);
+            this.labelMeta.TabIndex = 4;
+            this.labelMeta.Text = "Meta";
+            this.labelMeta.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // tbMeta
+            // 
+            this.tbMeta.Location = new System.Drawing.Point(90, 318);
+            this.tbMeta.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tbMeta.Multiline = true;
+            this.tbMeta.Name = "tbMeta";
+            this.tbMeta.Size = new System.Drawing.Size(256, 180);
+            this.tbMeta.TabIndex = 10;
+            this.tbMeta.TextChanged += new System.EventHandler(this.tbMeta_TextChanged);
+            // 
+            // labelPreview
+            // 
+            this.labelPreview.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelPreview.AutoSize = true;
+            this.labelPreview.Location = new System.Drawing.Point(36, 222);
+            this.labelPreview.Name = "labelPreview";
+            this.labelPreview.Size = new System.Drawing.Size(48, 15);
+            this.labelPreview.TabIndex = 12;
+            this.labelPreview.Text = "Preview";
+            // 
+            // pbPreview
+            // 
+            this.pbPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbPreview.Location = new System.Drawing.Point(97, 156);
+            this.pbPreview.Margin = new System.Windows.Forms.Padding(10);
+            this.pbPreview.Name = "pbPreview";
+            this.pbPreview.Size = new System.Drawing.Size(242, 148);
+            this.pbPreview.TabIndex = 13;
+            this.pbPreview.TabStop = false;
             // 
             // btnUpdate
             // 
@@ -340,6 +368,7 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmModelView_KeyDown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -370,5 +399,7 @@
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.TextBox tbOwner;
         private System.Windows.Forms.Label labelOwner;
+        private System.Windows.Forms.Label labelPreview;
+        private System.Windows.Forms.PictureBox pbPreview;
     }
 }

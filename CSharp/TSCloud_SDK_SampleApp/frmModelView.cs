@@ -55,6 +55,12 @@ namespace TSCloud_SampleApp
             tbMeta.Text = model.Meta != null ? model.Meta.ToString() : String.Empty;
             tbAcl.Text = model.Acl.ToString();
 
+            if (model.Preview.IsValidThumbnail())
+            {
+                pbPreview.ImageLocation = model.Preview.Big;
+                pbPreview.SizeMode = PictureBoxSizeMode.StretchImage;
+            }
+
             ModelClient = tpModelClient;
             
             this.Text = model.Name;
