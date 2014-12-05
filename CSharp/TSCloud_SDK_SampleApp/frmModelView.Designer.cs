@@ -29,18 +29,20 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tbOwner = new System.Windows.Forms.TextBox();
             this.tbId = new System.Windows.Forms.TextBox();
-            this.labelFilename = new System.Windows.Forms.Label();
-            this.labelKey = new System.Windows.Forms.Label();
-            this.labelFtype = new System.Windows.Forms.Label();
-            this.labelMeta = new System.Windows.Forms.Label();
-            this.labelAcl = new System.Windows.Forms.Label();
-            this.tbFilename = new System.Windows.Forms.TextBox();
-            this.tbKey = new System.Windows.Forms.TextBox();
-            this.tbFtype = new System.Windows.Forms.TextBox();
-            this.tbMeta = new System.Windows.Forms.TextBox();
-            this.tbAcl = new System.Windows.Forms.TextBox();
             this.labelId = new System.Windows.Forms.Label();
+            this.tbAcl = new System.Windows.Forms.TextBox();
+            this.tbMeta = new System.Windows.Forms.TextBox();
+            this.tbFtype = new System.Windows.Forms.TextBox();
+            this.tbKey = new System.Windows.Forms.TextBox();
+            this.tbFilename = new System.Windows.Forms.TextBox();
+            this.labelAcl = new System.Windows.Forms.Label();
+            this.labelMeta = new System.Windows.Forms.Label();
+            this.labelFtype = new System.Windows.Forms.Label();
+            this.labelKey = new System.Windows.Forms.Label();
+            this.labelFilename = new System.Windows.Forms.Label();
+            this.labelOwner = new System.Windows.Forms.Label();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnUpload = new System.Windows.Forms.Button();
@@ -58,30 +60,42 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75F));
+            this.tableLayoutPanel1.Controls.Add(this.tbOwner, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.tbId, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.labelFilename, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.labelKey, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.labelFtype, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.labelMeta, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.labelAcl, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.tbFilename, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.tbKey, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.tbFtype, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.tbMeta, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.tbAcl, 1, 5);
             this.tableLayoutPanel1.Controls.Add(this.labelId, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tbAcl, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.tbMeta, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.tbFtype, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.tbKey, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.tbFilename, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.labelAcl, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.labelMeta, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.labelFtype, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.labelKey, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.labelFilename, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.labelOwner, 0, 1);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 15);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 6;
+            this.tableLayoutPanel1.RowCount = 7;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(349, 508);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.219178F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 91.78082F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 265F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(349, 678);
             this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // tbOwner
+            // 
+            this.tbOwner.Location = new System.Drawing.Point(90, 34);
+            this.tbOwner.Name = "tbOwner";
+            this.tbOwner.ReadOnly = true;
+            this.tbOwner.Size = new System.Drawing.Size(256, 23);
+            this.tbOwner.TabIndex = 9;
             // 
             // tbId
             // 
@@ -92,115 +106,6 @@
             this.tbId.Size = new System.Drawing.Size(256, 23);
             this.tbId.TabIndex = 6;
             this.tbId.TextChanged += new System.EventHandler(this.tbId_TextChanged);
-            // 
-            // labelFilename
-            // 
-            this.labelFilename.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.labelFilename.AutoSize = true;
-            this.labelFilename.Location = new System.Drawing.Point(22, 39);
-            this.labelFilename.Margin = new System.Windows.Forms.Padding(3, 0, 10, 0);
-            this.labelFilename.Name = "labelFilename";
-            this.labelFilename.Size = new System.Drawing.Size(55, 15);
-            this.labelFilename.TabIndex = 1;
-            this.labelFilename.Text = "Filename";
-            this.labelFilename.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // labelKey
-            // 
-            this.labelKey.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.labelKey.AutoSize = true;
-            this.labelKey.Location = new System.Drawing.Point(51, 70);
-            this.labelKey.Margin = new System.Windows.Forms.Padding(3, 0, 10, 0);
-            this.labelKey.Name = "labelKey";
-            this.labelKey.Size = new System.Drawing.Size(26, 15);
-            this.labelKey.TabIndex = 2;
-            this.labelKey.Text = "Key";
-            this.labelKey.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // labelFtype
-            // 
-            this.labelFtype.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.labelFtype.AutoSize = true;
-            this.labelFtype.Location = new System.Drawing.Point(41, 101);
-            this.labelFtype.Margin = new System.Windows.Forms.Padding(3, 0, 10, 0);
-            this.labelFtype.Name = "labelFtype";
-            this.labelFtype.Size = new System.Drawing.Size(36, 15);
-            this.labelFtype.TabIndex = 3;
-            this.labelFtype.Text = "Ftype";
-            this.labelFtype.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // labelMeta
-            // 
-            this.labelMeta.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.labelMeta.AutoSize = true;
-            this.labelMeta.Location = new System.Drawing.Point(43, 212);
-            this.labelMeta.Margin = new System.Windows.Forms.Padding(3, 0, 10, 0);
-            this.labelMeta.Name = "labelMeta";
-            this.labelMeta.Size = new System.Drawing.Size(34, 15);
-            this.labelMeta.TabIndex = 4;
-            this.labelMeta.Text = "Meta";
-            this.labelMeta.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // labelAcl
-            // 
-            this.labelAcl.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.labelAcl.AutoSize = true;
-            this.labelAcl.Location = new System.Drawing.Point(53, 404);
-            this.labelAcl.Margin = new System.Windows.Forms.Padding(3, 0, 10, 0);
-            this.labelAcl.Name = "labelAcl";
-            this.labelAcl.Size = new System.Drawing.Size(24, 15);
-            this.labelAcl.TabIndex = 5;
-            this.labelAcl.Text = "Acl";
-            this.labelAcl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // tbFilename
-            // 
-            this.tbFilename.Location = new System.Drawing.Point(90, 35);
-            this.tbFilename.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tbFilename.Name = "tbFilename";
-            this.tbFilename.Size = new System.Drawing.Size(256, 23);
-            this.tbFilename.TabIndex = 7;
-            this.tbFilename.TextChanged += new System.EventHandler(this.tbFilename_TextChanged);
-            // 
-            // tbKey
-            // 
-            this.tbKey.Location = new System.Drawing.Point(90, 66);
-            this.tbKey.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tbKey.Name = "tbKey";
-            this.tbKey.ReadOnly = true;
-            this.tbKey.Size = new System.Drawing.Size(256, 23);
-            this.tbKey.TabIndex = 8;
-            this.tbKey.TextChanged += new System.EventHandler(this.tbKey_TextChanged);
-            // 
-            // tbFtype
-            // 
-            this.tbFtype.Location = new System.Drawing.Point(90, 97);
-            this.tbFtype.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tbFtype.Name = "tbFtype";
-            this.tbFtype.ReadOnly = true;
-            this.tbFtype.Size = new System.Drawing.Size(256, 23);
-            this.tbFtype.TabIndex = 9;
-            this.tbFtype.TextChanged += new System.EventHandler(this.tbFtype_TextChanged);
-            // 
-            // tbMeta
-            // 
-            this.tbMeta.Location = new System.Drawing.Point(90, 128);
-            this.tbMeta.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tbMeta.Multiline = true;
-            this.tbMeta.Name = "tbMeta";
-            this.tbMeta.Size = new System.Drawing.Size(256, 178);
-            this.tbMeta.TabIndex = 10;
-            this.tbMeta.TextChanged += new System.EventHandler(this.tbMeta_TextChanged);
-            // 
-            // tbAcl
-            // 
-            this.tbAcl.Location = new System.Drawing.Point(90, 320);
-            this.tbAcl.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tbAcl.Multiline = true;
-            this.tbAcl.Name = "tbAcl";
-            this.tbAcl.Size = new System.Drawing.Size(256, 178);
-            this.tbAcl.TabIndex = 11;
-            this.tbAcl.TextChanged += new System.EventHandler(this.tbAcl_TextChanged);
             // 
             // labelId
             // 
@@ -213,6 +118,126 @@
             this.labelId.TabIndex = 0;
             this.labelId.Text = "Id";
             this.labelId.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // tbAcl
+            // 
+            this.tbAcl.Location = new System.Drawing.Point(90, 416);
+            this.tbAcl.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tbAcl.Multiline = true;
+            this.tbAcl.Name = "tbAcl";
+            this.tbAcl.Size = new System.Drawing.Size(256, 252);
+            this.tbAcl.TabIndex = 11;
+            this.tbAcl.TextChanged += new System.EventHandler(this.tbAcl_TextChanged);
+            // 
+            // tbMeta
+            // 
+            this.tbMeta.Location = new System.Drawing.Point(90, 149);
+            this.tbMeta.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tbMeta.Multiline = true;
+            this.tbMeta.Name = "tbMeta";
+            this.tbMeta.Size = new System.Drawing.Size(256, 259);
+            this.tbMeta.TabIndex = 10;
+            this.tbMeta.TextChanged += new System.EventHandler(this.tbMeta_TextChanged);
+            // 
+            // tbFtype
+            // 
+            this.tbFtype.Location = new System.Drawing.Point(90, 126);
+            this.tbFtype.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tbFtype.Name = "tbFtype";
+            this.tbFtype.ReadOnly = true;
+            this.tbFtype.Size = new System.Drawing.Size(256, 23);
+            this.tbFtype.TabIndex = 9;
+            this.tbFtype.TextChanged += new System.EventHandler(this.tbFtype_TextChanged);
+            // 
+            // tbKey
+            // 
+            this.tbKey.Location = new System.Drawing.Point(90, 95);
+            this.tbKey.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tbKey.Name = "tbKey";
+            this.tbKey.ReadOnly = true;
+            this.tbKey.Size = new System.Drawing.Size(256, 23);
+            this.tbKey.TabIndex = 8;
+            this.tbKey.TextChanged += new System.EventHandler(this.tbKey_TextChanged);
+            // 
+            // tbFilename
+            // 
+            this.tbFilename.Location = new System.Drawing.Point(90, 64);
+            this.tbFilename.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tbFilename.Name = "tbFilename";
+            this.tbFilename.Size = new System.Drawing.Size(256, 23);
+            this.tbFilename.TabIndex = 7;
+            this.tbFilename.TextChanged += new System.EventHandler(this.tbFilename_TextChanged);
+            // 
+            // labelAcl
+            // 
+            this.labelAcl.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelAcl.AutoSize = true;
+            this.labelAcl.Location = new System.Drawing.Point(53, 537);
+            this.labelAcl.Margin = new System.Windows.Forms.Padding(3, 0, 10, 0);
+            this.labelAcl.Name = "labelAcl";
+            this.labelAcl.Size = new System.Drawing.Size(24, 15);
+            this.labelAcl.TabIndex = 5;
+            this.labelAcl.Text = "Acl";
+            this.labelAcl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelMeta
+            // 
+            this.labelMeta.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelMeta.AutoSize = true;
+            this.labelMeta.Location = new System.Drawing.Point(43, 271);
+            this.labelMeta.Margin = new System.Windows.Forms.Padding(3, 0, 10, 0);
+            this.labelMeta.Name = "labelMeta";
+            this.labelMeta.Size = new System.Drawing.Size(34, 15);
+            this.labelMeta.TabIndex = 4;
+            this.labelMeta.Text = "Meta";
+            this.labelMeta.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelFtype
+            // 
+            this.labelFtype.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelFtype.AutoSize = true;
+            this.labelFtype.Location = new System.Drawing.Point(41, 126);
+            this.labelFtype.Margin = new System.Windows.Forms.Padding(3, 0, 10, 0);
+            this.labelFtype.Name = "labelFtype";
+            this.labelFtype.Size = new System.Drawing.Size(36, 15);
+            this.labelFtype.TabIndex = 3;
+            this.labelFtype.Text = "Ftype";
+            this.labelFtype.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelKey
+            // 
+            this.labelKey.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelKey.AutoSize = true;
+            this.labelKey.Location = new System.Drawing.Point(51, 99);
+            this.labelKey.Margin = new System.Windows.Forms.Padding(3, 0, 10, 0);
+            this.labelKey.Name = "labelKey";
+            this.labelKey.Size = new System.Drawing.Size(26, 15);
+            this.labelKey.TabIndex = 2;
+            this.labelKey.Text = "Key";
+            this.labelKey.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelFilename
+            // 
+            this.labelFilename.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelFilename.AutoSize = true;
+            this.labelFilename.Location = new System.Drawing.Point(22, 68);
+            this.labelFilename.Margin = new System.Windows.Forms.Padding(3, 0, 10, 0);
+            this.labelFilename.Name = "labelFilename";
+            this.labelFilename.Size = new System.Drawing.Size(55, 15);
+            this.labelFilename.TabIndex = 1;
+            this.labelFilename.Text = "Filename";
+            this.labelFilename.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelOwner
+            // 
+            this.labelOwner.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelOwner.AutoSize = true;
+            this.labelOwner.Location = new System.Drawing.Point(42, 38);
+            this.labelOwner.Name = "labelOwner";
+            this.labelOwner.Size = new System.Drawing.Size(42, 15);
+            this.labelOwner.TabIndex = 8;
+            this.labelOwner.Text = "Owner";
+            this.labelOwner.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // btnUpdate
             // 
@@ -285,7 +310,7 @@
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(369, 510);
+            this.progressBar.Location = new System.Drawing.Point(369, 670);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(134, 23);
             this.progressBar.TabIndex = 7;
@@ -294,7 +319,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(509, 545);
+            this.ClientSize = new System.Drawing.Size(507, 696);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.btnMove);
             this.Controls.Add(this.btnCopy);
@@ -343,5 +368,7 @@
         private System.Windows.Forms.Button btnCopy;
         private System.Windows.Forms.Button btnMove;
         private System.Windows.Forms.ProgressBar progressBar;
+        private System.Windows.Forms.TextBox tbOwner;
+        private System.Windows.Forms.Label labelOwner;
     }
 }

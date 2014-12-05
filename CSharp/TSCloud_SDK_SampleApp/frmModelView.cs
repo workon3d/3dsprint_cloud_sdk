@@ -48,6 +48,7 @@ namespace TSCloud_SampleApp
 
             tbId.Text = model.Id.ToString();
             ModelId = model.Id;
+            tbOwner.Text = model.Owner.Name;
             tbFilename.Text = !String.IsNullOrEmpty(model.Name) ? model.Name.ToString() : String.Empty;
             tbKey.Text = !String.IsNullOrEmpty(model.Key) ? model.Key.ToString() : String.Empty;
             tbFtype.Text = model.Ftype.ToString();

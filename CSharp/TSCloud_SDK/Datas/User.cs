@@ -13,7 +13,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
         private int m_id;
         private string m_email;
         private string m_api_token;
-        private string m_name;
+        private string m_name = "Unknown";
         private string m_address;
         private string m_company;
         private object m_vprint;
@@ -181,7 +181,6 @@ namespace TDSPRINT.Cloud.SDK.Datas
         {
             Message = strMessage;
         }
-
         public User()
         {
         }
@@ -190,7 +189,13 @@ namespace TDSPRINT.Cloud.SDK.Datas
         #region static methods
         static public bool IsValid(User user)
         {
-            if (user.Id == 0 || String.IsNullOrEmpty(user.Email) || String.IsNullOrEmpty(user.ApiToken))
+            if (user == null)
+                return false;
+
+            if (!String.IsNullOrEmpty(user.ApiToken))
+                return true;
+
+            if (user.Id == 0 || String.IsNullOrEmpty(user.Email) || String.IsNullOrEmpty(user.Name))
                 return false;
             else
                 return true;
@@ -227,7 +232,15 @@ namespace TDSPRINT.Cloud.SDK.Datas
 
         public User FindById(int UserId)
         {
-            return m_users.Find(user => user.Id == UserId);
+            User _user = m_users.Find(user => user.Id == UserId);
+            if (User.IsValid(_user))
+            {
+                return _user;
+            }
+            else
+            {
+                return new User();
+            }
         }
     }
 
