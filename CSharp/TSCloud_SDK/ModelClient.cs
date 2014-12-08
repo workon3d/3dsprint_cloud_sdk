@@ -35,10 +35,39 @@ namespace TDSPRINT.Cloud.SDK
         #endregion
 
         #region public method
+        public Models GetModels(Ftype ftype)
+        {
+            return GetModels(0, ftype);
+        }
+        public Models GetModels(int Page, Ftype ftype)
+        {
+
+            RestRequest request = new RestRequest(String.Format("{0}/folders", ApiPath), Method.GET);
+            if (ftype == Ftype.Folder)
+                request.AddParameter("folder", "true");
+            request.AddParameter("api_token", ApiToken);
+            if (Page != 0)
+                request.AddParameter("page", Page);
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+                Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content, TSCloud.serializer_settings());
+
+                return models;
+            }
+            catch(Exception ee)
+            {
+                throw ee;
+            }
+        }
+
+        [Obsolete("This All(Ftype) method is able to causing overload to API Sever, so please use only development")]
         public List<Model> All(Ftype type)
         {
             return index(0, type);
         }
+        [Obsolete("This All() method is able to causing overload to API Sever, so please use only for development")]
         public List<Model> All()
         {
             return All(Ftype.All);
@@ -429,12 +458,12 @@ namespace TDSPRINT.Cloud.SDK
             if(Page != 0)
                 request.AddParameter("page", Page);
 
-            try
-            {
+            //try
+            //{
                 IRestResponse httpResponse = RestClient.Execute(request);
                 Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content, TSCloud.serializer_settings());
 
-                int num_pages = Int32.Parse(Convert.ToString(models.pagination.num_pages));
+                int num_pages = models.pagination.NumPages;
                 if (Page == 0)
                 {
                     List<Model> model_list = new List<Model>();
@@ -463,11 +492,11 @@ namespace TDSPRINT.Cloud.SDK
                 {
                     return models.contents;
                 }
-            }
-            catch
-            {
-                return new List<Model>();
-            }
+            //}
+            //catch
+            //{
+            //    return new List<Model>();
+            //}
         }
 
         private List<Model> search_by_query(string query, int Page)
@@ -483,7 +512,7 @@ namespace TDSPRINT.Cloud.SDK
                 IRestResponse httpResponse = RestClient.Execute(request);
                 Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content, TSCloud.serializer_settings());
 
-                int num_pages = Int32.Parse(Convert.ToString(models.pagination.num_pages));
+                int num_pages = models.pagination.NumPages;
                 if (Page == 0)
                 {
                     List<Model> model_list = new List<Model>();
@@ -521,7 +550,7 @@ namespace TDSPRINT.Cloud.SDK
                 IRestResponse httpResponse = RestClient.Execute(request);
                 Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content, TSCloud.serializer_settings());
 
-                int num_pages = Int32.Parse(Convert.ToString(models.pagination.num_pages));
+                int num_pages = models.pagination.NumPages;
                 if (Page == 0)
                 {
                     List<Model> model_list = new List<Model>();

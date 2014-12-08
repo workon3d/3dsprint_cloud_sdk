@@ -218,12 +218,98 @@ namespace TDSPRINT.Cloud.SDK.Datas
     
     public class Pagination
     {
-        public int total;
-        public object per_page;
-        public object num_pages;
-        public object current_page;
-        public object prev_page;
-        public object next_page;
+        #region variables
+        private int m_total;
+        private int m_per_page;
+        private int m_num_pages;
+        private int m_current_page;
+        private int? m_prev_page;
+        private int? m_next_page;
+        #endregion
+
+        #region constructor
+        public Pagination()
+        {
+        }
+        #endregion
+
+        #region getter/setter
+        [JsonProperty("total")]
+        public int Total
+        {
+            get { return m_total; }
+            set { m_total = value; }
+        }
+
+        [JsonProperty("per_page")]
+        public int PerPage
+        {
+            get { return m_per_page; }
+            set
+            {
+                try
+                {
+                    m_per_page = value;
+                }
+                catch
+                {
+                    m_per_page = 0;
+                }
+            }
+        }
+
+        [JsonProperty("num_pages")]
+        public int NumPages
+        {
+            get { return m_num_pages; }
+            set {
+                try
+                {
+                    m_num_pages = value;
+                }
+                catch
+                {
+                    m_num_pages = 0;
+                }
+            }
+        }
+
+        [JsonProperty("current_page")]
+        public int CurrentPage
+        {
+            get { return m_current_page; }
+            set {
+                try
+                {
+                    m_current_page = value;
+                }
+                catch
+                {
+                    m_current_page = 0;
+                }
+            }
+        }
+
+        [JsonProperty("prev_page")]
+        public int? PrevPage
+        {
+            get { return m_prev_page; }
+            set
+            {
+                m_prev_page = value;
+            }
+        }
+
+        [JsonProperty("next_page")]
+        public int? NextPage
+        {
+            get { return m_next_page; }
+            set 
+            {
+                m_next_page = value;
+            }
+        }
+        #endregion
     }
 
     public class Preview
@@ -333,8 +419,6 @@ namespace TDSPRINT.Cloud.SDK.Datas
                 return true;
             else
                 return false;
-
-            return true;
         }
         #endregion
 
