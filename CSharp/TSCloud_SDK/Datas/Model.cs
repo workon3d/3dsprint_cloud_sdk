@@ -25,7 +25,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
         private int m_size;
         private string m_key;
         private object m_meta;
-        private object m_ancestry;
+        private string m_ancestry;
         private Ftype m_ftype;
         private object m_acl;
         private string m_api_url;
@@ -103,7 +103,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
             set { m_key = value; }
         }
         [JsonProperty("ancestry")]
-        public object Ancestry
+        public string Ancestry
         {
             get { return m_ancestry; }
             set { m_ancestry = value; }
