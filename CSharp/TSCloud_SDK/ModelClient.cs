@@ -203,8 +203,8 @@ namespace TDSPRINT.Cloud.SDK
             Model file = this.Get(ModelId);
             int filesize = Convert.ToInt32(file.Size);
             string download_url = this.GetDownloadURL(ModelId);
-            //try
-            //{
+            try
+            {
                 HttpWebRequest Request = (HttpWebRequest)HttpWebRequest.Create(download_url);
                 Request.Method = "GET";
                 Request.AllowAutoRedirect = true;
@@ -231,11 +231,11 @@ namespace TDSPRINT.Cloud.SDK
                 }
 
                 return Response.StatusCode;
-            //}
-            //catch (Exception ee)
-            //{
-            //    throw ee;
-            //}
+            }
+            catch (Exception ee)
+            {
+                throw ee;
+            }
         }
         
         [Obsolete("This method will be deprecated, so use Download(int, string)", false)]
