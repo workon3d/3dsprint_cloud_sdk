@@ -207,6 +207,7 @@
             this.tbAcl.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tbAcl.Multiline = true;
             this.tbAcl.Name = "tbAcl";
+            this.tbAcl.ReadOnly = true;
             this.tbAcl.Size = new System.Drawing.Size(256, 168);
             this.tbAcl.TabIndex = 11;
             this.tbAcl.TextChanged += new System.EventHandler(this.tbAcl_TextChanged);
