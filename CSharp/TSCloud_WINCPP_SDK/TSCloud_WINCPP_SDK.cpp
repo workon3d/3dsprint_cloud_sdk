@@ -30,7 +30,7 @@ namespace TDSPRINT{
 
 				if (user->ApiToken && user->ApiToken->Length != 0) {
 					Json::Value result;
-					result["id"] = user->GetId();
+					result["id"] = user->Id;
 					result["api_token"] = StringConverter::ws2s(StringConverter::managedToNative(user->ApiToken));
 					result["email"] = StringConverter::ws2s(StringConverter::managedToNative(user->Email));
 
@@ -63,7 +63,7 @@ namespace TDSPRINT{
 
 				if (user->ApiToken && user->ApiToken->Length != 0) {
 					Json::Value result;
-					result["id"] = user->GetId();
+					result["id"] = user->Id;
 					result["api_token"] = StringConverter::ws2s(StringConverter::managedToNative(user->ApiToken));
 					result["email"] = StringConverter::ws2s(StringConverter::managedToNative(user->Email));
 
@@ -81,7 +81,7 @@ namespace TDSPRINT{
 
 				if (user->ApiToken && user->ApiToken->Length != 0) {
 					Json::Value result;
-					result["id"] = user->GetId();
+					result["id"] = user->Id;
 					result["api_token"] = StringConverter::ws2s(StringConverter::managedToNative(user->ApiToken));
 					result["email"] = StringConverter::ws2s(StringConverter::managedToNative(user->Email));
 
