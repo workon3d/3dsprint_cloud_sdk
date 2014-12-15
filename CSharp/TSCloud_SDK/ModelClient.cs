@@ -270,7 +270,8 @@ namespace TDSPRINT.Cloud.SDK
                             current += BytesRead;
 
                             percentage = (float)(Math.Round((double)current / (double)filesize, 4) * 100);
-                            _onProgress(percentage);
+                            if (_onProgress != null)
+                                _onProgress(percentage);
                         }
                     }
                 }

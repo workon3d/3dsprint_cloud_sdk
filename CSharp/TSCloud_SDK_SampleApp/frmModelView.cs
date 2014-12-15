@@ -144,7 +144,8 @@ namespace TSCloud_SampleApp
 
         private void Download()
         {
-            if (ModelClient.Download(ModelId, dlgDownloadModel.FileName, UpdateProgress) != HttpStatusCode.OK)
+            //if (ModelClient.Download(ModelId, dlgDownloadModel.FileName, UpdateProgress) != HttpStatusCode.OK)
+            if (ModelClient.Download(ModelId, dlgDownloadModel.FileName, null) != HttpStatusCode.OK)
             {
                 MessageBox.Show("Failed to download file");
             }
