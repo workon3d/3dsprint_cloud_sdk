@@ -56,7 +56,7 @@ namespace TDSPRINT.Cloud.SDK
             RestRequest request = new RestRequest(String.Format("{0}/folders", ApiPath), Method.GET);
             if (ftype == Ftype.Folder)
                 request.AddParameter("folder", "true");
-            else (ftype == Ftype.File)
+            else if(ftype == Ftype.File)
                 request.AddParameter("ftype", "file");
 
             request.AddParameter("api_token", ApiToken);
