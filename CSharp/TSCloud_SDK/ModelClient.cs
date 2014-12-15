@@ -39,15 +39,31 @@ namespace TDSPRINT.Cloud.SDK
         {
             return GetModels(0, ftype);
         }
+        public Models GetModels(int FolderId)
+        {
+            return GetModels(0, Ftype.All, FolderId);
+        }
+        public Models GetModels(Ftype ftype, int FolderId)
+        {
+            return GetModels(0, ftype, FolderId);
+        }
         public Models GetModels(int Page, Ftype ftype)
         {
-
+            return GetModels(Page, ftype, 0);
+        }
+        public Models GetModels(int Page, Ftype ftype, int FolderId)
+        {
             RestRequest request = new RestRequest(String.Format("{0}/folders", ApiPath), Method.GET);
             if (ftype == Ftype.Folder)
                 request.AddParameter("folder", "true");
+            else (ftype == Ftype.File)
+                request.AddParameter("ftype", "file");
+
             request.AddParameter("api_token", ApiToken);
             if (Page != 0)
                 request.AddParameter("page", Page);
+            if (FolderId != 0)
+                request.AddParameter("parent_id", FolderId);
 
             try
             {
