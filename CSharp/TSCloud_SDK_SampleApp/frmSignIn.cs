@@ -18,6 +18,12 @@ namespace TSCloud_SampleApp
         
         public frmSignIn()
         {
+            // Please check whether internet connection state is online or not on the other thread before authentication.
+            if (!TSCloud.IsOnline())
+            {
+                MessageBox.Show("Please check internet connection");
+            }
+
             InitializeComponent();
         }
 
@@ -26,11 +32,17 @@ namespace TSCloud_SampleApp
             string Email = tbEmail.Text;
             string Password = tbPassword.Text;
 
-            if (User.IsValid(TSCloud.authenticate(Email, Password)))
+            User user = TSCloud.Authenticate(Email, Password);
+
+            if (User.IsValid(user))
             {
                 frmModelList FileList = new frmModelList(TSCloud);
                 FileList.Show();
                 this.Hide();
+            }
+            else
+            {
+                MessageBox.Show(user.Message);
             }
         }
 

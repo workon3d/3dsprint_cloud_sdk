@@ -139,11 +139,19 @@ namespace TDSPRINT.Cloud.SDK
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
-                Model model = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
-                model.StatusCode = httpResponse.StatusCode;
-                model.Message = httpResponse.ErrorMessage;
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    Model model = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
+                    model.StatusCode = httpResponse.StatusCode;
+                    model.Message = httpResponse.ErrorMessage;
 
-                return model;
+                    return model;
+                }
+                else
+                {
+                    return new Model(httpResponse.Content);
+                }
+                
             }
             catch (Exception ee)
             {
@@ -216,11 +224,19 @@ namespace TDSPRINT.Cloud.SDK
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
-                Model model = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
-                model.StatusCode = httpResponse.StatusCode;
-                model.Message = httpResponse.ErrorMessage;
 
-                return model;
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    Model model = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
+                    model.StatusCode = httpResponse.StatusCode;
+                    model.Message = httpResponse.ErrorMessage;
+
+                    return model;
+                }
+                else
+                {
+                    return new Model(httpResponse.Content);
+                }
             }
             catch (Exception ee)
             {

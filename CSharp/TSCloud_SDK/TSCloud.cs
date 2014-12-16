@@ -16,7 +16,7 @@ namespace TDSPRINT.Cloud.SDK
     {
         #region member variables
         public RestClient RestClient;
-        private string m_TcHost = "https://184.73.206.209";
+        private string m_TcHost = "http://184.73.206.209";
         private readonly string m_ApiPath = "api/v1";
         private string m_ApiToken = null;
         private User m_CurrentUser;
@@ -55,47 +55,79 @@ namespace TDSPRINT.Cloud.SDK
         {
             m_ApiToken = null;
             m_CurrentUser = null;
+            RestClient = new RestClient(Hostname);
         }
         public TSCloud(string Hostname) : this()
         {
             this.Hostname = Hostname;
+            RestClient = new RestClient(Hostname);
         }
         #endregion
 
         #region public method
+        public bool IsOnline()
+        {
+            var request = new RestRequest("", Method.GET);
+            IRestResponse httpResponse = RestClient.Execute(request);
+
+            if (httpResponse.StatusCode == HttpStatusCode.NotFound)
+                return false;
+
+            if (httpResponse.StatusCode == HttpStatusCode.Unauthorized || httpResponse.StatusCode == HttpStatusCode.OK)
+                return true;
+
+            return false;
+        }
+
+        [Obsolete("Please use Authenticate(Email, Password)")]
         public User authenticate(string Email, string Password)
         {
-            RestClient = new RestClient(Hostname);
+            return Authenticate(Email, Password);
+        }
+        public User Authenticate(string Email, string Password)
+        {
             var request = new RestRequest(ApiPath + "/authenticates", Method.POST);
-            request.AddParameter("email", Email);
+            request.AddParameter("email", Email.ToLower());
             request.AddParameter("password", Password);
+            request.RequestFormat = DataFormat.Json;
 
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
-                User CurrentUser = JsonConvert.DeserializeObject<Datas.User>(httpResponse.Content, TSCloud.serializer_settings());
-                this.CurrentUser = CurrentUser;
-                m_ApiToken = CurrentUser.ApiToken;
 
-                UserClient UserClient = new UserClient(this);
-                m_users = UserClient.All();
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    User CurrentUser = JsonConvert.DeserializeObject<Datas.User>(httpResponse.Content, TSCloud.serializer_settings());
+                    this.CurrentUser = CurrentUser;
+                    m_ApiToken = CurrentUser.ApiToken;
 
-                if (m_ApiToken != null)
-                    return CurrentUser;
+                    UserClient UserClient = new UserClient(this);
+                    m_users = UserClient.All();
+
+                    if (m_ApiToken != null)
+                        return CurrentUser;
+                    else
+                        return new User("api_token is null");
+                }
                 else
-                    return new User("api_token is null");
+                {
+                    return new User(httpResponse.Content);
+                }
+
+                
             }
             catch (Exception ee)
             {
                 return new User(ee.ToString());
             }
         }
-
+        [Obsolete("Please use Authenticate(Email, Password)")]
         public User authenticate(string api_token)
         {
-            if (RestClient == null)
-                RestClient = new RestClient(Hostname);
-
+            return Authenticate(api_token);
+        }
+        public User Authenticate(string api_token)
+        {
             RestRequest request = new RestRequest(String.Format("{0}/profiles", ApiPath), Method.GET);
             request.AddParameter("api_token", api_token);
 
