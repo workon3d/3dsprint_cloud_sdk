@@ -6,25 +6,22 @@ using System.Text;
 
 namespace TDSPRINT.Cloud.SDK.Datas
 {
-    public class Printers
-    {
-        public object parent;
-        public List<Printer> contents;
-        public Pagination pagination;
-    }
-
-    public class Printer : Model
+    public class Printers : CommonList
     {
         #region constructor
-        public Printer(HttpStatusCode status_code, string strMessage = null) : base(status_code, strMessage)
+        public Printers()
         {
         }
-        public Printer(string strMessage) : base(strMessage)
+
+        public Printers(string strMessage)
+            : this()
         {
-        }
-        public Printer() : base()
-        {
+            Message = strMessage;
         }
         #endregion
+    }
+
+    public class Printer : CommonItem
+    {
     }
 }
