@@ -11,11 +11,11 @@
 *.pdb
 
 # Build results
-[Dd]ebug/
+#[Dd]ebug/
 [Dd]ebugPublic/
-[Rr]eleases/
-x64/
-x86/
+#[Rr]eleases/
+#x64/
+#x86/
 build/
 bld/
 [Oo]bj/
@@ -196,7 +196,6 @@ CSharp/TP2_WINCPP_TEST/Intermediate/*
 CSharp/ipch/*
 
 
-CSharp/TSCloud_SDK/bin/
 CSharp/TSCloud_SDK_SampleApp/bin/
 CSharp/TSCloud_WINCPP_SDK/Intermediate/
 CSharp/TSCloud_WINCPP_SDK/bin/
