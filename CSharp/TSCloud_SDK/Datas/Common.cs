@@ -12,12 +12,11 @@ namespace TDSPRINT.Cloud.SDK.Datas
         #region member variables
         private int m_id;
         private string m_name;
-        private Acl m_acl;
+        private object m_acl; // TODO: Replace this to Acl
         private string m_created_at;
         private string m_updated_at;
         private string m_message;
         private HttpStatusCode m_StatusCode;
-
         #endregion
 
         #region getter/setter
@@ -51,7 +50,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
             set { m_message = value; }
         }
         [JsonProperty("acl")]
-        public Acl Acl
+        public object Acl
         {
             get { return m_acl; }
             set { m_acl = value; }
