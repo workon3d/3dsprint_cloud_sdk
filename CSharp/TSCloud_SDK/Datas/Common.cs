@@ -81,31 +81,28 @@ namespace TDSPRINT.Cloud.SDK.Datas
     public class CommonList
     {
         private int m_parent;
-        private List<CommonItem> m_contents;
         private Pagination m_pagination;
         private string m_message;
         private HttpStatusCode m_StatusCode;
 
-        [JsonProperty("parent")]
         public int Parent
         {
             get { return m_parent; }
-            set {
+        }
+        [JsonProperty("parent")]
+        public object _SetParent
+        {
+            set
+            {
                 try
                 {
-                    m_parent = value;
+                    m_parent = Convert.ToInt32(value);
                 }
                 catch
                 {
                     m_parent = 0;
                 }
             }
-        }
-        [JsonProperty("contents")]
-        public List<CommonItem> Contents
-        {
-            get { return m_contents; }
-            set { m_contents = value; }
         }
         [JsonProperty("pagination")]
         public Pagination Pagination

@@ -11,6 +11,19 @@ namespace TDSPRINT.Cloud.SDK.Datas
 {
     public class Models : CommonList
     {
+        private List<Model> m_contents;
+        [JsonProperty("contents")]
+        public List<Model> Contents
+        {
+            get
+            {
+                return m_contents;
+            }
+            set
+            {
+                m_contents = value;
+            }
+        }
     }
 
     public class Model : CommonItem

@@ -496,7 +496,7 @@ namespace TDSPRINT.Cloud.SDK
                 IRestResponse httpResponse = RestClient.Execute(request);
                 Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content, TSCloud.serializer_settings());
 
-                int num_pages = models.pagination.NumPages;
+                int num_pages = models.Pagination.NumPages;
                 if (Page == 0)
                 {
                     List<Model> model_list = new List<Model>();
@@ -513,7 +513,7 @@ namespace TDSPRINT.Cloud.SDK
 
                 if (ftype != Ftype.All)
                 {
-                    foreach (Model model in models.contents)
+                    foreach (Model model in models.Contents)
                     {
                         if (Convert.ToString(model.Ftype) == ftype.ToString())
                             filtered_model_list.Add(model);
@@ -523,7 +523,7 @@ namespace TDSPRINT.Cloud.SDK
                 }
                 else
                 {
-                    return models.contents;
+                    return models.Contents;
                 }
             }
             catch
@@ -545,7 +545,7 @@ namespace TDSPRINT.Cloud.SDK
                 IRestResponse httpResponse = RestClient.Execute(request);
                 Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content, TSCloud.serializer_settings());
 
-                int num_pages = models.pagination.NumPages;
+                int num_pages = models.Pagination.NumPages;
                 if (Page == 0)
                 {
                     List<Model> model_list = new List<Model>();
@@ -557,7 +557,7 @@ namespace TDSPRINT.Cloud.SDK
 
                     return model_list;
                 }
-                return models.contents;
+                return models.Contents;
 
             }
             catch
@@ -583,7 +583,7 @@ namespace TDSPRINT.Cloud.SDK
                 IRestResponse httpResponse = RestClient.Execute(request);
                 Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content, TSCloud.serializer_settings());
 
-                int num_pages = models.pagination.NumPages;
+                int num_pages = models.Pagination.NumPages;
                 if (Page == 0)
                 {
                     List<Model> model_list = new List<Model>();
@@ -595,7 +595,7 @@ namespace TDSPRINT.Cloud.SDK
 
                     return model_list;
                 }
-                return models.contents;
+                return models.Contents;
             }
             catch
             {
