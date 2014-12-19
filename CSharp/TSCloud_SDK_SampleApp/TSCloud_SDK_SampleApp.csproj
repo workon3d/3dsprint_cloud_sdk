@@ -103,11 +103,11 @@
     <Compile Include="frmCreateFolder.Designer.cs">
       <DependentUpon>frmCreateFolder.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmModelList.cs">
+    <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmModelList.Designer.cs">
-      <DependentUpon>frmModelList.cs</DependentUpon>
+      <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="frmModelView.cs">
       <SubType>Form</SubType>
@@ -133,7 +133,7 @@
       <DependentUpon>frmCreateFolder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmModelList.resx">
-      <DependentUpon>frmModelList.cs</DependentUpon>
+      <DependentUpon>frmMain.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="frmModelView.resx">

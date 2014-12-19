@@ -36,7 +36,7 @@ namespace TSCloud_SampleApp
 
             if (User.IsValid(user))
             {
-                frmModelList FileList = new frmModelList(TSCloud);
+                frmMain FileList = new frmMain(TSCloud);
                 FileList.Show();
                 this.Hide();
             }

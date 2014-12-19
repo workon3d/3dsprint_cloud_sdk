@@ -13,33 +13,36 @@ using TDSPRINT.Cloud.SDK.Datas;
 
 namespace TSCloud_SampleApp
 {
-    public partial class frmModelList : Form
+    public partial class frmMain : Form
     {
         private ModelClient ModelClient;
+        private PrinterClient PrinterClient;
         private User CurrentUser;
 
         public int SelectedFolder;
 
-        public frmModelList()
+        public frmMain()
         {
             InitializeComponent();
             setListColumn();
         }
 
-        public frmModelList(TSCloud TSCloud) : this()
+        public frmMain(TSCloud TSCloud) : this()
         {
             ModelClient = new ModelClient(TSCloud);
+            PrinterClient = new PrinterClient(TSCloud);
             CurrentUser = TSCloud.CurrentUser;
             getFileList();
+            getPrinterList();
         }
 
+        #region Files method
         public void updateFileList(Object obj)
         {
             lvFileList.Items.Clear();
             getFileList();
         }
         
-        #region private method
         private void getFileList()
         {
             List<Model> models = ModelClient.All();
@@ -59,6 +62,17 @@ namespace TSCloud_SampleApp
             }
             catch { }
             lvFileList.Items.Add(item);
+        }
+        private void insertPrinter(Printer printer)
+        {
+            ListViewItem item = new ListViewItem(printer.Id.ToString());
+            item.SubItems.Add(printer.Name);
+            try
+            {
+                item.SubItems.Add(printer.Meta.ToString());
+            }
+            catch { }
+            lvPrinterList.Items.Add(item);
         }
         private void setListColumn()
         {
@@ -88,6 +102,18 @@ namespace TSCloud_SampleApp
                 frmModelView ModelView = new frmModelView(ModelClient, model);
                 ModelView.FormSendEvent += new frmModelView.UpdateList(updateFileList);
                 ModelView.Show();
+            }
+        }
+        #endregion
+
+        #region Printer Queues method
+        private void getPrinterList()
+        {
+            List<Printer> printers = PrinterClient.All();
+
+            foreach (Printer printer in printers)
+            {
+                insertPrinter(printer);
             }
         }
         #endregion

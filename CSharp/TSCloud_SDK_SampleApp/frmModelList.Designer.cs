@@ -1,6 +1,6 @@
 ﻿namespace TSCloud_SampleApp
 {
-    partial class frmModelList
+    partial class frmMain
     {
         /// <summary>
         /// Required designer variable.
@@ -35,11 +35,21 @@
             this.btnUpload = new System.Windows.Forms.Button();
             this.dlgUploadModel = new System.Windows.Forms.OpenFileDialog();
             this.panList = new System.Windows.Forms.Panel();
+            this.btnCreateFolder = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.tbQuery = new System.Windows.Forms.TextBox();
             this.btnSearch = new System.Windows.Forms.Button();
-            this.btnCreateFolder = new System.Windows.Forms.Button();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.lvPrinterList = new System.Windows.Forms.ListView();
+            this.lvQueues = new System.Windows.Forms.ListView();
+            this.chPrinterId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chPrinterName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panList.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // lvFileList
@@ -49,9 +59,9 @@
             this.chId,
             this.chFilename,
             this.chMeta});
-            this.lvFileList.Location = new System.Drawing.Point(3, 32);
+            this.lvFileList.Location = new System.Drawing.Point(5, 33);
             this.lvFileList.Name = "lvFileList";
-            this.lvFileList.Size = new System.Drawing.Size(850, 460);
+            this.lvFileList.Size = new System.Drawing.Size(1017, 519);
             this.lvFileList.TabIndex = 0;
             this.lvFileList.UseCompatibleStateImageBehavior = false;
             this.lvFileList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvFileList_KeyDown);
@@ -96,38 +106,10 @@
             this.panList.Controls.Add(this.lvFileList);
             this.panList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panList.Font = new System.Drawing.Font("Malgun Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.panList.Location = new System.Drawing.Point(0, 0);
+            this.panList.Location = new System.Drawing.Point(3, 3);
             this.panList.Name = "panList";
-            this.panList.Size = new System.Drawing.Size(854, 495);
+            this.panList.Size = new System.Drawing.Size(1028, 555);
             this.panList.TabIndex = 3;
-            // 
-            // btnClear
-            // 
-            this.btnClear.Location = new System.Drawing.Point(781, 4);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(70, 23);
-            this.btnClear.TabIndex = 3;
-            this.btnClear.Text = "Clear";
-            this.btnClear.UseVisualStyleBackColor = true;
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
-            // 
-            // tbQuery
-            // 
-            this.tbQuery.Location = new System.Drawing.Point(481, 5);
-            this.tbQuery.Name = "tbQuery";
-            this.tbQuery.Size = new System.Drawing.Size(215, 23);
-            this.tbQuery.TabIndex = 1;
-            this.tbQuery.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbQuery_KeyDown);
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.Location = new System.Drawing.Point(702, 4);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(73, 23);
-            this.btnSearch.TabIndex = 2;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // btnCreateFolder
             // 
@@ -139,17 +121,100 @@
             this.btnCreateFolder.UseVisualStyleBackColor = true;
             this.btnCreateFolder.Click += new System.EventHandler(this.btnCreateFolder_Click);
             // 
-            // frmModelList
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(952, 5);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(70, 23);
+            this.btnClear.TabIndex = 3;
+            this.btnClear.Text = "Clear";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
+            // tbQuery
+            // 
+            this.tbQuery.Location = new System.Drawing.Point(652, 6);
+            this.tbQuery.Name = "tbQuery";
+            this.tbQuery.Size = new System.Drawing.Size(215, 23);
+            this.tbQuery.TabIndex = 1;
+            this.tbQuery.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbQuery_KeyDown);
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Location = new System.Drawing.Point(873, 6);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(73, 23);
+            this.btnSearch.TabIndex = 2;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(0, 3);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1042, 587);
+            this.tabControl1.TabIndex = 4;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.panList);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1034, 561);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Files";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.lvQueues);
+            this.tabPage2.Controls.Add(this.lvPrinterList);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1034, 561);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Printer Queues";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // lvPrinterList
+            // 
+            this.lvPrinterList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.chPrinterId,
+            this.chPrinterName});
+            this.lvPrinterList.Location = new System.Drawing.Point(3, 6);
+            this.lvPrinterList.Name = "lvPrinterList";
+            this.lvPrinterList.Size = new System.Drawing.Size(215, 549);
+            this.lvPrinterList.TabIndex = 0;
+            this.lvPrinterList.UseCompatibleStateImageBehavior = false;
+            // 
+            // lvQueues
+            // 
+            this.lvQueues.Location = new System.Drawing.Point(224, 6);
+            this.lvQueues.Name = "lvQueues";
+            this.lvQueues.Size = new System.Drawing.Size(807, 552);
+            this.lvQueues.TabIndex = 1;
+            this.lvQueues.UseCompatibleStateImageBehavior = false;
+            // 
+            // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(854, 495);
-            this.Controls.Add(this.panList);
+            this.ClientSize = new System.Drawing.Size(1041, 593);
+            this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Name = "frmModelList";
+            this.Name = "frmMain";
             this.Text = "Model List";
             this.panList.ResumeLayout(false);
             this.panList.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -167,5 +232,12 @@
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.ColumnHeader chMeta;
         private System.Windows.Forms.Button btnCreateFolder;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.ListView lvQueues;
+        private System.Windows.Forms.ListView lvPrinterList;
+        private System.Windows.Forms.ColumnHeader chPrinterId;
+        private System.Windows.Forms.ColumnHeader chPrinterName;
     }
 }
