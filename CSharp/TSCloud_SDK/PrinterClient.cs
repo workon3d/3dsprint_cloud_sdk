@@ -29,7 +29,86 @@ namespace TDSPRINT.Cloud.SDK
         #endregion
 
         #region public method
+        [Obsolete("Deprecated: This method is for only development")]
+        public List<Printer> All()
+        {
+            return index(0);
+        }
 
+        public Printers GetPrinters(int Page)
+        {
+            RestRequest request = new RestRequest(String.Format("{0}/printers", ApiPath), Method.GET);
+            request.AddParameter("api_token", ApiToken);
+            if (Page != 0)
+                request.AddParameter("page", Page);
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    Printers printers = JsonConvert.DeserializeObject<Printers>(httpResponse.Content, TSCloud.serializer_settings());
+
+                    return printers;
+                }
+                else
+                {
+                    return new Printers(httpResponse.Content);
+                }
+
+            }
+            catch (Exception ee)
+            {
+                throw ee;
+            }
+        }
+        public Printer GetQueue()
+        {
+            return new Printer();
+        }
+        #endregion
+
+        #region private method
+        private List<Printer> index(int Page)
+        {
+            RestRequest request = new RestRequest(String.Format("{0}/printers", ApiPath), Method.GET);
+            request.AddParameter("api_token", ApiToken);
+            request.AddParameter("root", "true");
+            if (Page != 0)
+                request.AddParameter("page", Page);
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+                Printers printers = JsonConvert.DeserializeObject<Printers>(httpResponse.Content, TSCloud.serializer_settings());
+
+                int num_pages = printers.Pagination.NumPages;
+                if (Page == 0)
+                {
+                    List<Printer> printer_list = new List<Printer>();
+
+                    for (int i = 1; i <= num_pages; i++)
+                    {
+                        printer_list.AddRange(index(i));
+                    }
+
+                    return printer_list;
+                }
+                else
+                {
+                    return printers.Contents;
+                }
+            }
+            catch
+            {
+                return new List<Printer>();
+            }
+        }
+        #endregion
+
+
+        #region Legacy
         private RestRequest CreateRequest(string PrinterName, object MetaJson)
         {
             RestRequest request = new RestRequest(String.Format("{0}/printers", ApiPath), Method.POST);
@@ -48,7 +127,6 @@ namespace TDSPRINT.Cloud.SDK
 
             return request;
         }
-
         public Printer Create(string PrinterName, object MetaJson)
         {
             RestRequest request = CreateRequest(PrinterName, MetaJson);
@@ -69,7 +147,6 @@ namespace TDSPRINT.Cloud.SDK
                 return new Printer(ee.ToString());
             }
         }
-
         public void CreateAsync(string PrinterName, object MetaJson)
         {
             RestRequest request = CreateRequest(PrinterName, MetaJson);
@@ -84,7 +161,6 @@ namespace TDSPRINT.Cloud.SDK
             {
             }
         }
-
         public void BatchUpdate(string dataJson)
         {
             if (RestClient == null)

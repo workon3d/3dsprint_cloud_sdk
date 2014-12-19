@@ -16,6 +16,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
         private string m_created_at;
         private string m_updated_at;
         private string m_message;
+        private object m_meta;
         private HttpStatusCode m_StatusCode;
         #endregion
 
@@ -59,6 +60,12 @@ namespace TDSPRINT.Cloud.SDK.Datas
         {
             get { return m_StatusCode; }
             set { m_StatusCode = value; }
+        }
+        [JsonProperty("meta")]
+        public object Meta
+        {
+            get { return m_meta; }
+            set { m_meta = value; }
         }
         #endregion
 
