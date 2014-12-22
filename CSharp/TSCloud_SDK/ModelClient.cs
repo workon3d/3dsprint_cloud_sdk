@@ -99,7 +99,7 @@ namespace TDSPRINT.Cloud.SDK
                 Model model = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
 
                 int owner_id = 0;
-                Hashtable hash = JsonConvert.DeserializeObject<Hashtable>(model.Acl.ToString());
+                Hash hash = JsonConvert.DeserializeObject<Hash>(model.Acl.ToString());
                 owner_id = Convert.ToInt32(hash["owner"]);
                 model.Owner = Users.FindById(owner_id);
                 return model;
@@ -179,30 +179,30 @@ namespace TDSPRINT.Cloud.SDK
             return Create(null, 0, FilePath, null, null);
         }
 
-        public Model Update(int ModelId, string ModelName, string FilePath, object MetaJson, string Acl)
+        public Model Update(int ModelId, string ModelName, string FilePath, string strMetaJson)
         {
-            #region JSON parameter checking
             try
             {
-                if (MetaJson != null)
-                {
-                    JsonConvert.DeserializeObject(MetaJson.ToString());
-                }
+                Hash hashed_meta = JsonConvert.DeserializeObject<Hash>(strMetaJson, TSCloud.serializer_settings());
+                return Update(ModelId, ModelName, FilePath, hashed_meta);
             }
-            catch
+            catch (Exception ee)
             {
-                return new Model("Invalid JSON meta");
+                throw ee;
             }
-
-            try
-            {
-                JsonConvert.DeserializeObject(Acl);
-            }
-            catch
-            {
-                return new Model("Invalid JSON ACL");
-            }
-            #endregion
+        }
+        public Model Update(int ModelId, string ModelName, string FilePath, Hash MetaJson)
+        {
+            //#region JSON parameter checking
+            //try
+            //{
+            //    JsonConvert.DeserializeObject(Acl);
+            //}
+            //catch
+            //{
+            //    return new Model("Invalid JSON ACL");
+            //}
+            //#endregion
 
             RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", ApiPath, ModelId.ToString()), Method.PUT);
             request.AddParameter("api_token", ApiToken);
@@ -215,11 +215,14 @@ namespace TDSPRINT.Cloud.SDK
             if(!String.IsNullOrEmpty(FilePath))
                 request.AddFile("file", FilePath);
 
-            if(MetaJson != null)
-                request.AddParameter("meta", MetaJson);
+            if (MetaJson != null)
+            {
+                string strMeta = JsonConvert.SerializeObject(MetaJson, TSCloud.serializer_settings());
+                request.AddParameter("meta", strMeta);
+            }
             
-            if(!String.IsNullOrEmpty(Acl))
-                request.AddParameter("acl", Acl);
+            //if(!String.IsNullOrEmpty(Acl))
+            //    request.AddParameter("acl", Acl);
 
             try
             {
@@ -243,18 +246,18 @@ namespace TDSPRINT.Cloud.SDK
                 return new Model(ee.ToString());
             }
         }
-        public Model Update(int ModelId, string ModelName, string FilePath)
-        {
-            return Update(ModelId, ModelName, FilePath, null, null);
-        }
-        public Model Update(int ModelId, string ModelName)
-        {   
-            return Update(ModelId, ModelName, null, null, null);
-        }
-        public Model Update(int ModelId, object MetaJson)
-        {
-            return Update(ModelId, null, null, MetaJson, null);
-        }
+        //public Model Update(int ModelId, string ModelName, string FilePath)
+        //{
+        //    return Update(ModelId, ModelName, FilePath, null, null);
+        //}
+        //public Model Update(int ModelId, string ModelName)
+        //{   
+        //    return Update(ModelId, ModelName, null, null, null);
+        //}
+        //public Model Update(int ModelId, string sMetaJson)
+        //{
+        //    return Update(ModelId, null, null, MetaJson, null);
+        //}
 
         public HttpStatusCode Download(int ModelId, string strDownloadPath, onProgress _onProgress)
         {
