@@ -29,8 +29,10 @@ namespace TSCloud_SampleApp
 
         public frmMain(TSCloud TSCloud) : this()
         {
-            ModelClient = new ModelClient(TSCloud);
-            PrinterClient = new PrinterClient(TSCloud);
+            Hash Configuraion = new Hash();
+            Configuraion["PerPage"] = 10;
+            ModelClient = new ModelClient(TSCloud, Configuraion);
+
             CurrentUser = TSCloud.CurrentUser;
             getFileList();
             getPrinterList();
@@ -58,7 +60,8 @@ namespace TSCloud_SampleApp
             item.SubItems.Add(model.Name);
             try
             {
-                item.SubItems.Add(model.Meta.ToString());
+                string strSerializedMeta = model.Meta.Stringify();
+                item.SubItems.Add(strSerializedMeta);
             }
             catch { }
             lvFileList.Items.Add(item);

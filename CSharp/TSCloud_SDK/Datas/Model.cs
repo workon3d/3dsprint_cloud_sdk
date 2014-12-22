@@ -3,6 +3,7 @@ using System.Net;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections;
 
 using TDSPRINT.Cloud.SDK.Types;
 using Newtonsoft.Json;
@@ -33,7 +34,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
         private string m_name;
         private int m_size;
         private string m_key;
-        private object m_meta;
+        private Hash m_meta;
         private string m_ancestry;
         private Ftype m_ftype;
         private string m_api_url;
@@ -87,10 +88,32 @@ namespace TDSPRINT.Cloud.SDK.Datas
             get { return m_size; }
         }
         [JsonProperty("meta")]
-        public object Meta
+        public object _MetaString
         {
-            get { return m_meta; }
-            set { m_meta = value; }
+            set
+            {
+                try
+                {
+                    m_meta = Hash.Parse(value);
+                }
+                catch
+                {
+                    m_meta = null;
+                }
+            }
+        }
+        public Hash Meta
+        {
+            set
+            {
+                m_meta = value;
+            }
+            get
+            {
+                return m_meta;
+                //Hash hashed_meta = JsonConvert.DeserializeObject<Hash>(m_meta.ToString(), TSCloud.serializer_settings());
+                //return hashed_meta;
+            }
         }
         [JsonProperty("key")]
         public string Key
@@ -168,7 +191,6 @@ namespace TDSPRINT.Cloud.SDK.Datas
         }
         #endregion
     }
-
 
     public class Preview
     {
@@ -283,4 +305,5 @@ namespace TDSPRINT.Cloud.SDK.Datas
         #endregion
 
     }
+
 }

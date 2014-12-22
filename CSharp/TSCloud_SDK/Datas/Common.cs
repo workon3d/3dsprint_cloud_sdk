@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using System.Net;
+using System.Collections;
 
 namespace TDSPRINT.Cloud.SDK.Datas
 {
@@ -237,6 +238,40 @@ namespace TDSPRINT.Cloud.SDK.Datas
         {
             Key = strKey;
             Value = strValue;
+        }
+    }
+    public class Hash : Hashtable
+    {
+        public static Hash Parse(object objData)
+        {
+            string strData = null;
+            try
+            {
+                strData = objData.ToString();
+            }
+            catch (Exception ee)
+            {
+                throw ee;
+            }
+
+            return Hash.Parse(strData);
+        }
+        public static Hash Parse(string strData)
+        {
+            try
+            {
+                Hash hash = JsonConvert.DeserializeObject<Hash>(strData, TSCloud.serializer_settings());
+                return hash;
+            }
+            catch (Exception ee)
+            {
+                throw ee;
+            }
+        }
+
+        public string Stringify()
+        {
+            return JsonConvert.SerializeObject(this, TSCloud.serializer_settings());
         }
     }
 }
