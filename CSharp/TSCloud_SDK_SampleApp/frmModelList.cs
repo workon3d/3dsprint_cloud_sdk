@@ -55,7 +55,8 @@ namespace TSCloud_SampleApp
             item.SubItems.Add(model.Name);
             try
             {
-                item.SubItems.Add(model.Meta.ToString());
+                string strSerializedMeta = model.Meta.Stringify();
+                item.SubItems.Add(strSerializedMeta);
             }
             catch { }
             lvFileList.Items.Add(item);

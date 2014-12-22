@@ -52,7 +52,7 @@ namespace TSCloud_SampleApp
             tbFilename.Text = !String.IsNullOrEmpty(model.Name) ? model.Name.ToString() : String.Empty;
             tbKey.Text = !String.IsNullOrEmpty(model.Key) ? model.Key.ToString() : String.Empty;
             tbFtype.Text = model.Ftype.ToString();
-            tbMeta.Text = model.Meta != null ? model.Meta.ToString() : String.Empty;
+            tbMeta.Text = model.Meta != null ? model.Meta.Stringify() : String.Empty;
             tbAcl.Text = model.Acl.ToString();
 
             if (model.Preview.IsValidThumbnail())
@@ -108,9 +108,8 @@ namespace TSCloud_SampleApp
             int ModelId = !String.IsNullOrWhiteSpace(tbId.Text) ? Int32.Parse(tbId.Text) : 0;
             string ModelName = !String.IsNullOrWhiteSpace(tbFilename.Text) ? tbFilename.Text : null;
             string Meta = !String.IsNullOrWhiteSpace(tbMeta.Text) && !tbMeta.Text.Equals("{}") ? tbMeta.Text.Replace("\r\n","") : null;
-            string Acl = !String.IsNullOrWhiteSpace(tbAcl.Text) ? tbAcl.Text.Replace("\r\n", "") : null;
             
-            Model update_result = ModelClient.Update(ModelId, ModelName, Filepath, Meta, Acl);
+            Model update_result = ModelClient.Update(ModelId, ModelName, Filepath, Meta);
 
             if(update_result.StatusCode == System.Net.HttpStatusCode.OK)
             {
