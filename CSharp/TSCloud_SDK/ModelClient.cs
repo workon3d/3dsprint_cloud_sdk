@@ -16,9 +16,14 @@ namespace TDSPRINT.Cloud.SDK
 {
     public class ModelClient : TSCloud
     {
+        #region member variables
+        private Hash Configuration;
+        #endregion
+
         #region constructor
         public ModelClient()
         {
+            this.Configuration = null;
         }
         public ModelClient(TSCloud TSCloud) : this()
         {
@@ -27,6 +32,10 @@ namespace TDSPRINT.Cloud.SDK
             ApiToken = TSCloud.ApiToken;
             CurrentUser = TSCloud.CurrentUser;
             Users = TSCloud.Users;
+        }
+        public ModelClient(TSCloud TSCloud, Hash Configuration) : this(TSCloud)
+        {
+            this.Configuration = Configuration;
         }
         #endregion
 
@@ -64,6 +73,9 @@ namespace TDSPRINT.Cloud.SDK
                 request.AddParameter("page", Page);
             if (FolderId != 0)
                 request.AddParameter("parent_id", FolderId);
+            if (Configuration["PerPage"] != null)
+                request.AddParameter("per_page", Configuration["PerPage"]);
+
 
             try
             {
@@ -493,6 +505,8 @@ namespace TDSPRINT.Cloud.SDK
             request.AddParameter("api_token", ApiToken);
             if(Page != 0)
                 request.AddParameter("page", Page);
+            if (Configuration["PerPage"] != null)
+                request.AddParameter("per_page", Configuration["PerPage"]);
 
             try
             {

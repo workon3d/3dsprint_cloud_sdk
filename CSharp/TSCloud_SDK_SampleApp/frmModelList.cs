@@ -28,7 +28,9 @@ namespace TSCloud_SampleApp
 
         public frmModelList(TSCloud TSCloud) : this()
         {
-            ModelClient = new ModelClient(TSCloud);
+            Hash Configuraion = new Hash();
+            Configuraion["PerPage"] = 10;
+            ModelClient = new ModelClient(TSCloud, Configuraion);
             CurrentUser = TSCloud.CurrentUser;
             getFileList();
         }
