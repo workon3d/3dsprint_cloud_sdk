@@ -32,6 +32,10 @@ namespace TDSPRINT.Cloud.SDK
             ApiToken = TSCloud.ApiToken;
             CurrentUser = TSCloud.CurrentUser;
             Users = TSCloud.Users;
+
+            // Default Configuration
+            Configuration = new Hash();
+            Configuration["PerPage"] = 30;
         }
         public ModelClient(TSCloud TSCloud, Hash Configuration) : this(TSCloud)
         {
@@ -75,7 +79,6 @@ namespace TDSPRINT.Cloud.SDK
                 request.AddParameter("parent_id", FolderId);
             if (Configuration["PerPage"] != null)
                 request.AddParameter("per_page", Configuration["PerPage"]);
-
 
             try
             {
