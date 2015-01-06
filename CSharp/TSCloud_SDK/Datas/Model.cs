@@ -105,6 +105,18 @@ namespace TDSPRINT.Cloud.SDK.Datas
                     m_meta = null;
                 }
             }
+            get
+            {
+                try
+                {
+                    return (object)(m_meta.ToString());
+                }
+                catch
+                {
+                    return null;
+                }
+                
+            }
         }
         public Hash Meta
         {
