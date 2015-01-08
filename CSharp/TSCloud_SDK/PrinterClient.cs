@@ -15,6 +15,10 @@ namespace TDSPRINT.Cloud.SDK
 {
     public class PrinterClient : TSCloud
     {
+        #region member variables
+        private Hash Configuration;
+        #endregion
+
         #region constructor
         public PrinterClient()
         {
@@ -26,19 +30,30 @@ namespace TDSPRINT.Cloud.SDK
             ApiToken = TSCloud.ApiToken;
             CurrentUser = TSCloud.CurrentUser;
         }
+        public PrinterClient(TSCloud TSCloud, Hash Configuration)
+            : this(TSCloud)
+        {
+            this.Configuration = Configuration;
+        }
         #endregion
 
         #region public method
         [Obsolete("Deprecated: This method is for only development")]
-        public List<Printer> All()
+        public List<Printer> GetAllPrinters()
         {
-            return index(0);
+            return GetPrinters(0).Contents;
+        }
+        [Obsolete("Deprecated: This method is for only development")]
+        public List<Queue> GetAllQueues(int PrinterId)
+        {
+            return GetQueues(PrinterId, 0).Contents;
         }
 
         public Printers GetPrinters(int Page)
         {
             RestRequest request = new RestRequest(String.Format("{0}/printers", ApiPath), Method.GET);
             request.AddParameter("api_token", ApiToken);
+            request.AddParameter("root", "true");
             if (Page != 0)
                 request.AddParameter("page", Page);
 
@@ -63,9 +78,87 @@ namespace TDSPRINT.Cloud.SDK
                 throw ee;
             }
         }
-        public Printer GetQueue()
+        public Queues GetQueues(int PrinterId, int Page)
         {
-            return new Printer();
+            RestRequest request = new RestRequest(String.Format("{0}/queues", ApiPath), Method.GET);
+            request.AddParameter("api_token", ApiToken);
+            request.AddParameter("parent_id", PrinterId);
+            if (Page != 0)
+                request.AddParameter("page", Page);
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    Queues queues = JsonConvert.DeserializeObject<Queues>(httpResponse.Content, TSCloud.serializer_settings());
+
+                    return queues;
+                }
+                else
+                {
+                    return new Queues(httpResponse.Content);
+                }
+
+            }
+            catch (Exception ee)
+            {
+                throw ee;
+            }
+        }
+
+        public Printer GetPrinter(int PrinterId)
+        {
+            RestRequest request = new RestRequest(String.Format("{0}/printers/{1}", ApiPath, PrinterId), Method.GET);
+            request.AddParameter("api_token", ApiToken);
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    Printer printer = JsonConvert.DeserializeObject<Printer>(httpResponse.Content, TSCloud.serializer_settings());
+
+                    return printer;
+                }
+                else
+                {
+                    return new Printer(httpResponse.Content);
+                }
+
+            }
+            catch (Exception ee)
+            {
+                throw ee;
+            }
+        }
+        public Queue GetQueue(int QueueId)
+        {
+            RestRequest request = new RestRequest(String.Format("{0}/queues/{1}", ApiPath, QueueId), Method.GET);
+            request.AddParameter("api_token", ApiToken);
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    Queue queue = JsonConvert.DeserializeObject<Queue>(httpResponse.Content, TSCloud.serializer_settings());
+
+                    return queue;
+                }
+                else
+                {
+                    return new Queue(httpResponse.Content);
+                }
+
+            }
+            catch (Exception ee)
+            {
+                throw ee;
+            }
         }
         #endregion
 

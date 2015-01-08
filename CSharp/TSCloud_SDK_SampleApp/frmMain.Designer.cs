@@ -42,8 +42,10 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.lvQueueList = new System.Windows.Forms.ListView();
+            this.chQueueId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chQueueMeta = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lvPrinterList = new System.Windows.Forms.ListView();
-            this.lvQueues = new System.Windows.Forms.ListView();
             this.chPrinterId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chPrinterName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panList.SuspendLayout();
@@ -172,7 +174,7 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.lvQueues);
+            this.tabPage2.Controls.Add(this.lvQueueList);
             this.tabPage2.Controls.Add(this.lvPrinterList);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
@@ -181,6 +183,26 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Printer Queues";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // lvQueueList
+            // 
+            this.lvQueueList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.chQueueId,
+            this.chQueueMeta});
+            this.lvQueueList.Location = new System.Drawing.Point(224, 6);
+            this.lvQueueList.Name = "lvQueueList";
+            this.lvQueueList.Size = new System.Drawing.Size(807, 552);
+            this.lvQueueList.TabIndex = 1;
+            this.lvQueueList.UseCompatibleStateImageBehavior = false;
+            // 
+            // chQueueId
+            // 
+            this.chQueueId.Text = "ID";
+            // 
+            // chQueueMeta
+            // 
+            this.chQueueMeta.Text = "Meta";
+            this.chQueueMeta.Width = 500;
             // 
             // lvPrinterList
             // 
@@ -192,14 +214,16 @@
             this.lvPrinterList.Size = new System.Drawing.Size(215, 549);
             this.lvPrinterList.TabIndex = 0;
             this.lvPrinterList.UseCompatibleStateImageBehavior = false;
+            this.lvPrinterList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lvPrinterList_MouseDoubleClick);
             // 
-            // lvQueues
+            // chPrinterId
             // 
-            this.lvQueues.Location = new System.Drawing.Point(224, 6);
-            this.lvQueues.Name = "lvQueues";
-            this.lvQueues.Size = new System.Drawing.Size(807, 552);
-            this.lvQueues.TabIndex = 1;
-            this.lvQueues.UseCompatibleStateImageBehavior = false;
+            this.chPrinterId.Text = "ID";
+            // 
+            // chPrinterName
+            // 
+            this.chPrinterName.Text = "Name";
+            this.chPrinterName.Width = 180;
             // 
             // frmMain
             // 
@@ -235,9 +259,11 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.ListView lvQueues;
+        private System.Windows.Forms.ListView lvQueueList;
         private System.Windows.Forms.ListView lvPrinterList;
         private System.Windows.Forms.ColumnHeader chPrinterId;
         private System.Windows.Forms.ColumnHeader chPrinterName;
+        private System.Windows.Forms.ColumnHeader chQueueId;
+        private System.Windows.Forms.ColumnHeader chQueueMeta;
     }
 }

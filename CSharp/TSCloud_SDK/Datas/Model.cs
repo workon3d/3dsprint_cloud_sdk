@@ -87,46 +87,46 @@ namespace TDSPRINT.Cloud.SDK.Datas
         {
             get { return m_size; }
         }
-        [JsonProperty("meta")]
-        public object _MetaString
-        {
-            set
-            {
-                try
-                {
-                    m_meta = Hash.Parse(value);
-                }
-                catch
-                {
-                    m_meta = null;
-                }
-            }
-            get
-            {
-                try
-                {
-                    return (object)(m_meta.ToString());
-                }
-                catch
-                {
-                    return null;
-                }
+        //[JsonProperty("meta")]
+        //public object _MetaString
+        //{
+        //    set
+        //    {
+        //        try
+        //        {
+        //            m_meta = Hash.Parse(value);
+        //        }
+        //        catch
+        //        {
+        //            m_meta = null;
+        //        }
+        //    }
+        //    get
+        //    {
+        //        try
+        //        {
+        //            return (object)(m_meta.ToString());
+        //        }
+        //        catch
+        //        {
+        //            return null;
+        //        }
                 
-            }
-        }
-        public Hash Meta
-        {
-            set
-            {
-                m_meta = value;
-            }
-            get
-            {
-                return m_meta;
-                //Hash hashed_meta = JsonConvert.DeserializeObject<Hash>(m_meta.ToString(), TSCloud.serializer_settings());
-                //return hashed_meta;
-            }
-        }
+        //    }
+        //}
+        //public Hash Meta
+        //{
+        //    set
+        //    {
+        //        m_meta = value;
+        //    }
+        //    get
+        //    {
+        //        return m_meta;
+        //        //Hash hashed_meta = JsonConvert.DeserializeObject<Hash>(m_meta.ToString(), TSCloud.serializer_settings());
+        //        //return hashed_meta;
+        //    }
+        //}
         [JsonProperty("key")]
         public string Key
         {

@@ -106,7 +106,7 @@
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmModelList.Designer.cs">
+    <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="frmModelView.cs">
@@ -132,7 +132,7 @@
     <EmbeddedResource Include="frmCreateFolder.resx">
       <DependentUpon>frmCreateFolder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmModelList.resx">
+    <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>

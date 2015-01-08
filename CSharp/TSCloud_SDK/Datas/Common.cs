@@ -17,7 +17,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
         private string m_created_at;
         private string m_updated_at;
         private string m_message;
-        private object m_meta;
+        private Hash m_meta;
         private HttpStatusCode m_StatusCode;
         #endregion
 
@@ -63,10 +63,44 @@ namespace TDSPRINT.Cloud.SDK.Datas
             set { m_StatusCode = value; }
         }
         [JsonProperty("meta")]
-        public object Meta
+        public object _MetaString
         {
-            get { return m_meta; }
-            set { m_meta = value; }
+            set
+            {
+                try
+                {
+                    m_meta = Hash.Parse(value);
+                }
+                catch
+                {
+                    m_meta = null;
+                }
+            }
+            get
+            {
+                try
+                {
+                    return (object)(m_meta.ToString());
+                }
+                catch
+                {
+                    return null;
+                }
+
+            }
+        }
+        public Hash Meta
+        {
+            set
+            {
+                m_meta = value;
+            }
+            get
+            {
+                return m_meta;
+                //Hash hashed_meta = JsonConvert.DeserializeObject<Hash>(m_meta.ToString(), TSCloud.serializer_settings());
+                //return hashed_meta;
+            }
         }
         #endregion
 

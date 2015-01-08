@@ -32,6 +32,7 @@ namespace TSCloud_SampleApp
             Hash Configuraion = new Hash();
             Configuraion["PerPage"] = 10;
             ModelClient = new ModelClient(TSCloud, Configuraion);
+            PrinterClient = new PrinterClient(TSCloud, Configuraion);
 
             CurrentUser = TSCloud.CurrentUser;
             getFileList();
@@ -69,19 +70,28 @@ namespace TSCloud_SampleApp
         private void insertPrinter(Printer printer)
         {
             ListViewItem item = new ListViewItem(printer.Id.ToString());
-            item.SubItems.Add(printer.Name);
-            try
-            {
-                item.SubItems.Add(printer.Meta.ToString());
-            }
-            catch { }
+            item.SubItems.Add(printer.Meta["name"].ToString());
             lvPrinterList.Items.Add(item);
+        }
+        private void insertQueue(TDSPRINT.Cloud.SDK.Datas.Queue queue)
+        {
+            ListViewItem item = new ListViewItem(queue.Id.ToString());
+            item.SubItems.Add(queue.Meta.Stringify());
+            lvQueueList.Items.Add(item);
         }
         private void setListColumn()
         {
             lvFileList.FullRowSelect = true;
             lvFileList.View = View.Details;
             lvFileList.BeginUpdate();
+
+            lvPrinterList.FullRowSelect = true;
+            lvPrinterList.View = View.Details;
+            lvPrinterList.BeginUpdate();
+
+            lvQueueList.FullRowSelect = true;
+            lvQueueList.View = View.Details;
+            lvQueueList.BeginUpdate();
         }
         private void doSearch()
         {
@@ -112,11 +122,20 @@ namespace TSCloud_SampleApp
         #region Printer Queues method
         private void getPrinterList()
         {
-            List<Printer> printers = PrinterClient.All();
+            List<Printer> printers = PrinterClient.GetAllPrinters();
 
             foreach (Printer printer in printers)
             {
                 insertPrinter(printer);
+            }
+        }
+        private void getQueueList(int PrinterId)
+        {
+            List<Queue> queues = PrinterClient.GetAllQueues(PrinterId);
+
+            foreach (Queue queue in queues)
+            {
+                insertQueue(queue);
             }
         }
         #endregion
@@ -181,6 +200,14 @@ namespace TSCloud_SampleApp
                 {
                 }
             }
+        }
+
+        private void lvPrinterList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            ListView lv = (ListView)sender;
+            int PrinterId = Int32.Parse(lv.SelectedItems[0].Text);
+            lvFileList.Items.Clear();
+            getQueueList(PrinterId);
         }
     }
 }
