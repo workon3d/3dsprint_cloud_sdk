@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Datas\Common.cs" />
+    <Compile Include="Types\QueueStatus.cs" />
     <Compile Include="UserClient.cs" />
     <Compile Include="PrinterClient.cs" />
     <Compile Include="Datas\Acl.cs" />
