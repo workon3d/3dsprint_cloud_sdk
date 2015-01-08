@@ -16,9 +16,14 @@ namespace TDSPRINT.Cloud.SDK
 {
     public class ModelClient : TSCloud
     {
+        #region member variables
+        private Hash Configuration;
+        #endregion
+
         #region constructor
         public ModelClient()
         {
+            this.Configuration = null;
         }
         public ModelClient(TSCloud TSCloud) : this()
         {
@@ -27,6 +32,14 @@ namespace TDSPRINT.Cloud.SDK
             ApiToken = TSCloud.ApiToken;
             CurrentUser = TSCloud.CurrentUser;
             Users = TSCloud.Users;
+
+            // Default Configuration
+            Configuration = new Hash();
+            Configuration["PerPage"] = 30;
+        }
+        public ModelClient(TSCloud TSCloud, Hash Configuration) : this(TSCloud)
+        {
+            this.Configuration = Configuration;
         }
         #endregion
 
@@ -64,6 +77,8 @@ namespace TDSPRINT.Cloud.SDK
                 request.AddParameter("page", Page);
             if (FolderId != 0)
                 request.AddParameter("parent_id", FolderId);
+            if (Configuration["PerPage"] != null)
+                request.AddParameter("per_page", Configuration["PerPage"]);
 
             try
             {
@@ -99,7 +114,7 @@ namespace TDSPRINT.Cloud.SDK
                 Model model = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
 
                 int owner_id = 0;
-                Hashtable hash = JsonConvert.DeserializeObject<Hashtable>(model.Acl.ToString());
+                Hash hash = JsonConvert.DeserializeObject<Hash>(model.Acl.ToString());
                 owner_id = Convert.ToInt32(hash["owner"]);
                 model.Owner = Users.FindById(owner_id);
                 return model;
@@ -179,30 +194,30 @@ namespace TDSPRINT.Cloud.SDK
             return Create(null, 0, FilePath, null, null);
         }
 
-        public Model Update(int ModelId, string ModelName, string FilePath, object MetaJson, string Acl)
+        public Model Update(int ModelId, string ModelName, string FilePath, string strMetaJson)
         {
-            #region JSON parameter checking
             try
             {
-                if (MetaJson != null)
-                {
-                    JsonConvert.DeserializeObject(MetaJson.ToString());
-                }
+                Hash hashed_meta = JsonConvert.DeserializeObject<Hash>(strMetaJson, TSCloud.serializer_settings());
+                return Update(ModelId, ModelName, FilePath, hashed_meta);
             }
-            catch
+            catch (Exception ee)
             {
-                return new Model("Invalid JSON meta");
+                throw ee;
             }
-
-            try
-            {
-                JsonConvert.DeserializeObject(Acl);
-            }
-            catch
-            {
-                return new Model("Invalid JSON ACL");
-            }
-            #endregion
+        }
+        public Model Update(int ModelId, string ModelName, string FilePath, Hash MetaJson)
+        {
+            //#region JSON parameter checking
+            //try
+            //{
+            //    JsonConvert.DeserializeObject(Acl);
+            //}
+            //catch
+            //{
+            //    return new Model("Invalid JSON ACL");
+            //}
+            //#endregion
 
             RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", ApiPath, ModelId.ToString()), Method.PUT);
             request.AddParameter("api_token", ApiToken);
@@ -215,11 +230,14 @@ namespace TDSPRINT.Cloud.SDK
             if(!String.IsNullOrEmpty(FilePath))
                 request.AddFile("file", FilePath);
 
-            if(MetaJson != null)
-                request.AddParameter("meta", MetaJson);
+            if (MetaJson != null)
+            {
+                string strMeta = JsonConvert.SerializeObject(MetaJson, TSCloud.serializer_settings());
+                request.AddParameter("meta", strMeta);
+            }
             
-            if(!String.IsNullOrEmpty(Acl))
-                request.AddParameter("acl", Acl);
+            //if(!String.IsNullOrEmpty(Acl))
+            //    request.AddParameter("acl", Acl);
 
             try
             {
@@ -243,18 +261,18 @@ namespace TDSPRINT.Cloud.SDK
                 return new Model(ee.ToString());
             }
         }
-        public Model Update(int ModelId, string ModelName, string FilePath)
-        {
-            return Update(ModelId, ModelName, FilePath, null, null);
-        }
-        public Model Update(int ModelId, string ModelName)
-        {   
-            return Update(ModelId, ModelName, null, null, null);
-        }
-        public Model Update(int ModelId, object MetaJson)
-        {
-            return Update(ModelId, null, null, MetaJson, null);
-        }
+        //public Model Update(int ModelId, string ModelName, string FilePath)
+        //{
+        //    return Update(ModelId, ModelName, FilePath, null, null);
+        //}
+        //public Model Update(int ModelId, string ModelName)
+        //{   
+        //    return Update(ModelId, ModelName, null, null, null);
+        //}
+        //public Model Update(int ModelId, string sMetaJson)
+        //{
+        //    return Update(ModelId, null, null, MetaJson, null);
+        //}
 
         public HttpStatusCode Download(int ModelId, string strDownloadPath, onProgress _onProgress)
         {
@@ -490,13 +508,15 @@ namespace TDSPRINT.Cloud.SDK
             request.AddParameter("api_token", ApiToken);
             if(Page != 0)
                 request.AddParameter("page", Page);
+            if (Configuration["PerPage"] != null)
+                request.AddParameter("per_page", Configuration["PerPage"]);
 
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
                 Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content, TSCloud.serializer_settings());
 
-                int num_pages = models.pagination.NumPages;
+                int num_pages = models.Pagination.NumPages;
                 if (Page == 0)
                 {
                     List<Model> model_list = new List<Model>();
@@ -513,7 +533,7 @@ namespace TDSPRINT.Cloud.SDK
 
                 if (ftype != Ftype.All)
                 {
-                    foreach (Model model in models.contents)
+                    foreach (Model model in models.Contents)
                     {
                         if (Convert.ToString(model.Ftype) == ftype.ToString())
                             filtered_model_list.Add(model);
@@ -523,7 +543,7 @@ namespace TDSPRINT.Cloud.SDK
                 }
                 else
                 {
-                    return models.contents;
+                    return models.Contents;
                 }
             }
             catch
@@ -545,7 +565,7 @@ namespace TDSPRINT.Cloud.SDK
                 IRestResponse httpResponse = RestClient.Execute(request);
                 Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content, TSCloud.serializer_settings());
 
-                int num_pages = models.pagination.NumPages;
+                int num_pages = models.Pagination.NumPages;
                 if (Page == 0)
                 {
                     List<Model> model_list = new List<Model>();
@@ -557,7 +577,7 @@ namespace TDSPRINT.Cloud.SDK
 
                     return model_list;
                 }
-                return models.contents;
+                return models.Contents;
 
             }
             catch
@@ -583,7 +603,7 @@ namespace TDSPRINT.Cloud.SDK
                 IRestResponse httpResponse = RestClient.Execute(request);
                 Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content, TSCloud.serializer_settings());
 
-                int num_pages = models.pagination.NumPages;
+                int num_pages = models.Pagination.NumPages;
                 if (Page == 0)
                 {
                     List<Model> model_list = new List<Model>();
@@ -595,7 +615,7 @@ namespace TDSPRINT.Cloud.SDK
 
                     return model_list;
                 }
-                return models.contents;
+                return models.Contents;
             }
             catch
             {

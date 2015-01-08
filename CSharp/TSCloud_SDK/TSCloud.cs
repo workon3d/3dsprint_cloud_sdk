@@ -142,6 +142,9 @@ namespace TDSPRINT.Cloud.SDK
                 this.CurrentUser = CurrentUser;
                 this.ApiToken = api_token;
 
+                UserClient UserClient = new UserClient(this);
+                m_users = UserClient.All();
+
                 return CurrentUser;
             }
             catch (Exception ee)

@@ -13,33 +13,39 @@ using TDSPRINT.Cloud.SDK.Datas;
 
 namespace TSCloud_SampleApp
 {
-    public partial class frmModelList : Form
+    public partial class frmMain : Form
     {
         private ModelClient ModelClient;
+        private PrinterClient PrinterClient;
         private User CurrentUser;
 
         public int SelectedFolder;
 
-        public frmModelList()
+        public frmMain()
         {
             InitializeComponent();
             setListColumn();
         }
 
-        public frmModelList(TSCloud TSCloud) : this()
+        public frmMain(TSCloud TSCloud) : this()
         {
-            ModelClient = new ModelClient(TSCloud);
+            Hash Configuraion = new Hash();
+            Configuraion["PerPage"] = 10;
+            ModelClient = new ModelClient(TSCloud, Configuraion);
+            PrinterClient = new PrinterClient(TSCloud, Configuraion);
+
             CurrentUser = TSCloud.CurrentUser;
             getFileList();
+            getPrinterList();
         }
 
+        #region Files method
         public void updateFileList(Object obj)
         {
             lvFileList.Items.Clear();
             getFileList();
         }
         
-        #region private method
         private void getFileList()
         {
             List<Model> models = ModelClient.All();
@@ -55,16 +61,37 @@ namespace TSCloud_SampleApp
             item.SubItems.Add(model.Name);
             try
             {
-                item.SubItems.Add(model.Meta.ToString());
+                string strSerializedMeta = model.Meta.Stringify();
+                item.SubItems.Add(strSerializedMeta);
             }
             catch { }
             lvFileList.Items.Add(item);
+        }
+        private void insertPrinter(Printer printer)
+        {
+            ListViewItem item = new ListViewItem(printer.Id.ToString());
+            item.SubItems.Add(printer.Meta["name"].ToString());
+            lvPrinterList.Items.Add(item);
+        }
+        private void insertQueue(TDSPRINT.Cloud.SDK.Datas.Queue queue)
+        {
+            ListViewItem item = new ListViewItem(queue.Id.ToString());
+            item.SubItems.Add(queue.Meta.Stringify());
+            lvQueueList.Items.Add(item);
         }
         private void setListColumn()
         {
             lvFileList.FullRowSelect = true;
             lvFileList.View = View.Details;
             lvFileList.BeginUpdate();
+
+            lvPrinterList.FullRowSelect = true;
+            lvPrinterList.View = View.Details;
+            lvPrinterList.BeginUpdate();
+
+            lvQueueList.FullRowSelect = true;
+            lvQueueList.View = View.Details;
+            lvQueueList.BeginUpdate();
         }
         private void doSearch()
         {
@@ -88,6 +115,27 @@ namespace TSCloud_SampleApp
                 frmModelView ModelView = new frmModelView(ModelClient, model);
                 ModelView.FormSendEvent += new frmModelView.UpdateList(updateFileList);
                 ModelView.Show();
+            }
+        }
+        #endregion
+
+        #region Printer Queues method
+        private void getPrinterList()
+        {
+            List<Printer> printers = PrinterClient.GetAllPrinters();
+
+            foreach (Printer printer in printers)
+            {
+                insertPrinter(printer);
+            }
+        }
+        private void getQueueList(int PrinterId)
+        {
+            List<Queue> queues = PrinterClient.GetAllQueues(PrinterId);
+
+            foreach (Queue queue in queues)
+            {
+                insertQueue(queue);
             }
         }
         #endregion
@@ -152,6 +200,14 @@ namespace TSCloud_SampleApp
                 {
                 }
             }
+        }
+
+        private void lvPrinterList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            ListView lv = (ListView)sender;
+            int PrinterId = Int32.Parse(lv.SelectedItems[0].Text);
+            lvFileList.Items.Clear();
+            getQueueList(PrinterId);
         }
     }
 }
