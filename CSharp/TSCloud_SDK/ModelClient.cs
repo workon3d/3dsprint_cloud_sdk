@@ -48,23 +48,23 @@ namespace TDSPRINT.Cloud.SDK
         #endregion
 
         #region public method
-        public Models GetModels(Ftype ftype)
+        public Models GetModels(Ftype ftype, params GetModelsOption[] Options)
         {
-            return GetModels(0, ftype);
+            return GetModels(0, ftype, 0, Options);
         }
-        public Models GetModels(int FolderId)
+        public Models GetModels(int FolderId, params GetModelsOption[] Options)
         {
-            return GetModels(0, Ftype.All, FolderId);
+            return GetModels(0, Ftype.All, FolderId, Options);
         }
-        public Models GetModels(Ftype ftype, int FolderId)
+        public Models GetModels(Ftype ftype, int FolderId, params GetModelsOption[] Options)
         {
-            return GetModels(0, ftype, FolderId);
+            return GetModels(0, ftype, FolderId, Options);
         }
-        public Models GetModels(int Page, Ftype ftype)
+        public Models GetModels(int Page, Ftype ftype, params GetModelsOption[] Options)
         {
-            return GetModels(Page, ftype, 0);
+            return GetModels(Page, ftype, 0, Options);
         }
-        public Models GetModels(int Page, Ftype ftype, int FolderId)
+        public Models GetModels(int Page, Ftype ftype, int FolderId, params GetModelsOption[] GetModelsOptions)
         {
             RestRequest request = new RestRequest(String.Format("{0}/folders", ApiPath), Method.GET);
             if (ftype == Ftype.Folder)
@@ -79,6 +79,22 @@ namespace TDSPRINT.Cloud.SDK
                 request.AddParameter("parent_id", FolderId);
             if (Configuration["PerPage"] != null)
                 request.AddParameter("per_page", Configuration["PerPage"]);
+
+            if (GetModelsOptions.Length > 0)
+            {
+                foreach (GetModelsOption Option in GetModelsOptions)
+                {
+                    switch(Option)
+                    {
+                        case GetModelsOption.OnlyChildren:
+                            request.AddParameter("descendants", "false");
+                            break;
+                        case GetModelsOption.AllDescendants:
+                            request.AddParameter("descendants", "true");
+                            break;
+                    }
+                }
+            }
 
             try
             {
