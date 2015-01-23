@@ -224,17 +224,6 @@ namespace TDSPRINT.Cloud.SDK
         }
         public Model Update(int ModelId, string ModelName, string FilePath, Hash MetaJson)
         {
-            //#region JSON parameter checking
-            //try
-            //{
-            //    JsonConvert.DeserializeObject(Acl);
-            //}
-            //catch
-            //{
-            //    return new Model("Invalid JSON ACL");
-            //}
-            //#endregion
-
             RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", ApiPath, ModelId.ToString()), Method.PUT);
             request.AddParameter("api_token", ApiToken);
 
@@ -251,9 +240,6 @@ namespace TDSPRINT.Cloud.SDK
                 string strMeta = JsonConvert.SerializeObject(MetaJson, TSCloud.serializer_settings());
                 request.AddParameter("meta", strMeta);
             }
-            
-            //if(!String.IsNullOrEmpty(Acl))
-            //    request.AddParameter("acl", Acl);
 
             try
             {
@@ -277,18 +263,6 @@ namespace TDSPRINT.Cloud.SDK
                 return new Model(ee.ToString());
             }
         }
-        //public Model Update(int ModelId, string ModelName, string FilePath)
-        //{
-        //    return Update(ModelId, ModelName, FilePath, null, null);
-        //}
-        //public Model Update(int ModelId, string ModelName)
-        //{   
-        //    return Update(ModelId, ModelName, null, null, null);
-        //}
-        //public Model Update(int ModelId, string sMetaJson)
-        //{
-        //    return Update(ModelId, null, null, MetaJson, null);
-        //}
 
         public HttpStatusCode Download(int ModelId, string strDownloadPath, onProgress _onProgress)
         {
