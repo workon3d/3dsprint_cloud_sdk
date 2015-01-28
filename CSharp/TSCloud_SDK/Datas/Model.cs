@@ -31,10 +31,10 @@ namespace TDSPRINT.Cloud.SDK.Datas
     {
         #region member variable
         private bool m_readonly;
-        private string m_name;
+        //private string m_name;
         private int m_size;
         private string m_key;
-        private Hash m_meta;
+        //private Hash m_meta;
         private string m_ancestry;
         private Ftype m_ftype;
         private string m_api_url;
@@ -87,46 +87,6 @@ namespace TDSPRINT.Cloud.SDK.Datas
         {
             get { return m_size; }
         }
-        //[JsonProperty("meta")]
-        //public object _MetaString
-        //{
-        //    set
-        //    {
-        //        try
-        //        {
-        //            m_meta = Hash.Parse(value);
-        //        }
-        //        catch
-        //        {
-        //            m_meta = null;
-        //        }
-        //    }
-        //    get
-        //    {
-        //        try
-        //        {
-        //            return (object)(m_meta.ToString());
-        //        }
-        //        catch
-        //        {
-        //            return null;
-        //        }
-                
-        //    }
-        //}
-        //public Hash Meta
-        //{
-        //    set
-        //    {
-        //        m_meta = value;
-        //    }
-        //    get
-        //    {
-        //        return m_meta;
-        //        //Hash hashed_meta = JsonConvert.DeserializeObject<Hash>(m_meta.ToString(), TSCloud.serializer_settings());
-        //        //return hashed_meta;
-        //    }
-        //}
         [JsonProperty("key")]
         public string Key
         {
@@ -181,7 +141,14 @@ namespace TDSPRINT.Cloud.SDK.Datas
             }
         }
         #endregion
-        
+
+        #region method
+        public Model Update()
+        {
+            return new Model();
+        }
+        #endregion
+
         #region static method
         static public bool IsValid(Model model)
         {

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 using TDSPRINT.Cloud.SDK;
 using TDSPRINT.Cloud.SDK.Datas;
+using TDSPRINT.Cloud.SDK.Types;
 
 namespace TSCloud_SampleApp
 {
@@ -48,8 +49,25 @@ namespace TSCloud_SampleApp
         
         private void getFileList()
         {
-            List<Model> models = ModelClient.All();
+            Models response = ModelClient.GetModels(Ftype.All, 35334, GetModelsOption.AllDescendants);
 
+            int? NextPage = response.Pagination.NextPage;
+            List<Model> models = new List<Model>();
+
+            if(response.Pagination.Total > 0)
+                models.AddRange(response.Contents);
+
+            do
+            {
+                if (NextPage == null)
+                    break;
+
+                response = ModelClient.GetModels(NextPage.GetValueOrDefault(), Ftype.All, 35334, GetModelsOption.AllDescendants);
+                models.AddRange(response.Contents);
+                NextPage = response.Pagination.NextPage;
+            }
+            while (NextPage != null);
+            
             foreach (Model model in models)
             {
                 insertModel(model);

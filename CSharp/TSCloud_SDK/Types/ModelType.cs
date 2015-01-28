@@ -11,4 +11,10 @@ namespace TDSPRINT.Cloud.SDK.Types
         Folder,
         vPrint,
     }
+
+    public enum GetModelsOption
+    {
+        OnlyChildren = 0,
+        AllDescendants = 1,
+    }
 }

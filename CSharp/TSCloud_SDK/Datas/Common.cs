@@ -76,18 +76,6 @@ namespace TDSPRINT.Cloud.SDK.Datas
                     m_meta = null;
                 }
             }
-            get
-            {
-                try
-                {
-                    return (object)(m_meta.ToString());
-                }
-                catch
-                {
-                    return null;
-                }
-
-            }
         }
         public Hash Meta
         {
@@ -98,8 +86,6 @@ namespace TDSPRINT.Cloud.SDK.Datas
             get
             {
                 return m_meta;
-                //Hash hashed_meta = JsonConvert.DeserializeObject<Hash>(m_meta.ToString(), TSCloud.serializer_settings());
-                //return hashed_meta;
             }
         }
         #endregion
@@ -305,7 +291,14 @@ namespace TDSPRINT.Cloud.SDK.Datas
 
         public string Stringify()
         {
-            return JsonConvert.SerializeObject(this, TSCloud.serializer_settings());
+            try
+            {
+                return JsonConvert.SerializeObject(this, TSCloud.serializer_settings());
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }

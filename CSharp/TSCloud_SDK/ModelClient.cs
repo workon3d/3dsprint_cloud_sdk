@@ -48,23 +48,23 @@ namespace TDSPRINT.Cloud.SDK
         #endregion
 
         #region public method
-        public Models GetModels(Ftype ftype)
+        public Models GetModels(Ftype ftype, params GetModelsOption[] Options)
         {
-            return GetModels(0, ftype);
+            return GetModels(0, ftype, 0, Options);
         }
-        public Models GetModels(int FolderId)
+        public Models GetModels(int FolderId, params GetModelsOption[] Options)
         {
-            return GetModels(0, Ftype.All, FolderId);
+            return GetModels(0, Ftype.All, FolderId, Options);
         }
-        public Models GetModels(Ftype ftype, int FolderId)
+        public Models GetModels(Ftype ftype, int FolderId, params GetModelsOption[] Options)
         {
-            return GetModels(0, ftype, FolderId);
+            return GetModels(0, ftype, FolderId, Options);
         }
-        public Models GetModels(int Page, Ftype ftype)
+        public Models GetModels(int Page, Ftype ftype, params GetModelsOption[] Options)
         {
-            return GetModels(Page, ftype, 0);
+            return GetModels(Page, ftype, 0, Options);
         }
-        public Models GetModels(int Page, Ftype ftype, int FolderId)
+        public Models GetModels(int Page, Ftype ftype, int FolderId, params GetModelsOption[] GetModelsOptions)
         {
             RestRequest request = new RestRequest(String.Format("{0}/folders", ApiPath), Method.GET);
             if (ftype == Ftype.Folder)
@@ -79,6 +79,22 @@ namespace TDSPRINT.Cloud.SDK
                 request.AddParameter("parent_id", FolderId);
             if (Configuration["PerPage"] != null)
                 request.AddParameter("per_page", Configuration["PerPage"]);
+
+            if (GetModelsOptions.Length > 0)
+            {
+                foreach (GetModelsOption Option in GetModelsOptions)
+                {
+                    switch(Option)
+                    {
+                        case GetModelsOption.OnlyChildren:
+                            request.AddParameter("descendants", "false");
+                            break;
+                        case GetModelsOption.AllDescendants:
+                            request.AddParameter("descendants", "true");
+                            break;
+                    }
+                }
+            }
 
             try
             {
@@ -208,17 +224,6 @@ namespace TDSPRINT.Cloud.SDK
         }
         public Model Update(int ModelId, string ModelName, string FilePath, Hash MetaJson)
         {
-            //#region JSON parameter checking
-            //try
-            //{
-            //    JsonConvert.DeserializeObject(Acl);
-            //}
-            //catch
-            //{
-            //    return new Model("Invalid JSON ACL");
-            //}
-            //#endregion
-
             RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", ApiPath, ModelId.ToString()), Method.PUT);
             request.AddParameter("api_token", ApiToken);
 
@@ -235,9 +240,6 @@ namespace TDSPRINT.Cloud.SDK
                 string strMeta = JsonConvert.SerializeObject(MetaJson, TSCloud.serializer_settings());
                 request.AddParameter("meta", strMeta);
             }
-            
-            //if(!String.IsNullOrEmpty(Acl))
-            //    request.AddParameter("acl", Acl);
 
             try
             {
@@ -261,18 +263,6 @@ namespace TDSPRINT.Cloud.SDK
                 return new Model(ee.ToString());
             }
         }
-        //public Model Update(int ModelId, string ModelName, string FilePath)
-        //{
-        //    return Update(ModelId, ModelName, FilePath, null, null);
-        //}
-        //public Model Update(int ModelId, string ModelName)
-        //{   
-        //    return Update(ModelId, ModelName, null, null, null);
-        //}
-        //public Model Update(int ModelId, string sMetaJson)
-        //{
-        //    return Update(ModelId, null, null, MetaJson, null);
-        //}
 
         public HttpStatusCode Download(int ModelId, string strDownloadPath, onProgress _onProgress)
         {
