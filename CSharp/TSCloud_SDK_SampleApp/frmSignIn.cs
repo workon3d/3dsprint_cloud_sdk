@@ -34,6 +34,19 @@ namespace TSCloud_SampleApp
 
             User user = TSCloud.Authenticate(Email, Password);
 
+            // Get Desktop Settings
+            Hash settings = TSCloud.GetDesktopSettings();
+
+            if (settings == null)
+            {
+                settings = new Hash();
+                settings.Add("last_signed_in", null);
+            }
+            
+            // Update Desktop Settings
+            settings["last_signed_in"] = Convert.ToString(DateTime.Now);
+            Hash updated_settings = TSCloud.UpdateDesktopSettings(settings);
+            
             if (User.IsValid(user))
             {
                 frmMain FileList = new frmMain(TSCloud);
