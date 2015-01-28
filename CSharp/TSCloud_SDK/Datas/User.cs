@@ -12,7 +12,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
         #region variables
         private string m_email;
         private string m_api_token;
-        private string m_name = "Unknown";
+        //private string m_name = "Unknown";
         private string m_address;
         private string m_company;
         private object m_vprint;
