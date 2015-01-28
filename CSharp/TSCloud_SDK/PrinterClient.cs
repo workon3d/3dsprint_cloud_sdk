@@ -205,14 +205,15 @@ namespace TDSPRINT.Cloud.SDK
         private RestRequest CreateRequest(string PrinterName, object MetaJson)
         {
             RestRequest request = new RestRequest(String.Format("{0}/printers", ApiPath), Method.POST);
-            string Acl = this.get_acl();
-            if (Acl.Length == 0)
-                return null;
+            Hash Acl = new Hash();
+            {
+                Acl.Add("owner", CurrentUser.Id);
+            }
 
             if (String.IsNullOrEmpty(PrinterName))
                 return null;
 
-            request.AddParameter("acl", Acl);
+            request.AddParameter("acl", Acl.Stringify());
             request.AddParameter("name", PrinterName);
             request.AddParameter("api_token", ApiToken);
             if (MetaJson != null)
@@ -274,13 +275,13 @@ namespace TDSPRINT.Cloud.SDK
         #endregion
 
         #region private method
-        private string get_acl()
-        {
-            if (CurrentUser == null)
-                return "";
-            Acl AclObject = new Acl(Int32.Parse(CurrentUser.Id.ToString()));
-            return JsonConvert.SerializeObject(AclObject, Formatting.None);
-        }
+        //private string get_acl()
+        //{
+        //    if (CurrentUser == null)
+        //        return "";
+        //    Acl AclObject = new Acl(Int32.Parse(CurrentUser.Id.ToString()));
+        //    return JsonConvert.SerializeObject(AclObject, Formatting.None);
+        //}
         #endregion
     }
 
