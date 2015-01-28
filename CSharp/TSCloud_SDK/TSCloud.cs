@@ -152,6 +152,41 @@ namespace TDSPRINT.Cloud.SDK
                 return new User(ee.ToString());
             }
         }
+        public Hash GetDesktopSettings()
+        {
+            RestRequest request = new RestRequest(String.Format("{0}/profiles/desktop_settings", ApiPath), Method.GET);
+            request.AddParameter("api_token", ApiToken);
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+                Hash responseHash = JsonConvert.DeserializeObject<Hash>(httpResponse.Content, TSCloud.serializer_settings());
+
+                return responseHash;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        public Hash UpdateDesktopSettings(Hash settings)
+        {
+            RestRequest request = new RestRequest(String.Format("{0}/profiles/desktop_settings", ApiPath), Method.PUT);
+            request.AddParameter("api_token", ApiToken);
+            request.AddParameter("desktop_settings", settings.Stringify());
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+                Hash responseHash = JsonConvert.DeserializeObject<Hash>(httpResponse.Content, TSCloud.serializer_settings());
+
+                return responseHash;
+            }
+            catch
+            {
+                return null;
+            }
+        }
         #endregion
 
         #region methods
