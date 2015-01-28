@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
@@ -10,7 +11,7 @@ using Newtonsoft.Json;
 
 using TDSPRINT.Cloud.SDK.Datas;
 using TDSPRINT.Cloud.SDK.Types;
-using System.Collections;
+
 
 namespace TDSPRINT.Cloud.SDK
 {
@@ -130,8 +131,7 @@ namespace TDSPRINT.Cloud.SDK
                 Model model = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
 
                 int owner_id = 0;
-                Hash hash = JsonConvert.DeserializeObject<Hash>(model.Acl.ToString());
-                owner_id = Convert.ToInt32(hash["owner"]);
+                owner_id = Convert.ToInt32(model.Acl["owner"]);
                 model.Owner = Users.FindById(owner_id);
                 return model;
             }
@@ -141,13 +141,13 @@ namespace TDSPRINT.Cloud.SDK
             }
         }
 
-        public Model Create(string ModelName, int ParentId, string FilePath, object MetaJson, string Acl)
+        public Model Create(string ModelName, int ParentId, string FilePath, Hash Meta, Hash Acl)
         {
             RestRequest request = new RestRequest(String.Format("{0}/folders", ApiPath), Method.POST);
             string strModelName;
 
-            if (Acl == null)
-                Acl = this.get_acl();
+            if (Acl != null)
+                request.AddParameter("acl", Acl.Stringify());
 
             if (ParentId != 0)
                 request.AddParameter("parent_id", ParentId.ToString());
@@ -157,12 +157,11 @@ namespace TDSPRINT.Cloud.SDK
             else
                 strModelName = Path.GetFileName(FilePath);
 
-            request.AddParameter("acl", Acl);
             request.AddParameter("name", strModelName);
             request.AddParameter("api_token", ApiToken);
 
-            if (MetaJson != null)
-                request.AddParameter("meta", MetaJson);
+            if (Meta != null)
+                request.AddParameter("meta", Meta.Stringify());
 
             if(!String.IsNullOrEmpty(FilePath))
                 request.AddFile("file", FilePath);
@@ -189,39 +188,39 @@ namespace TDSPRINT.Cloud.SDK
                 return new Model(ee.ToString());
             }
         }
-        public Model Create(string ModelName, int ParentId, string FilePath, object MetaJson)
+        public Model Create(string ModelName, int ParentId, string FilePath, Hash Meta)
         {
-            return Create(ModelName, 0, FilePath, null, null);
+            return Create(ModelName, 0, FilePath, Meta, null);
         }
         public Model Create(string ModelName, string FilePath)
         {
             return Create(ModelName, 0, FilePath, null, null);
         }
-        public Model Create(string FilePath, object MetaJson)
-        {
-            return Create(null, 0, FilePath, MetaJson, null);
-        }
+        //public Model Create(string FilePath, object MetaJson)
+        //{
+        //    return Create(null, 0, FilePath, MetaJson, null);
+        //}
         public Model Create(string ModelName, int ParentId)
         {
-            return Create(ModelName, ParentId, null, null,null);
+            return Create(ModelName, ParentId, null, null, null);
         }
         public Model Create(string FilePath)
         {
             return Create(null, 0, FilePath, null, null);
         }
 
-        public Model Update(int ModelId, string ModelName, string FilePath, string strMetaJson)
-        {
-            try
-            {
-                Hash hashed_meta = JsonConvert.DeserializeObject<Hash>(strMetaJson, TSCloud.serializer_settings());
-                return Update(ModelId, ModelName, FilePath, hashed_meta);
-            }
-            catch (Exception ee)
-            {
-                throw ee;
-            }
-        }
+        //public Model Update(int ModelId, string ModelName, string FilePath, string strMetaJson)
+        //{
+        //    try
+        //    {
+        //        Hash hashed_meta = JsonConvert.DeserializeObject<Hash>(strMetaJson, TSCloud.serializer_settings());
+        //        return Update(ModelId, ModelName, FilePath, hashed_meta);
+        //    }
+        //    catch (Exception ee)
+        //    {
+        //        throw ee;
+        //    }
+        //}
         public Model Update(int ModelId, string ModelName, string FilePath, Hash MetaJson)
         {
             RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", ApiPath, ModelId.ToString()), Method.PUT);
@@ -438,11 +437,11 @@ namespace TDSPRINT.Cloud.SDK
 
             return strResult;
         }
-        private string get_acl()
-        {
-            Acl AclObject = new Acl(Int32.Parse(CurrentUser.Id.ToString()));
-            return JsonConvert.SerializeObject(AclObject, Formatting.None);
-        }
+        //private string get_acl()
+        //{
+        //    Acl AclObject = new Acl(Int32.Parse(CurrentUser.Id.ToString()));
+        //    return JsonConvert.SerializeObject(AclObject, Formatting.None);
+        //}
 
         private bool is_meta_search(string query)
         {

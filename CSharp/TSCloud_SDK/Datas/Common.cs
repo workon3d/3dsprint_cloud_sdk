@@ -13,7 +13,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
         #region member variables
         private int m_id;
         private string m_name;
-        private object m_acl; // TODO: Replace this to Acl
+        private Hash m_acl; // TODO: Replace this to Acl
         private string m_created_at;
         private string m_updated_at;
         private string m_message;
@@ -52,10 +52,30 @@ namespace TDSPRINT.Cloud.SDK.Datas
             set { m_message = value; }
         }
         [JsonProperty("acl")]
-        public object Acl
+        protected object _SetAcl
         {
-            get { return m_acl; }
-            set { m_acl = value; }
+            set
+            {
+                try
+                {
+                    m_acl = Hash.Parse(value); 
+                }
+                catch
+                {
+                    m_acl = null;
+                }
+            }
+        }
+        public Hash Acl
+        {
+            get
+            {
+                return m_acl;
+            }
+            set
+            {
+                m_acl = value;
+            }
         }
         public HttpStatusCode StatusCode
         {
@@ -63,7 +83,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
             set { m_StatusCode = value; }
         }
         [JsonProperty("meta")]
-        public object _MetaString
+        protected object _SetMeta
         {
             set
             {

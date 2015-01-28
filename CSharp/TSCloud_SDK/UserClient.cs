@@ -48,11 +48,11 @@ namespace TDSPRINT.Cloud.SDK
         #endregion
 
         #region private method
-        private string get_acl()
-        {
-            Acl AclObject = new Acl(Int32.Parse(CurrentUser.Id.ToString()));
-            return JsonConvert.SerializeObject(AclObject, Formatting.None);
-        }
+        //private string get_acl()
+        //{
+        //    Acl AclObject = new Acl(Int32.Parse(CurrentUser.Id.ToString()));
+        //    return JsonConvert.SerializeObject(AclObject, Formatting.None);
+        //}
         #endregion
     }
 }

@@ -67,10 +67,8 @@ namespace TDSPRINT.Cloud.SDK.Datas
         #endregion
 
         #region getter/setter
-
-
         [JsonProperty("size")]
-        public object SetSize
+        protected object _SetSize
         {
             set {
                 try
@@ -143,10 +141,6 @@ namespace TDSPRINT.Cloud.SDK.Datas
         #endregion
 
         #region method
-        public Model Update()
-        {
-            return new Model();
-        }
         #endregion
 
         #region static method

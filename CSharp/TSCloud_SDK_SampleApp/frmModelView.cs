@@ -53,7 +53,7 @@ namespace TSCloud_SampleApp
             tbKey.Text = !String.IsNullOrEmpty(model.Key) ? model.Key.ToString() : String.Empty;
             tbFtype.Text = model.Ftype.ToString();
             tbMeta.Text = model.Meta != null ? model.Meta.Stringify() : String.Empty;
-            tbAcl.Text = model.Acl.ToString();
+            tbAcl.Text = model.Acl.Stringify();
 
             if (model.Preview.IsValidThumbnail())
             {
@@ -107,7 +107,20 @@ namespace TSCloud_SampleApp
         {
             int ModelId = !String.IsNullOrWhiteSpace(tbId.Text) ? Int32.Parse(tbId.Text) : 0;
             string ModelName = !String.IsNullOrWhiteSpace(tbFilename.Text) ? tbFilename.Text : null;
-            string Meta = !String.IsNullOrWhiteSpace(tbMeta.Text) && !tbMeta.Text.Equals("{}") ? tbMeta.Text.Replace("\r\n","") : null;
+            string strMeta = !String.IsNullOrWhiteSpace(tbMeta.Text) && !tbMeta.Text.Equals("{}") ? tbMeta.Text.Replace("\r\n","") : null;
+            Hash Meta = new Hash();
+
+            try
+            {
+                Meta = Hash.Parse(strMeta);
+            }
+            catch
+            {
+                if (MessageBox.Show("Failed to update because Meta is invalid") == DialogResult.OK)
+                {
+                    return;
+                }
+            }
             
             Model update_result = ModelClient.Update(ModelId, ModelName, Filepath, Meta);
 

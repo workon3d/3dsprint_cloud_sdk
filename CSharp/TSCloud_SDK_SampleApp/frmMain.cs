@@ -49,7 +49,7 @@ namespace TSCloud_SampleApp
         
         private void getFileList()
         {
-            Models response = ModelClient.GetModels(Ftype.All, 35334, GetModelsOption.AllDescendants);
+            Models response = ModelClient.GetModels(Ftype.All, 0, GetModelsOption.AllDescendants);
 
             int? NextPage = response.Pagination.NextPage;
             List<Model> models = new List<Model>();
@@ -62,7 +62,7 @@ namespace TSCloud_SampleApp
                 if (NextPage == null)
                     break;
 
-                response = ModelClient.GetModels(NextPage.GetValueOrDefault(), Ftype.All, 35334, GetModelsOption.AllDescendants);
+                response = ModelClient.GetModels(NextPage.GetValueOrDefault(), Ftype.All, 0, GetModelsOption.AllDescendants);
                 models.AddRange(response.Contents);
                 NextPage = response.Pagination.NextPage;
             }
