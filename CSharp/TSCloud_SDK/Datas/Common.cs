@@ -137,7 +137,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
             get { return m_parent; }
         }
         [JsonProperty("parent")]
-        public object _SetParent
+        protected object _SetParent
         {
             set
             {
