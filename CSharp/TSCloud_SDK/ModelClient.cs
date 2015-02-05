@@ -88,6 +88,8 @@ namespace TDSPRINT.Cloud.SDK
                     switch(Option)
                     {
                         case GetModelsOption.OnlyChildren:
+                            if(FolderId == 0)
+                                request.AddParameter("root", "true");
                             request.AddParameter("descendants", "false");
                             break;
                         case GetModelsOption.AllDescendants:
