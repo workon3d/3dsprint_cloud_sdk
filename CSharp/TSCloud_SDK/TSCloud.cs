@@ -16,6 +16,7 @@ namespace TDSPRINT.Cloud.SDK
     {
         #region member variables
         public RestClient RestClient;
+        private string m_Apphost;
         private string m_TcHost = "http://184.73.206.209";
         private readonly string m_ApiPath = "api/v1";
         private string m_ApiToken = null;
@@ -24,6 +25,11 @@ namespace TDSPRINT.Cloud.SDK
         #endregion
 
         #region getter/setter
+        public string AppHost
+        {
+            get { return m_Apphost; }
+            set { m_Apphost = value; }
+        }
         public string Hostname
         {
             get { return m_TcHost; }
@@ -55,12 +61,21 @@ namespace TDSPRINT.Cloud.SDK
         {
             m_ApiToken = null;
             m_CurrentUser = null;
-            RestClient = new RestClient(Hostname);
         }
-        public TSCloud(string Hostname) : this()
+        public TSCloud(string AppHost) : this()
         {
-            this.Hostname = Hostname;
-            RestClient = new RestClient(Hostname);
+            if (!IsValidHost(AppHost))
+            {
+                throw new Exception("AppHost URL is not valid");
+            }
+            
+            this.AppHost = AppHost;
+            this.Hostname = GetApiHost();
+
+            if (this.AppHost == this.Hostname)
+                this.AppHost = null;
+
+            RestClient = new RestClient(this.Hostname);
         }
         #endregion
 
@@ -189,7 +204,39 @@ namespace TDSPRINT.Cloud.SDK
         }
         #endregion
 
-        #region methods
+        #region private method
+        string GetApiHost()
+        {
+            RestClient = new RestClient(AppHost);
+            RestRequest request = new RestRequest(String.Format("/api_host"), Method.GET);
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+                if (httpResponse.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return AppHost;
+                }
+
+                Hash response = JsonConvert.DeserializeObject<Hash>(httpResponse.Content, TSCloud.serializer_settings());
+    
+                return Convert.ToString(response["api_host"]);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        bool IsValidHost(string AppHost)
+        {
+            Uri uriResult;
+
+            bool result = Uri.TryCreate(AppHost, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps;
+            return result;
+        }
+        #endregion
+
+        #region static method
         public static JsonSerializerSettings serializer_settings()
         {
             JsonSerializerSettings setting = new JsonSerializerSettings();
