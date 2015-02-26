@@ -98,6 +98,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
             set { m_ancestry = value; }
         }
         [JsonProperty("ftype")]
+        [JsonConverter(typeof(FtypeEnumConverter))]
         public Ftype Ftype
         {
             get { return m_ftype; }
