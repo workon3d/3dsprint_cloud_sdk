@@ -166,9 +166,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TSCloud_SDK\TSCloud_SDK.csproj">
+    <ProjectReference Include="..\TSCloud_SDK\TSCloud_SDK_NET40.csproj">
       <Project>{02F70538-7FFF-408F-ADA9-98EE4A0791B9}</Project>
-      <Name>TSCloud_SDK</Name>
+      <Name>TSCloud_SDK_NET40</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

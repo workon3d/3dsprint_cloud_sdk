@@ -169,7 +169,7 @@
     <ResourceCompile Include="app.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TSCloud_SDK\TSCloud_SDK.csproj">
+    <ProjectReference Include="..\TSCloud_SDK\TSCloud_SDK_NET40.csproj">
       <Project>{02f70538-7fff-408f-ada9-98ee4a0791b9}</Project>
     </ProjectReference>
   </ItemGroup>
