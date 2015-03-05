@@ -228,7 +228,7 @@ namespace TDSPRINT.Cloud.SDK
             RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", ApiPath, ModelId.ToString()), Method.PUT);
             request.AddParameter("api_token", ApiToken);
 
-            if(String.IsNullOrEmpty(ModelName) && !String.IsNullOrWhiteSpace(FilePath))
+            if(String.IsNullOrEmpty(ModelName) && !String.IsNullOrEmpty(FilePath))
                 request.AddParameter("name", Path.GetFileName(FilePath));
             else 
                 request.AddParameter("name", ModelName);
@@ -447,7 +447,7 @@ namespace TDSPRINT.Cloud.SDK
 
         private bool is_meta_search(string query)
         {
-            if (String.IsNullOrWhiteSpace(query))
+            if (String.IsNullOrEmpty(query))
                 return false;
 
             try

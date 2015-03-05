@@ -262,7 +262,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
         #region methods
         public bool IsValidThumbnail()
         {
-            if (!String.IsNullOrWhiteSpace(this.Big) && !String.IsNullOrWhiteSpace(this.Small))
+            if (!String.IsNullOrEmpty(this.Big) && !String.IsNullOrEmpty(this.Small))
                 return true;
             return false;
         }
