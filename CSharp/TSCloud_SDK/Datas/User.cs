@@ -22,6 +22,8 @@ namespace TDSPRINT.Cloud.SDK.Datas
         #endregion
 
         #region getter/setter
+        public string Password { get; set; }
+        public string Phone { get; set; }
         [JsonProperty("email")]
         public string Email
         {

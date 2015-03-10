@@ -45,6 +45,35 @@ namespace TDSPRINT.Cloud.SDK
                 return new Users();
             }
         }
+        public User Create(User user)
+        {
+            if(String.IsNullOrEmpty(user.Email))
+                throw new Exception("Email required");
+
+            RestRequest request = new RestRequest(String.Format("{0}/users", ApiPath), Method.POST);
+            request.AddParameter("api_token", ApiToken);
+            request.AddParameter("email", user.Email);
+            request.AddParameter("password", user.Password);
+            request.AddParameter("name", user.Name);
+            request.AddParameter("phone", user.Phone);
+            request.AddParameter("address", user.Address);
+            request.AddParameter("company", user.Company);
+            request.AddParameter("role", user.Role);
+            request.AddParameter("meta", user.Meta.Stringify());
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+                User created_user = JsonConvert.DeserializeObject<User>(httpResponse.Content, TSCloud.serializer_settings());
+
+                return created_user;
+            }
+            catch(Exception ee)
+            {
+                return new User(Convert.ToString(ee));
+            }
+        }
+
         #endregion
 
         #region private method
