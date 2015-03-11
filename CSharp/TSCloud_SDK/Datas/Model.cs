@@ -31,10 +31,8 @@ namespace TDSPRINT.Cloud.SDK.Datas
     {
         #region member variable
         private bool m_readonly;
-        //private string m_name;
         private int m_size;
         private string m_key;
-        //private Hash m_meta;
         private string m_ancestry;
         private Ftype m_ftype;
         private string m_api_url;
@@ -67,6 +65,10 @@ namespace TDSPRINT.Cloud.SDK.Datas
         #endregion
 
         #region getter/setter
+        [JsonProperty("content")]
+        public string Content { get; set; }
+        public int? ParentId { get; set; }
+        public string Filepath { get; set; }
         [JsonProperty("size")]
         protected object _SetSize
         {

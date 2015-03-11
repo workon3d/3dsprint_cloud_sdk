@@ -143,6 +143,48 @@ namespace TDSPRINT.Cloud.SDK
             }
         }
 
+        public Model Create(Model model)
+        {
+            RestRequest request = new RestRequest(String.Format("{0}/folders", ApiPath), Method.POST);
+            
+            request.AddParameter("api_token", ApiToken);
+            request.AddParameter("name", !String.IsNullOrEmpty(model.Name) || String.IsNullOrEmpty(model.Filepath) ? model.Name : Path.GetFileName(model.Filepath));            
+            if(model.ParentId != null && model.ParentId != 0)
+                request.AddParameter("parent_id", Convert.ToString(model.ParentId));
+            if(!String.IsNullOrEmpty(model.Filepath))
+                request.AddFile("file", model.Filepath);
+            if(model.Meta != null)
+                request.AddParameter("meta", model.Meta.Stringify());
+            if(model.Acl != null)
+                request.AddParameter("acl", model.Acl.Stringify());
+            if (model.Ftype == Ftype.Page)
+            {
+                request.AddParameter("page[content]", model.Content);
+                request.AddParameter("is_page", "true");
+            }
+            request.AddParameter("description", model.Description);            
+            
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    Model model_response = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
+                    model_response.StatusCode = httpResponse.StatusCode;
+                    model_response.Message = httpResponse.ErrorMessage;
+
+                    return model_response;
+                }
+                else
+                {
+                    return new Model(httpResponse.StatusCode, httpResponse.Content);
+                }
+            }
+            catch (Exception ee)
+            {
+                return new Model(ee.ToString());
+            }
+        }
         public Model Create(string ModelName, int ParentId, string FilePath, Hash Meta, Hash Acl)
         {
             RestRequest request = new RestRequest(String.Format("{0}/folders", ApiPath), Method.POST);
@@ -211,21 +253,49 @@ namespace TDSPRINT.Cloud.SDK
             return Create(null, 0, FilePath, null, null);
         }
 
-        //public Model Update(int ModelId, string ModelName, string FilePath, string strMetaJson)
-        //{
-        //    try
-        //    {
-        //        Hash hashed_meta = JsonConvert.DeserializeObject<Hash>(strMetaJson, TSCloud.serializer_settings());
-        //        return Update(ModelId, ModelName, FilePath, hashed_meta);
-        //    }
-        //    catch (Exception ee)
-        //    {
-        //        throw ee;
-        //    }
-        //}
+        public Model Update(Model model)
+        {
+            if (model.Id == 0)
+                throw new Exception("Model ID Required");
+
+            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", ApiPath, Convert.ToString(model.Id)), Method.PUT);
+
+            request.AddParameter("api_token", ApiToken);
+            request.AddParameter("name", !String.IsNullOrEmpty(model.Name) || String.IsNullOrEmpty(model.Filepath) ? model.Name : Path.GetFileName(model.Filepath));
+            if (!String.IsNullOrEmpty(model.Filepath))
+                request.AddFile("file", model.Filepath);
+            if (model.Meta != null)
+                request.AddParameter("meta", model.Meta.Stringify());
+            if (model.Acl != null)
+                request.AddParameter("acl", model.Acl.Stringify());
+            if (model.Ftype == Ftype.Page)
+                request.AddParameter("page", model.Content);
+            request.AddParameter("description", model.Description);
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    Model model_response = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
+                    model_response.StatusCode = httpResponse.StatusCode;
+                    model_response.Message = httpResponse.ErrorMessage;
+
+                    return model_response;
+                }
+                else
+                {
+                    return new Model(httpResponse.Content);
+                }
+            }
+            catch (Exception ee)
+            {
+                return new Model(ee.ToString());
+            }
+        }
         public Model Update(int ModelId, string ModelName, string FilePath, Hash MetaJson)
         {
-            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", ApiPath, ModelId.ToString()), Method.PUT);
+            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", ApiPath, Convert.ToString(ModelId), Method.PUT));
             request.AddParameter("api_token", ApiToken);
 
             if(String.IsNullOrEmpty(ModelName) && !String.IsNullOrEmpty(FilePath))
@@ -256,7 +326,7 @@ namespace TDSPRINT.Cloud.SDK
                 }
                 else
                 {
-                    return new Model(httpResponse.Content);
+                    return new Model(httpResponse.StatusCode, httpResponse.Content);
                 }
             }
             catch (Exception ee)
