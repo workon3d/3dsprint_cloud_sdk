@@ -74,6 +74,98 @@ namespace TDSPRINT.Cloud.SDK
             }
         }
 
+        public User Register(string Email, string Name, string TeamName, string Password, string Phone, string Address, string Company)
+        {
+            RestRequest request = new RestRequest(String.Format("{0}/users/register", ApiPath), Method.POST);
+
+            if (!String.IsNullOrEmpty(Name))
+                request.AddParameter("name", Name);
+            if (!String.IsNullOrEmpty(Email))
+                request.AddParameter("email", Email);
+            if (!String.IsNullOrEmpty(TeamName))
+                request.AddParameter("team_name", TeamName);
+            if (!String.IsNullOrEmpty(Password))
+                request.AddParameter("password", Password);
+            if (!String.IsNullOrEmpty(Phone))
+                request.AddParameter("phone", Phone);
+            if (!String.IsNullOrEmpty(Address))
+                request.AddParameter("address", Address);
+            if (!String.IsNullOrEmpty(Company))
+                request.AddParameter("company", Company);
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    User user_response = JsonConvert.DeserializeObject<User>(httpResponse.Content, TSCloud.serializer_settings());
+                    user_response.StatusCode = httpResponse.StatusCode;
+
+                    return user_response;
+                }
+                else
+                {
+                    User user_response = new User();
+                    user_response.StatusCode = httpResponse.StatusCode;
+                    user_response.Message = httpResponse.ErrorMessage;
+
+                    return user_response;
+                }
+            }
+            catch (Exception ee)
+            {
+                return new User(Convert.ToString(ee));
+            }
+        }
+
+        public User Update(User user)
+        {
+            if (user.Id == 0)
+                throw new Exception("User ID Required");
+
+            RestRequest request = new RestRequest(String.Format("{0}/users/{1}", ApiPath, Convert.ToString(user.Id)), Method.PUT);
+            request.AddParameter("api_token", ApiToken);
+
+            if (user.Name != null)
+                request.AddParameter("name", user.Name);
+            if (user.Password != null)
+                request.AddParameter("password", user.Password);
+            if (user.Role != null)
+                request.AddParameter("role", user.Role);
+            if (user.Phone != null)
+                request.AddParameter("phone", user.Phone);
+            if (user.Address != null)
+                request.AddParameter("address", user.Address);
+            if (user.Company != null)
+                request.AddParameter("company", user.Company);
+            if (user.Meta != null)
+                request.AddParameter("meta", user.Meta.Stringify());
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    User user_response = JsonConvert.DeserializeObject<User>(httpResponse.Content, TSCloud.serializer_settings());
+                    user_response.StatusCode = httpResponse.StatusCode;
+
+                    return user_response;
+                }
+                else
+                {
+                    User user_response = new User();
+                    user_response.StatusCode = httpResponse.StatusCode;
+                    user_response.Message = httpResponse.ErrorMessage;
+
+                    return user_response;
+                }
+            }
+            catch (Exception ee)
+            {
+                return new User(ee.ToString());
+            }
+        }
+
         public List<User> FindAllByEmail(params String[] emails)
         {
             if (emails.Length < 1)
