@@ -74,14 +74,73 @@ namespace TDSPRINT.Cloud.SDK
             }
         }
 
+        public List<User> FindAllByEmail(params String[] emails)
+        {
+            if (emails.Length < 1)
+                throw new Exception("emails Required");
+
+            StringBuilder sb = new StringBuilder();
+
+            foreach(string email in emails)
+            {
+                sb.AppendFormat("{0},",email);
+            }
+
+            RestRequest request = new RestRequest(String.Format("{0}/users", ApiPath), Method.GET);
+            request.AddParameter("api_token", ApiToken);
+            request.AddParameter("emails", sb.ToString());
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+                if(httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    List<User> user_list = JsonConvert.DeserializeObject<List<User>>(httpResponse.Content, TSCloud.serializer_settings());
+                    return user_list;
+                }
+                else
+                {
+                    return new List<User>();
+                }
+            }
+            catch(Exception ee)
+            {
+                throw new Exception(ee.ToString());
+            }
+        }
+
+        public User Get(int UserID)
+        {
+            RestRequest request = new RestRequest(String.Format("{0}/users/{1}", ApiPath, Convert.ToString(UserID)), Method.GET);
+            request.AddParameter("api_token", ApiToken);
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    User user = JsonConvert.DeserializeObject<User>(httpResponse.Content, TSCloud.serializer_settings());
+                    user.StatusCode = httpResponse.StatusCode;
+
+                    return user;
+                }
+                else
+                {
+                    User user = new User();
+                    user.StatusCode = httpResponse.StatusCode;
+                    user.Message = httpResponse.ErrorMessage;
+
+                    return user;
+                }
+            }
+            catch(Exception ee)
+            {
+                return new User(Convert.ToString(ee));
+            }
+        }
         #endregion
 
         #region private method
-        //private string get_acl()
-        //{
-        //    Acl AclObject = new Acl(Int32.Parse(CurrentUser.Id.ToString()));
-        //    return JsonConvert.SerializeObject(AclObject, Formatting.None);
-        //}
         #endregion
     }
 }
