@@ -124,6 +124,17 @@ namespace TDSPRINT.Cloud.SDK.Datas
         {
         }
         #endregion
+
+        #region method
+        public Newtonsoft.Json.Linq.JObject GetMetaAsJObject()
+        {
+            return m_meta != null ? m_meta.ToJObject() : new Newtonsoft.Json.Linq.JObject();
+        }
+        public void SetMetaByJObject(Newtonsoft.Json.Linq.JObject Object)
+        {
+            m_meta = Hash.Parse(Object);
+        }
+        #endregion
     }
     public class CommonList
     {
