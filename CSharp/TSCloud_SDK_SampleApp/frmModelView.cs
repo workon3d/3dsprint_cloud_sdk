@@ -8,7 +8,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Net;
-
 using TDSPRINT.Cloud.SDK;
 using TDSPRINT.Cloud.SDK.Datas;
 using System.Threading;

@@ -126,14 +126,6 @@ namespace TDSPRINT.Cloud.SDK.Datas
         #endregion
 
         #region method
-        public Newtonsoft.Json.Linq.JObject GetMetaAsJObject()
-        {
-            return m_meta != null ? m_meta.ToJObject() : new Newtonsoft.Json.Linq.JObject();
-        }
-        public void SetMetaByJObject(Newtonsoft.Json.Linq.JObject Object)
-        {
-            m_meta = Hash.Parse(Object);
-        }
         #endregion
     }
     public class CommonList
@@ -289,56 +281,6 @@ namespace TDSPRINT.Cloud.SDK.Datas
         {
             Key = strKey;
             Value = strValue;
-        }
-    }
-    public class Hash : Hashtable
-    {
-        public static Hash Parse(Newtonsoft.Json.Linq.JObject Object)
-        {
-            String serialized = JsonConvert.SerializeObject(Object);
-            return Parse(serialized);
-        }
-        public static Hash Parse(object objData)
-        {
-            string strData = null;
-            try
-            {
-                strData = objData.ToString();
-            }
-            catch (Exception ee)
-            {
-                throw ee;
-            }
-
-            return Hash.Parse(strData);
-        }
-        public static Hash Parse(string strData)
-        {
-            try
-            {
-                Hash hash = JsonConvert.DeserializeObject<Hash>(strData, TSCloud.serializer_settings());
-                return hash;
-            }
-            catch (Exception ee)
-            {
-                throw ee;
-            }
-        }
-
-        public Newtonsoft.Json.Linq.JObject ToJObject()
-        {
-            return Newtonsoft.Json.Linq.JObject.FromObject(this);
-        }
-        public string Stringify()
-        {
-            try
-            {
-                return JsonConvert.SerializeObject(this, TSCloud.serializer_settings());
-            }
-            catch
-            {
-                throw;
-            }
         }
     }
 }

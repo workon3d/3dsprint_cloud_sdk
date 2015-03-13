@@ -4,8 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
-
-// External Library
 using RestSharp;
 using Newtonsoft.Json;
 

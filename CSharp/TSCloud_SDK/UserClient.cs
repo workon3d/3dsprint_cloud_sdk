@@ -3,11 +3,8 @@ using System.IO;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
-
-// External Library
 using RestSharp;
 using Newtonsoft.Json;
-
 using TDSPRINT.Cloud.SDK.Datas;
 using TDSPRINT.Cloud.SDK.Types;
 
