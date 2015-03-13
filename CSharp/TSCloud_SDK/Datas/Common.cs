@@ -282,6 +282,11 @@ namespace TDSPRINT.Cloud.SDK.Datas
     }
     public class Hash : Hashtable
     {
+        public static Hash Parse(Newtonsoft.Json.Linq.JObject Object)
+        {
+            String serialized = JsonConvert.SerializeObject(Object);
+            return Parse(serialized);
+        }
         public static Hash Parse(object objData)
         {
             string strData = null;
@@ -309,6 +314,10 @@ namespace TDSPRINT.Cloud.SDK.Datas
             }
         }
 
+        public Newtonsoft.Json.Linq.JObject ToJObject()
+        {
+            return Newtonsoft.Json.Linq.JObject.FromObject(this);
+        }
         public string Stringify()
         {
             try
