@@ -78,10 +78,15 @@ namespace TDSPRINT.Cloud.SDK
         {
             RestRequest request = new RestRequest(String.Format("{0}/groups", ApiPath), Method.POST);
             request.AddParameter("api_token", ApiToken);
-            request.AddParameter("name", group.Name);
-            request.AddParameter("description", group.Description);
-            request.AddParameter("acl", group.Acl.Stringify());
-            request.AddParameter("user_ids", group.GetUserIds());
+
+            if (!String.IsNullOrEmpty(group.Name))
+                request.AddParameter("name", group.Name);
+            if (!String.IsNullOrEmpty(group.Description))
+                request.AddParameter("description", group.Description);
+            if (group.Acl != null)
+                request.AddParameter("acl", group.Acl.Stringify());
+            if (group.Users != null && group.Users.Count > 0)
+                request.AddParameter("user_ids", group.GetUserIds());
 
             Group created_group = new Group();
 
@@ -136,7 +141,7 @@ namespace TDSPRINT.Cloud.SDK
                 request.AddParameter("description", group.Description);
             if (group.Acl != null)
                 request.AddParameter("acl", group.Acl.Stringify());
-            if (group.Users.Count > 0)
+            if (group.Users != null && group.Users.Count > 0)
                 request.AddParameter("user_ids", group.GetUserIds());
 
             Group updated_group = new Group();

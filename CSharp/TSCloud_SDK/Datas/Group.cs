@@ -28,7 +28,11 @@ namespace TDSPRINT.Cloud.SDK.Datas
 
     public class Group : CommonItem
     {
-        #region constructor
+        #region Variables
+        private int m_parent_id = 0;
+        #endregion
+
+        #region Constructor
         public Group(HttpStatusCode status_code, string strMessage = null)
             : this()
         {
@@ -56,7 +60,25 @@ namespace TDSPRINT.Cloud.SDK.Datas
         public Team Team { get; set; }
 
         [JsonProperty("parent_id")]
-        public int ParentId { get; set; }
+        protected object _SetParent
+        {
+            set
+            {
+                try
+                {
+                    m_parent_id = Convert.ToInt32(value);
+                }
+                catch
+                {
+                    m_parent_id = 0;
+                }
+            }
+        }
+        public int ParentId
+        {
+            get { return m_parent_id; }
+            set { m_parent_id = value; }
+        }
         #endregion
 
         #region method
