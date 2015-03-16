@@ -126,6 +126,25 @@ namespace TDSPRINT.Cloud.SDK.Datas
         #endregion
 
         #region method
+        static public bool IsValid(CommonItem item)
+        {
+            try
+            {
+                if (item.Id == 0 || item.Acl == null)
+                    return false;
+                else
+                    return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool IsValid()
+        {
+            return IsValid(this);
+        }
         #endregion
     }
     public class CommonList

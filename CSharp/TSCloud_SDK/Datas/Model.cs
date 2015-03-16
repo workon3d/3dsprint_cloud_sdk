@@ -147,11 +147,11 @@ namespace TDSPRINT.Cloud.SDK.Datas
         #endregion
 
         #region static method
-        static public bool IsValid(Model model)
+        static public bool IsValid(Model model) 
         {
             try
             {
-                if (model.Id == 0 || String.IsNullOrEmpty(model.Key) || String.IsNullOrEmpty(model.Acl.ToString()))
+                if (model.Id == 0 || String.IsNullOrEmpty(model.Key) || model.Meta == null)
                     return false;
                 else
                     return true;

@@ -54,6 +54,9 @@ namespace TDSPRINT.Cloud.SDK.Datas
 
         [JsonProperty("team")]
         public Team Team { get; set; }
+
+        [JsonProperty("parent_id")]
+        public int ParentId { get; set; }
         #endregion
 
         #region method
