@@ -128,9 +128,15 @@ namespace TDSPRINT.Cloud.SDK.Datas
         #region method
         static public bool IsValid(CommonItem item)
         {
+            if (item == null)
+                return false;
+            return item.IsValid();
+        }
+        public virtual bool IsValid()
+        {
             try
             {
-                if (item.Id == 0 || item.Acl == null)
+                if (Id == 0 || Acl == null)
                     return false;
                 else
                     return true;
@@ -139,11 +145,6 @@ namespace TDSPRINT.Cloud.SDK.Datas
             {
                 return false;
             }
-        }
-
-        public bool IsValid()
-        {
-            return IsValid(this);
         }
         #endregion
     }
@@ -173,12 +174,14 @@ namespace TDSPRINT.Cloud.SDK.Datas
                 }
             }
         }
+
         [JsonProperty("pagination")]
         public Pagination Pagination
         {
             get { return m_pagination; }
             set { m_pagination = value; }
         }
+
         public string Message
         {
             get { return m_message; }

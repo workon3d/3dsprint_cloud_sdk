@@ -530,7 +530,7 @@ namespace TDSPRINT.Cloud.SDK
                 throw;
             }
 
-            return false;   
+            return false;
         }
 
         private Meta get_meta(string query)
@@ -545,8 +545,8 @@ namespace TDSPRINT.Cloud.SDK
                 string value = Split[1].Trim();
                 if (value[0] == '"' || value[0] == '\'')
                     value = value.Remove(0, 1);
-                if (value[value.Length-1] == '"' || value[value.Length-1] == '\'')
-                    value = value.Remove(value.Length-1, 1);
+                if (value[value.Length - 1] == '"' || value[value.Length - 1] == '\'')
+                    value = value.Remove(value.Length - 1, 1);
 
                 return new Meta(key, value);
             }

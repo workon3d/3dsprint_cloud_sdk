@@ -143,15 +143,16 @@ namespace TDSPRINT.Cloud.SDK.Datas
         }
         #endregion
 
-        #region method
-        #endregion
-
         #region static method
         static public bool IsValid(Model model) 
         {
+            return model.IsValid();
+        }
+        public override bool IsValid()
+        {
             try
             {
-                if (model.Id == 0 || String.IsNullOrEmpty(model.Key) || model.Meta == null)
+                if (Id == 0 || String.IsNullOrEmpty(Key) || Meta == null)
                     return false;
                 else
                     return true;
@@ -160,10 +161,6 @@ namespace TDSPRINT.Cloud.SDK.Datas
             {
                 return false;
             }
-        }
-        public bool IsValid()
-        {
-            return Model.IsValid(this);
         }
         #endregion
     }

@@ -145,10 +145,14 @@ namespace TDSPRINT.Cloud.SDK.Datas
             if (user == null)
                 return false;
 
-            if (!String.IsNullOrEmpty(user.ApiToken))
+            return user.IsValid();
+        }
+        public override bool IsValid()
+        {
+            if (!String.IsNullOrEmpty(ApiToken))
                 return true;
 
-            if (user.Id == 0 || String.IsNullOrEmpty(user.Email) || String.IsNullOrEmpty(user.Name))
+            if (Id == 0 || String.IsNullOrEmpty(Email) || String.IsNullOrEmpty(Name))
                 return false;
             else
                 return true;
