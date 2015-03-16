@@ -87,6 +87,8 @@ namespace TDSPRINT.Cloud.SDK
                 request.AddParameter("acl", group.Acl.Stringify());
             if (group.Users != null && group.Users.Count > 0)
                 request.AddParameter("user_ids", group.GetUserIds());
+            if (group.ParentId != 0)
+                request.AddParameter("parent_id", Convert.ToString(group.ParentId));
 
             Group created_group = new Group();
 
@@ -143,6 +145,8 @@ namespace TDSPRINT.Cloud.SDK
                 request.AddParameter("acl", group.Acl.Stringify());
             if (group.Users != null && group.Users.Count > 0)
                 request.AddParameter("user_ids", group.GetUserIds());
+            if (group.ParentId != 0)
+                request.AddParameter("parent_id", Convert.ToString(group.ParentId));
 
             Group updated_group = new Group();
 
