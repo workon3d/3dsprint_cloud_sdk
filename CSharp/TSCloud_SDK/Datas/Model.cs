@@ -68,6 +68,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
         public string Content { get; set; }
         public int? ParentId { get; set; }
         public string Filepath { get; set; }
+        public string FileUrl { get; set; }
         [JsonProperty("size")]
         protected object _SetSize
         {

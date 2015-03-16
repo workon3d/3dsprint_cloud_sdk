@@ -147,20 +147,22 @@ namespace TDSPRINT.Cloud.SDK
             
             request.AddParameter("api_token", ApiToken);
             request.AddParameter("name", !String.IsNullOrEmpty(model.Name) || String.IsNullOrEmpty(model.Filepath) ? model.Name : Path.GetFileName(model.Filepath));            
-            if(model.ParentId != null && model.ParentId != 0)
+            if (model.ParentId != null && model.ParentId != 0)
                 request.AddParameter("parent_id", Convert.ToString(model.ParentId));
-            if(!String.IsNullOrEmpty(model.Filepath))
+            if (!String.IsNullOrEmpty(model.Filepath))
                 request.AddFile("file", model.Filepath);
-            if(model.Meta != null)
+            else if(!String.IsNullOrEmpty(model.FileUrl))
+                request.AddParameter("file_url", model.FileUrl);
+            if (model.Meta != null)
                 request.AddParameter("meta", model.Meta.Stringify());
-            if(model.Acl != null)
+            if (model.Acl != null)
                 request.AddParameter("acl", model.Acl.Stringify());
             if (model.Ftype == Ftype.Page)
             {
                 request.AddParameter("page[content]", model.Content);
                 request.AddParameter("is_page", "true");
             }
-            request.AddParameter("description", model.Description);            
+            request.AddParameter("description", model.Description);
             
             try
             {
