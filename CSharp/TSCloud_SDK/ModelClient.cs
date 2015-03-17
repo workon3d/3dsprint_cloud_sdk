@@ -335,6 +335,81 @@ namespace TDSPRINT.Cloud.SDK
             }
         }
 
+        public Model UpdateMeta(Model model, Hash Meta)
+        {
+            return UpdateMeta(model.Id, Meta);
+        }
+        public Model UpdateMeta(int ModelId, Hash Meta)
+        {
+            if (ModelId == 0)
+                throw new Exception("Model ID Required");
+
+            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", ApiPath, Convert.ToString(ModelId)), Method.PUT);
+
+            request.AddParameter("api_token", ApiToken);
+            if (Meta != null)
+                request.AddParameter("update_meta", Meta.Stringify());
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    Model model_response = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
+                    model_response.StatusCode = httpResponse.StatusCode;
+                    model_response.Message = httpResponse.ErrorMessage;
+
+                    return model_response;
+                }
+                else
+                {
+                    return new Model(httpResponse.Content);
+                }
+            }
+            catch (Exception ee)
+            {
+                return new Model(ee.ToString());
+            }
+        }
+
+        public Model RemoveMeta(Model model, List<String> KeyList)
+        {
+            return RemoveMeta(model.Id, KeyList);
+        }
+        public Model RemoveMeta(int ModelId, List<String> KeyList)
+        {
+            if (ModelId == 0)
+                throw new Exception("Model ID Required");
+
+            if (KeyList.Count == 0)
+                throw new Exception("Hash key to be removed required");
+            string serialized = JsonConvert.SerializeObject(KeyList);
+
+            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", ApiPath, Convert.ToString(ModelId)), Method.PUT);
+            request.AddParameter("api_token", ApiToken);
+            request.AddParameter("delete_meta", serialized);
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    Model model_response = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
+                    model_response.StatusCode = httpResponse.StatusCode;
+                    model_response.Message = httpResponse.ErrorMessage;
+
+                    return model_response;
+                }
+                else
+                {
+                    return new Model(httpResponse.Content);
+                }
+            }
+            catch (Exception ee)
+            {
+                return new Model(ee.ToString());
+            }
+        }
+
         public HttpStatusCode Download(int ModelId, string strDownloadPath, onProgress _onProgress)
         {
             if (!Directory.Exists(Path.GetDirectoryName(strDownloadPath)))
