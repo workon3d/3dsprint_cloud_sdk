@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 
 using TDSPRINT.Cloud.SDK.Datas;
 using TDSPRINT.Cloud.SDK.Types;
+using TDSPRINT.Cloud.SDK;
 
 
 namespace TDSPRINT.Cloud.SDK
@@ -491,27 +492,27 @@ namespace TDSPRINT.Cloud.SDK
             }
         }
 
-        public List<Model> Find(string key, string value)
-        {
-            return search_by_meta(key, value);
-        }
-        public List<Model> Find(string query)
-        {
-            if (is_meta_search(query))
-            {
-                Meta Meta = get_meta(query);
-                return search_by_meta(Meta.Key, Meta.Value);
-            }
-            else
-            {
-                return search_by_query(query);
-            }
-        }
+        //public List<Model> Find(string key, string value)
+        //{
+        //    return search_by_meta(key, value);
+        //}
+        //public List<Model> Find(string query)
+        //{
+        //    if (is_meta_search(query))
+        //    {
+        //        Meta Meta = get_meta(query);
+        //        return search_by_meta(Meta.Key, Meta.Value);
+        //    }
+        //    else
+        //    {
+        //        return search_by_query(query);
+        //    }
+        //}
 
         public HttpStatusCode Copy(int[] ModelIds, int TargetModelId)
         {
             RestRequest request = new RestRequest(String.Format("{0}/folders/copy", ApiPath), Method.PUT);
-            request.AddParameter("ids", this.parse_model_ids(ModelIds));
+            request.AddParameter("ids", TDSPRINT.Cloud.SDK.TSUtil.ConvertToIds(ModelIds));
             request.AddParameter("parent_id", Convert.ToString(TargetModelId));
             request.AddParameter("api_token", ApiToken);
 
@@ -534,7 +535,7 @@ namespace TDSPRINT.Cloud.SDK
         public HttpStatusCode Move(int[] ModelIds, int TargetModelId)
         {
             RestRequest request = new RestRequest(String.Format("{0}/folders/move", ApiPath), Method.PUT);
-            request.AddParameter("ids", this.parse_model_ids(ModelIds));
+            request.AddParameter("ids", TSUtil.ConvertToIds(ModelIds));
             request.AddParameter("parent_id", Convert.ToString(TargetModelId));
             request.AddParameter("api_token", ApiToken);
 
@@ -556,80 +557,80 @@ namespace TDSPRINT.Cloud.SDK
         #endregion
 
         #region private method
-        private string parse_model_ids(int[] model_ids)
-        {
-            int length = model_ids.Length;
-            string strResult = null;
+        //private string parse_model_ids(int[] model_ids)
+        //{
+        //    int length = model_ids.Length;
+        //    string strResult = null;
 
-            if (length == 1)
-                return Convert.ToString(model_ids[0]);
+        //    if (length == 1)
+        //        return Convert.ToString(model_ids[0]);
 
-            try
-            {
-                StringBuilder buildString = new StringBuilder();
+        //    try
+        //    {
+        //        StringBuilder buildString = new StringBuilder();
 
-                for (int i = 0; i < model_ids.Length; i++)
-                {
-                    buildString = buildString.Append(Convert.ToString(model_ids[i]));
-                    if (i != length)
-                        buildString = buildString.Append(',');
-                }
+        //        for (int i = 0; i < model_ids.Length; i++)
+        //        {
+        //            buildString = buildString.Append(Convert.ToString(model_ids[i]));
+        //            if (i != length)
+        //                buildString = buildString.Append(',');
+        //        }
 
-                strResult = buildString.ToString();
-            }
-            catch
-            {
-                throw;
-            }
+        //        strResult = buildString.ToString();
+        //    }
+        //    catch
+        //    {
+        //        throw;
+        //    }
 
-            return strResult;
-        }
+        //    return strResult;
+        //}
         //private string get_acl()
         //{
         //    Acl AclObject = new Acl(Int32.Parse(CurrentUser.Id.ToString()));
         //    return JsonConvert.SerializeObject(AclObject, Formatting.None);
         //}
 
-        private bool is_meta_search(string query)
-        {
-            if (String.IsNullOrEmpty(query))
-                return false;
+        //private bool is_meta_search(string query)
+        //{
+        //    if (String.IsNullOrEmpty(query))
+        //        return false;
 
-            try
-            {
-                if (query.Contains("="))
-                    return true;
-            }
-            catch
-            {
-                throw;
-            }
+        //    try
+        //    {
+        //        if (query.Contains("="))
+        //            return true;
+        //    }
+        //    catch
+        //    {
+        //        throw;
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
 
-        private Meta get_meta(string query)
-        {
-            if (!is_meta_search(query))
-                return new Meta();
+        //private Meta get_meta(string query)
+        //{
+        //    if (!is_meta_search(query))
+        //        return new Meta();
 
-            try
-            {
-                string[] Split = query.Split('=');
-                string key = Split[0].Trim();
-                string value = Split[1].Trim();
-                if (value[0] == '"' || value[0] == '\'')
-                    value = value.Remove(0, 1);
-                if (value[value.Length - 1] == '"' || value[value.Length - 1] == '\'')
-                    value = value.Remove(value.Length - 1, 1);
+        //    try
+        //    {
+        //        string[] Split = query.Split('=');
+        //        string key = Split[0].Trim();
+        //        string value = Split[1].Trim();
+        //        if (value[0] == '"' || value[0] == '\'')
+        //            value = value.Remove(0, 1);
+        //        if (value[value.Length - 1] == '"' || value[value.Length - 1] == '\'')
+        //            value = value.Remove(value.Length - 1, 1);
 
-                return new Meta(key, value);
-            }
-            catch
-            {
-                throw;
-            }
-        }
+        //        return new Meta(key, value);
+        //    }
+        //    catch
+        //    {
+        //        throw;
+        //    }
+        //}
 
         private List<Model> index(int Page, Ftype ftype)
         {
@@ -688,80 +689,80 @@ namespace TDSPRINT.Cloud.SDK
             }
         }
 
-        private List<Model> search_by_query(string query, int Page)
-        {
-            RestRequest request = new RestRequest(String.Format("{0}/folders", ApiPath), Method.GET);
-            request.AddParameter("q", query);
-            request.AddParameter("api_token", ApiToken);
-            if (Page != 0)
-                request.AddParameter("page", Page);
+        //private List<Model> search_by_query(string query, int Page)
+        //{
+        //    RestRequest request = new RestRequest(String.Format("{0}/folders", ApiPath), Method.GET);
+        //    request.AddParameter("q", query);
+        //    request.AddParameter("api_token", ApiToken);
+        //    if (Page != 0)
+        //        request.AddParameter("page", Page);
 
-            try
-            {
-                IRestResponse httpResponse = RestClient.Execute(request);
-                Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content, TSCloud.serializer_settings());
+        //    try
+        //    {
+        //        IRestResponse httpResponse = RestClient.Execute(request);
+        //        Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content, TSCloud.serializer_settings());
 
-                int num_pages = models.Pagination.NumPages;
-                if (Page == 0)
-                {
-                    List<Model> model_list = new List<Model>();
+        //        int num_pages = models.Pagination.NumPages;
+        //        if (Page == 0)
+        //        {
+        //            List<Model> model_list = new List<Model>();
 
-                    for (int i = 1; i <= num_pages; i++)
-                    {
-                        model_list.AddRange(search_by_query(query, i));
-                    }
+        //            for (int i = 1; i <= num_pages; i++)
+        //            {
+        //                model_list.AddRange(search_by_query(query, i));
+        //            }
 
-                    return model_list;
-                }
-                return models.Contents;
+        //            return model_list;
+        //        }
+        //        return models.Contents;
 
-            }
-            catch
-            {
-                return new List<Model>();
-            }
-        }
-        private List<Model> search_by_query(string query)
-        {
-            return search_by_query(query, 0);
-        }
+        //    }
+        //    catch
+        //    {
+        //        return new List<Model>();
+        //    }
+        //}
+        //private List<Model> search_by_query(string query)
+        //{
+        //    return search_by_query(query, 0);
+        //}
 
-        private List<Model> search_by_meta(string key, string value, int Page)
-        {
-            RestRequest request = new RestRequest(String.Format("{0}/folders", ApiPath), Method.GET);
-            request.AddParameter("meta", String.Format("{0}:{1}", key, value));
-            request.AddParameter("api_token", ApiToken);
-            if (Page != 0)
-                request.AddParameter("page", Page);
+        //private List<Model> search_by_meta(string key, string value, int Page)
+        //{
+        //    RestRequest request = new RestRequest(String.Format("{0}/folders", ApiPath), Method.GET);
+        //    request.AddParameter("meta", String.Format("{0}:{1}", key, value));
+        //    request.AddParameter("api_token", ApiToken);
+        //    if (Page != 0)
+        //        request.AddParameter("page", Page);
 
-            try
-            {
-                IRestResponse httpResponse = RestClient.Execute(request);
-                Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content, TSCloud.serializer_settings());
+        //    try
+        //    {
+        //        IRestResponse httpResponse = RestClient.Execute(request);
+        //        Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content, TSCloud.serializer_settings());
 
-                int num_pages = models.Pagination.NumPages;
-                if (Page == 0)
-                {
-                    List<Model> model_list = new List<Model>();
+        //        int num_pages = models.Pagination.NumPages;
+        //        if (Page == 0)
+        //        {
+        //            List<Model> model_list = new List<Model>();
 
-                    for (int i = 1; i <= num_pages; i++)
-                    {
-                        model_list.AddRange(search_by_meta(key, value, i));
-                    }
+        //            for (int i = 1; i <= num_pages; i++)
+        //            {
+        //                model_list.AddRange(search_by_meta(key, value, i));
+        //            }
 
-                    return model_list;
-                }
-                return models.Contents;
-            }
-            catch
-            {
-                return new List<Model>();
-            }
-        }
-        private List<Model> search_by_meta(string key, string value)
-        {
-            return search_by_meta(key, value, 0);
-        }
+        //            return model_list;
+        //        }
+        //        return models.Contents;
+        //    }
+        //    catch
+        //    {
+        //        return new List<Model>();
+        //    }
+        //}
+        //private List<Model> search_by_meta(string key, string value)
+        //{
+        //    return search_by_meta(key, value, 0);
+        //}
 
         #endregion
     }
