@@ -213,7 +213,7 @@ namespace TDSPRINT.Cloud.SDK
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
-                if (httpResponse.StatusCode == HttpStatusCode.NotFound)
+                if (httpResponse.StatusCode != HttpStatusCode.OK)
                 {
                     return AppHost;
                 }
