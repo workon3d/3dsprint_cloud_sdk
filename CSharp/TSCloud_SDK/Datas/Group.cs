@@ -51,7 +51,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
 
         #region properties
         [JsonProperty("users")]
-        public List<User> Users { get; set; }
+        public List<int> Users { get; set; }
         
         [JsonProperty("description")]
         public String Description { get; set; }
@@ -84,8 +84,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
         #region method
         public String GetUserIds()
         {
-            var user_ids = Users.Select( user => user.Id ).ToArray();
-            return String.Join(",", user_ids.Select( x => x.ToString()).ToArray());
+            return String.Join( ",", Users.Select( x => Convert.ToString(x) ).ToArray() );
         }
         #endregion
     }
