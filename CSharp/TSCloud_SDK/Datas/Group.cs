@@ -84,7 +84,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
         #region method
         public String GetUserIds()
         {
-            return String.Join( ",", Users.Select( x => Convert.ToString(x) ).ToArray() );
+            return TSUtil.ConvertToIds(Users);
         }
         #endregion
     }

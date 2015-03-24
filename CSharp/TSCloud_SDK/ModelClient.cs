@@ -484,7 +484,14 @@ namespace TDSPRINT.Cloud.SDK
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
-                return new Model(httpResponse.StatusCode);
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    return new Model(httpResponse.StatusCode);
+                }
+                else
+                {
+                    return new Model(httpResponse.StatusCode, httpResponse.ErrorMessage);
+                }
             }
             catch(Exception ee)
             {

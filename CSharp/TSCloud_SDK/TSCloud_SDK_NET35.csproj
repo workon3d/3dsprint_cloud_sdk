@@ -67,6 +67,8 @@
     <Compile Include="Datas\Group.cs" />
     <Compile Include="Datas\Hash.cs" />
     <Compile Include="Datas\JObject.cs" />
+    <Compile Include="Datas\Preview.cs" />
+    <Compile Include="Datas\Team.cs" />
     <Compile Include="GroupClient.cs" />
     <Compile Include="Types\QueueStatus.cs" />
     <Compile Include="UserClient.cs" />
@@ -78,6 +80,7 @@
     <Compile Include="TSCloud.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Datas\Model.cs" />
+    <Compile Include="TSUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

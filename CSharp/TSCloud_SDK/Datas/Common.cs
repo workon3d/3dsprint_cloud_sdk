@@ -290,19 +290,19 @@ namespace TDSPRINT.Cloud.SDK.Datas
         }
         #endregion
     }
-    public class Meta
-    {
-        public string Key;
-        public string Value;
+    //public class Meta
+    //{
+    //    public string Key;
+    //    public string Value;
 
-        public Meta()
-        {
-        }
+    //    public Meta()
+    //    {
+    //    }
 
-        public Meta(string strKey, string strValue)
-        {
-            Key = strKey;
-            Value = strValue;
-        }
-    }
+    //    public Meta(string strKey, string strValue)
+    //    {
+    //        Key = strKey;
+    //        Value = strValue;
+    //    }
+    //}
 }
