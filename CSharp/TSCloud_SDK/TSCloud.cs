@@ -17,7 +17,9 @@ namespace TDSPRINT.Cloud.SDK
         #region member variables
         public RestClient RestClient;
         private string m_Apphost;
-        private string m_TcHost = "http://184.73.206.209";
+        //private string m_TcHost = "http://184.73.206.209";
+        private string m_TcHost = "http://10.211.55.5:3000";
+
         private readonly string m_ApiPath = "api/v1";
         private string m_ApiToken = null;
         private User m_CurrentUser;
@@ -82,7 +84,7 @@ namespace TDSPRINT.Cloud.SDK
         #region public method
         public bool IsOnline()
         {
-            var request = new RestRequest("", Method.GET);
+            var request = new RestRequest("",Method.GET);
             IRestResponse httpResponse = RestClient.Execute(request);
 
             if (httpResponse.StatusCode == HttpStatusCode.NotFound)
@@ -152,6 +154,37 @@ namespace TDSPRINT.Cloud.SDK
                 if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
                     return new User("Unauthorized");
                 User CurrentUser = JsonConvert.DeserializeObject<Datas.User>(httpResponse.Content, TSCloud.serializer_settings());
+                CurrentUser.StatusCode = httpResponse.StatusCode;
+                CurrentUser.ApiToken = api_token;
+                this.CurrentUser = CurrentUser;
+                this.ApiToken = api_token;
+
+                UserClient UserClient = new UserClient(this);
+                m_users = UserClient.All();
+
+                return CurrentUser;
+            }
+            catch (Exception ee)
+            {
+                return new User(ee.ToString());
+            }
+        }
+        public User AuthenticateByApiToken(string email, string api_token)
+        {
+            RestRequest request = new RestRequest(String.Format("{0}/profiles", ApiPath), Method.GET);
+            request.AddParameter("api_token", api_token);
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+                if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
+                    return new User("Unauthorized");
+                
+                User CurrentUser = JsonConvert.DeserializeObject<Datas.User>(httpResponse.Content, TSCloud.serializer_settings());
+
+                if (CurrentUser.Email != email)
+                    return new User("Unauthorized");
+
                 CurrentUser.StatusCode = httpResponse.StatusCode;
                 CurrentUser.ApiToken = api_token;
                 this.CurrentUser = CurrentUser;
