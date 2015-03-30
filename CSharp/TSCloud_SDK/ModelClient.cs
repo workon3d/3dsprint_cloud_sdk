@@ -345,11 +345,11 @@ namespace TDSPRINT.Cloud.SDK
             if (ModelId == 0)
                 throw new Exception("Model ID Required");
 
-            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", ApiPath, Convert.ToString(ModelId)), Method.PUT);
+            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}/meta", ApiPath, Convert.ToString(ModelId)), Method.PUT);
 
             request.AddParameter("api_token", ApiToken);
             if (Meta != null)
-                request.AddParameter("update_meta", Meta.Stringify());
+                request.AddParameter("meta", Meta.Stringify());
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
@@ -385,9 +385,9 @@ namespace TDSPRINT.Cloud.SDK
                 throw new Exception("Hash key to be removed required");
             string serialized = JsonConvert.SerializeObject(KeyList);
 
-            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", ApiPath, Convert.ToString(ModelId)), Method.PUT);
+            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}/meta", ApiPath, Convert.ToString(ModelId)), Method.DELETE);
             request.AddParameter("api_token", ApiToken);
-            request.AddParameter("delete_meta", serialized);
+            request.AddParameter("meta", serialized);
 
             try
             {
