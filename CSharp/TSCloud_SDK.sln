@@ -11,7 +11,19 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TSCloud_WINCPP_TEST", "TSCl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSCloud_SDK_NET35", "TSCloud_SDK\TSCloud_SDK_NET35.csproj", "{F8942286-BFA0-44D9-AD97-829660D5E934}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSCloud_SDK_NET40_Test", "TSCloud_SDK_NET40_Test\TSCloud_SDK_NET40_Test.csproj", "{87E9492F-69C9-449E-AA42-15558ED6CD99}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D4F3A9AE-96BD-49E5-B5EC-1F840B98275C}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+		TSCloud_SDK.vsmdi = TSCloud_SDK.vsmdi
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = TSCloud_SDK.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -101,6 +113,20 @@ Global
 		{F8942286-BFA0-44D9-AD97-829660D5E934}.Release|Win32.ActiveCfg = Release|Any CPU
 		{F8942286-BFA0-44D9-AD97-829660D5E934}.Release|x64.ActiveCfg = Release|Any CPU
 		{F8942286-BFA0-44D9-AD97-829660D5E934}.Release|x86.ActiveCfg = Release|Any CPU
+		{87E9492F-69C9-449E-AA42-15558ED6CD99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87E9492F-69C9-449E-AA42-15558ED6CD99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87E9492F-69C9-449E-AA42-15558ED6CD99}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{87E9492F-69C9-449E-AA42-15558ED6CD99}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{87E9492F-69C9-449E-AA42-15558ED6CD99}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{87E9492F-69C9-449E-AA42-15558ED6CD99}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{87E9492F-69C9-449E-AA42-15558ED6CD99}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{87E9492F-69C9-449E-AA42-15558ED6CD99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87E9492F-69C9-449E-AA42-15558ED6CD99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87E9492F-69C9-449E-AA42-15558ED6CD99}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{87E9492F-69C9-449E-AA42-15558ED6CD99}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{87E9492F-69C9-449E-AA42-15558ED6CD99}.Release|Win32.ActiveCfg = Release|Any CPU
+		{87E9492F-69C9-449E-AA42-15558ED6CD99}.Release|x64.ActiveCfg = Release|Any CPU
+		{87E9492F-69C9-449E-AA42-15558ED6CD99}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
