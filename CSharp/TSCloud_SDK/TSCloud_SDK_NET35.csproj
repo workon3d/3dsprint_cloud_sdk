@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datas\Comment.cs" />
     <Compile Include="Datas\Common.cs" />
     <Compile Include="Datas\Group.cs" />
     <Compile Include="Datas\Hash.cs" />

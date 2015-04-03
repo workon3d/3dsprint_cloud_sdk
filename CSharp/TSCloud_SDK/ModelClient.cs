@@ -102,6 +102,7 @@ namespace TDSPRINT.Cloud.SDK
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
                 Models models = JsonConvert.DeserializeObject<Models>(httpResponse.Content, TSCloud.serializer_settings());
+                models.Contents.ForEach(x => x.SysInfo = GetSysInfo());
 
                 return models;
             }
@@ -133,7 +134,8 @@ namespace TDSPRINT.Cloud.SDK
 
                 int owner_id = 0;
                 owner_id = Convert.ToInt32(model.Acl["owner"]);
-                model.Owner = Users.FindById(owner_id);
+                model.SysInfo = GetSysInfo();
+
                 return model;
             }
             catch (Exception ee)
@@ -173,6 +175,7 @@ namespace TDSPRINT.Cloud.SDK
                     Model model_response = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
                     model_response.StatusCode = httpResponse.StatusCode;
                     model_response.Message = httpResponse.ErrorMessage;
+                    model_response.SysInfo = GetSysInfo();
 
                     return model_response;
                 }
@@ -219,6 +222,7 @@ namespace TDSPRINT.Cloud.SDK
                     Model model = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
                     model.StatusCode = httpResponse.StatusCode;
                     model.Message = httpResponse.ErrorMessage;
+                    model.SysInfo = GetSysInfo();
 
                     return model;
                 }
@@ -281,6 +285,7 @@ namespace TDSPRINT.Cloud.SDK
                     Model model_response = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
                     model_response.StatusCode = httpResponse.StatusCode;
                     model_response.Message = httpResponse.ErrorMessage;
+                    model_response.SysInfo = GetSysInfo();
 
                     return model_response;
                 }
@@ -322,6 +327,7 @@ namespace TDSPRINT.Cloud.SDK
                     Model model = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
                     model.StatusCode = httpResponse.StatusCode;
                     model.Message = httpResponse.ErrorMessage;
+                    model.SysInfo = GetSysInfo();
 
                     return model;
                 }
@@ -358,6 +364,7 @@ namespace TDSPRINT.Cloud.SDK
                     Model model_response = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
                     model_response.StatusCode = httpResponse.StatusCode;
                     model_response.Message = httpResponse.ErrorMessage;
+                    model_response.SysInfo = GetSysInfo();
 
                     return model_response;
                 }
@@ -397,6 +404,7 @@ namespace TDSPRINT.Cloud.SDK
                     Model model_response = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
                     model_response.StatusCode = httpResponse.StatusCode;
                     model_response.Message = httpResponse.ErrorMessage;
+                    model_response.SysInfo = GetSysInfo();
 
                     return model_response;
                 }
@@ -564,6 +572,14 @@ namespace TDSPRINT.Cloud.SDK
         #endregion
 
         #region private method
+        private Hash GetSysInfo()
+        {
+            Hash SysInfo = new Hash();
+            SysInfo["ApiToken"] = CurrentUser.ApiToken;
+            SysInfo["ApiHost"] = this.Hostname;
+            SysInfo["ApiPath"] = this.ApiPath;
+            return SysInfo;
+        }
         //private string parse_model_ids(int[] model_ids)
         //{
         //    int length = model_ids.Length;
@@ -683,10 +699,12 @@ namespace TDSPRINT.Cloud.SDK
                             filtered_model_list.Add(model);
                     }
 
+                    filtered_model_list.ForEach(x => x.SysInfo = GetSysInfo());
                     return filtered_model_list;
                 }
                 else
                 {
+                    models.Contents.ForEach(x => x.SysInfo = GetSysInfo());
                     return models.Contents;
                 }
             }

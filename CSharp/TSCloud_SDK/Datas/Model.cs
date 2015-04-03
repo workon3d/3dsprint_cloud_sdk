@@ -6,6 +6,7 @@ using System.Text;
 using System.Collections;
 using TDSPRINT.Cloud.SDK.Types;
 using Newtonsoft.Json;
+using RestSharp;
 
 namespace TDSPRINT.Cloud.SDK.Datas
 {
@@ -28,7 +29,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
 
     public class Model : CommonItem
     {
-        #region member variable
+        #region Member Variable
         private bool m_readonly;
         private int m_size;
         private string m_key;
@@ -46,7 +47,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
         }
         #endregion
 
-        #region constructor
+        #region Constructor
         public Model(HttpStatusCode status_code, string strMessage = null)
             : this()
         {
@@ -63,7 +64,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
         }
         #endregion
 
-        #region getter/setter
+        #region Getter/Setter
         [JsonProperty("content")]
         public string Content { get; set; }
         public int? ParentId { get; set; }
@@ -143,11 +144,14 @@ namespace TDSPRINT.Cloud.SDK.Datas
         }
         #endregion
 
-        #region static method
+        #region Static Method
         static public bool IsValid(Model model) 
         {
             return model.IsValid();
         }
+        #endregion
+
+        #region Method
         public override bool IsValid()
         {
             try
@@ -160,6 +164,111 @@ namespace TDSPRINT.Cloud.SDK.Datas
             catch
             {
                 return false;
+            }
+        }
+
+        public Model Update()
+        {
+            if (!IsSysInfoDefined())
+                throw new Exception("SysInfo is not defined");
+
+            if (this.Id == 0)
+                throw new Exception("Model ID Required");
+
+            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", SysInfo["ApiPath"], Convert.ToString(this.Id)), Method.PUT);
+            request.AddParameter("api_token", SysInfo["ApiToken"]);
+            request.AddParameter("name", this.Name);
+            if (this.Meta != null)
+                request.AddParameter("meta", this.Meta.Stringify());
+            if (this.Acl != null)
+                request.AddParameter("acl", this.Acl.Stringify());
+            if (this.Ftype == Ftype.Page)
+                request.AddParameter("page", this.Content);
+            request.AddParameter("description", this.Description);
+
+            try
+            {
+                IRestResponse httpResponse = GetRestClient().Execute(request);
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    Model model_response = JsonConvert.DeserializeObject<Model>(httpResponse.Content, TSCloud.serializer_settings());
+                    model_response.StatusCode = httpResponse.StatusCode;
+                    model_response.Message = httpResponse.ErrorMessage;
+                    model_response.SysInfo = this.SysInfo;
+
+                    return model_response;
+                }
+                else
+                {
+                    return new Model(httpResponse.Content);
+                }
+            }
+            catch (Exception ee)
+            {
+                return new Model(ee.ToString());
+            }
+        }
+
+        public List<Comment> GetComments()
+        {
+            if (!IsSysInfoDefined())
+                throw new Exception("SysInfo is not defined");
+
+            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}/comments", SysInfo["ApiPath"], Convert.ToString(this.Id)), Method.GET);
+            request.AddParameter("api_token", SysInfo["ApiToken"]);
+
+            try
+            {
+                IRestResponse httpResponse = GetRestClient().Execute(request);
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    Comments comment_list = JsonConvert.DeserializeObject<Comments>(httpResponse.Content, TSCloud.serializer_settings());
+                    comment_list.StatusCode = httpResponse.StatusCode;
+                    comment_list.Message = httpResponse.ErrorMessage;
+                    comment_list.Contents.ForEach(x => x.SysInfo = this.SysInfo);
+
+                    return comment_list.Contents;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ee)
+            {
+                throw ee;
+            }
+        }
+
+        public Comment CreateComment(string Content)
+        {
+            if (!IsSysInfoDefined())
+                throw new Exception("SysInfo is not defined");
+
+            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}/comments", SysInfo["ApiPath"], Convert.ToString(this.Id)), Method.POST);
+            request.AddParameter("api_token", SysInfo["ApiToken"]);
+            request.AddParameter("content", Content);
+
+            try
+            {
+                IRestResponse httpResponse = GetRestClient().Execute(request);
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    Comment response = JsonConvert.DeserializeObject<Comment>(httpResponse.Content, TSCloud.serializer_settings());
+                    response.StatusCode = httpResponse.StatusCode;
+                    response.Message = httpResponse.ErrorMessage;
+                    response.SysInfo = this.SysInfo;
+
+                    return response;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ee)
+            {
+                throw ee;
             }
         }
         #endregion

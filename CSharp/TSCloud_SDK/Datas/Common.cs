@@ -5,12 +5,15 @@ using System.Text;
 using Newtonsoft.Json;
 using System.Net;
 using System.Collections;
+using RestSharp;
 
 namespace TDSPRINT.Cloud.SDK.Datas
 {
     public class CommonItem
     {
         #region member variables
+        private RestClient RestClient;
+
         private int m_id;
         private string m_name;
         private Hash m_acl; // TODO: Replace this to Acl
@@ -19,9 +22,15 @@ namespace TDSPRINT.Cloud.SDK.Datas
         private string m_message;
         private Hash m_meta;
         private HttpStatusCode m_StatusCode;
+        private Hash m_sys_info;
         #endregion
 
-        #region getter/setter
+        #region Getter/Setter
+        public Hash SysInfo
+        {
+            protected get { return m_sys_info; }
+            set { m_sys_info = value; }
+        }
         [JsonProperty("id")]
         public int Id
         {
@@ -110,7 +119,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
         }
         #endregion
 
-        #region constructor
+        #region Constructor
         public CommonItem(HttpStatusCode status_code, string strMessage = null) : this()
         {
             Message = strMessage;
@@ -122,16 +131,20 @@ namespace TDSPRINT.Cloud.SDK.Datas
         }
         public CommonItem()
         {
+            m_sys_info = new Hash();
         }
         #endregion
 
-        #region method
+        #region Static Method
         static public bool IsValid(CommonItem item)
         {
             if (item == null)
                 return false;
             return item.IsValid();
         }
+        #endregion
+
+        #region Method
         public virtual bool IsValid()
         {
             try
@@ -146,8 +159,28 @@ namespace TDSPRINT.Cloud.SDK.Datas
                 return false;
             }
         }
+        protected bool IsSysInfoDefined()
+        {
+            return !(SysInfo == null || !SysInfo.ContainsKey("ApiHost") || !SysInfo.ContainsKey("ApiToken") || !SysInfo.ContainsKey("ApiPath"));
+        }
+        protected RestClient GetRestClient()
+        {
+            if (!IsSysInfoDefined())
+                throw new Exception("SysInfo is null");
+
+            if (RestClient == null)
+            {
+                RestClient = new RestClient(SysInfo["ApiHost"].ToString());
+                return RestClient;
+            }
+            else
+            {
+                return RestClient;
+            }
+        }
         #endregion
     }
+
     public class CommonList
     {
         private int m_parent;
@@ -290,19 +323,4 @@ namespace TDSPRINT.Cloud.SDK.Datas
         }
         #endregion
     }
-    //public class Meta
-    //{
-    //    public string Key;
-    //    public string Value;
-
-    //    public Meta()
-    //    {
-    //    }
-
-    //    public Meta(string strKey, string strValue)
-    //    {
-    //        Key = strKey;
-    //        Value = strValue;
-    //    }
-    //}
 }
