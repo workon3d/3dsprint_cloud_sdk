@@ -19,6 +19,7 @@ namespace TSCloud_SDK_NET40_Test
         private string Email = "inseok.lee@3dsystems.com";
         private string Password = "dldlstjr";
         private TSCloud _TSCloud;
+        private int testValue = 0;
 
         private TestContext testContextInstance;
 
@@ -38,36 +39,46 @@ namespace TSCloud_SDK_NET40_Test
             }
         }
 
+        public TSCloudTest()
+        {
+            Console.WriteLine("Constructor");
+            testValue++;
+            Console.WriteLine(testValue);
+        }
+
+
         #region Additional test attributes
         // 
         //You can use the following additional attributes as you write your tests:
         //
         //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
+        [ClassInitialize()]
+        public static void MyClassInitialize(TestContext testContext)
+        {   
+        }
+        
         //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
+        [ClassCleanup()]
+        public static void MyClassCleanup()
+        {
+            Console.WriteLine("Class cleanup");
+        }
+        
         //Use TestInitialize to run code before running each test
         [TestInitialize()]
         public void MyTestInitialize()
         {
             _TSCloud = new TSCloud(ApiHost);
             _TSCloud.Authenticate(Email, Password);
+            Console.WriteLine(testValue);
         }
-        //
+        
         //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
+        [TestCleanup()]
+        public void MyTestCleanup()
+        {
+        }
+
         #endregion
 
 
@@ -103,7 +114,6 @@ namespace TSCloud_SDK_NET40_Test
 
             actual = _TSCloud.Authenticate(Email, Password);
             Console.WriteLine(actual.Email);
-
             Assert.AreEqual("inseok.lee@3dsystems.com", actual.Email);
             Assert.AreEqual(24, actual.Id);
         }

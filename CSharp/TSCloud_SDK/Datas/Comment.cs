@@ -136,6 +136,19 @@ namespace TDSPRINT.Cloud.SDK.Datas
             }
 
         }
+        public override bool IsValid()
+        {
+            try
+            {
+                if (Id == 0 || ItemId == 0 || Owner == null || CreatedAt == null)
+                    return false;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         #endregion
     }
 }

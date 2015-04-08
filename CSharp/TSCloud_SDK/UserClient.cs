@@ -12,7 +12,7 @@ namespace TDSPRINT.Cloud.SDK
 {
     public class UserClient : TSCloud
     {
-        #region constructor
+        #region Constructor
         public UserClient()
         {
         }
@@ -24,7 +24,8 @@ namespace TDSPRINT.Cloud.SDK
             CurrentUser = TSCloud.CurrentUser;
         }
         #endregion
-        #region public method
+
+        #region Method
         public Users All()
         {
             RestRequest request = new RestRequest(String.Format("{0}/users", ApiPath), Method.GET);
