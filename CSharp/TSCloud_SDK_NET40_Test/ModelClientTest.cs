@@ -8,8 +8,6 @@ using System.Net;
 
 namespace TSCloud_SDK_NET40_Test
 {
-    
-    
     /// <summary>
     ///This is a test class for ModelClientTest and is intended
     ///to contain all ModelClientTest Unit Tests

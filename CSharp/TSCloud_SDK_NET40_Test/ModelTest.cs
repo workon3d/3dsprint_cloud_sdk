@@ -8,8 +8,6 @@ using TDSPRINT.Cloud.SDK;
 
 namespace TSCloud_SDK_NET40_Test
 {
-    
-    
     /// <summary>
     ///This is a test class for ModelTest and is intended
     ///to contain all ModelTest Unit Tests
@@ -132,12 +130,19 @@ namespace TSCloud_SDK_NET40_Test
         [TestMethod()]
         public void UpdateTest()
         {
-            Model target = new Model(); // TODO: Initialize to an appropriate value
-            Model expected = null; // TODO: Initialize to an appropriate value
-            Model actual;
-            actual = target.Update();
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            _Model = _ModelClient.Get(14940);
+
+            Model origin = _Model;
+
+            _Model.Description = "changed";
+            _Model.Name = "wheel2.stl";
+
+            Model updated = _Model.Update();
+
+            Assert.AreEqual(_Model.Description, updated.Description);
+            Assert.AreEqual(_Model.Name, updated.Name);
+
+            origin.Update();
         }
     }
 }
