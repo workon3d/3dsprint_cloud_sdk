@@ -21,6 +21,10 @@ namespace TDSPRINT.Cloud.SDK
         {
             return String.Join(",", ids.Select(x => Convert.ToString(x)).ToArray());
         }
+        public static string ConvertToStrings(String[] strings)
+        {
+            return String.Join(",", strings.Select(x => Convert.ToString(x)).ToArray());
+        }
         #endregion
     }
 }

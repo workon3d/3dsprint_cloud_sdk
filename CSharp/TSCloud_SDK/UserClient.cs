@@ -169,16 +169,9 @@ namespace TDSPRINT.Cloud.SDK
             if (emails.Length < 1)
                 throw new Exception("emails Required");
 
-            StringBuilder sb = new StringBuilder();
-
-            foreach(string email in emails)
-            {
-                sb.AppendFormat("{0},",email);
-            }
-
             RestRequest request = new RestRequest(String.Format("{0}/users", ApiPath), Method.GET);
             request.AddParameter("api_token", ApiToken);
-            request.AddParameter("emails", sb.ToString());
+            request.AddParameter("emails", TSUtil.ConvertToStrings(emails));
 
             try
             {
