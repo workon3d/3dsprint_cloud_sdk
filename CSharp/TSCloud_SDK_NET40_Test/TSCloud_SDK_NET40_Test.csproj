@@ -58,6 +58,7 @@
     <Compile Include="ModelClientTest.cs" />
     <Compile Include="ModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestBase.cs" />
     <Compile Include="TSCloudTest.cs" />
     <Compile Include="TSUtilTest.cs" />
   </ItemGroup>

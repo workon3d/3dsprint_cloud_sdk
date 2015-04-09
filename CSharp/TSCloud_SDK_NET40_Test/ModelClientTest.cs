@@ -13,11 +13,8 @@ namespace TSCloud_SDK_NET40_Test
     ///to contain all ModelClientTest Unit Tests
     ///</summary>
     [TestClass()]
-    public class ModelClientTest
+    public class ModelClientTest : TestBase
     {
-        private TSCloud _TSCloud = null;
-        private ModelClient _ModelClient = null;
-
         private TestContext testContextInstance;
 
         /// <summary>
@@ -55,31 +52,26 @@ namespace TSCloud_SDK_NET40_Test
         public void MyTestInitialize()
         {
             Initialize();
+
         }
-        
+
         //Use TestCleanup to run code after each test has run
         [TestCleanup()]
         public void MyTestCleanup()
         {
         }
-        
         #endregion
 
-        public void Initialize()
+        #region Overrided initializer
+        public override void Initialize()
         {
-            _TSCloud = new TSCloud("http://tp2staging.herokuapp.com");
-            User current_user = new User();
-
-            current_user.ApiToken = "inska";
-            current_user.Id = 22;
-            current_user.Name = "Inseok Lee";
-            current_user.Email = "inseok.lee@3dsystems.com";
-            current_user.Role = "admin";
-            current_user.Company = "test";
-            _TSCloud.CurrentUser = current_user;
-            _TSCloud.ApiToken = "inska";
+            Initialize();
             _ModelClient = new ModelClient(_TSCloud);
+            Assert.IsTrue(_Model.IsValid());
+            Assert.IsTrue(_TSCloud.CurrentUser.IsValid());
         }
+        #endregion
+
 
         /// <summary>
         ///A test for Create

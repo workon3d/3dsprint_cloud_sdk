@@ -13,12 +13,8 @@ namespace TSCloud_SDK_NET40_Test
     ///to contain all ModelTest Unit Tests
     ///</summary>
     [TestClass()]
-    public class ModelTest
+    public class ModelTest : TestBase
     {
-        private TSCloud _TSCloud = null;
-        private ModelClient _ModelClient = null;
-        private Model _Model = null;
-
         private TestContext testContextInstance;
 
         /// <summary>
@@ -68,24 +64,16 @@ namespace TSCloud_SDK_NET40_Test
         //
         #endregion
 
-        public void Initialize()
+        #region Overrided initializer
+        public override void Initialize()
         {
-            _TSCloud = new TSCloud("http://tp2staging.herokuapp.com");
-            User current_user = new User();
-
-            current_user.ApiToken = "inska";
-            current_user.Id = 22;
-            current_user.Name = "Inseok Lee";
-            current_user.Email = "inseok.lee@3dsystems.com";
-            current_user.Role = "admin";
-            current_user.Company = "test";
-            _TSCloud.CurrentUser = current_user;
-            _TSCloud.ApiToken = "inska";
+            Initialize();
             _ModelClient = new ModelClient(_TSCloud);
-
             _Model = _ModelClient.Get(14940);
-
+            Assert.IsTrue(_Model.IsValid());
+            Assert.IsTrue(_TSCloud.CurrentUser.IsValid());
         }
+        #endregion
 
         /// <summary>
         ///A test for Model Constructor
@@ -94,6 +82,7 @@ namespace TSCloud_SDK_NET40_Test
         public void ModelConstructorTest()
         {
             Model target = new Model();
+            Assert.IsFalse(target.IsValid());
             
         }
 
@@ -130,8 +119,6 @@ namespace TSCloud_SDK_NET40_Test
         [TestMethod()]
         public void UpdateTest()
         {
-            _Model = _ModelClient.Get(14940);
-
             Model origin = _Model;
 
             _Model.Description = "changed";
@@ -139,6 +126,7 @@ namespace TSCloud_SDK_NET40_Test
 
             Model updated = _Model.Update();
 
+            Assert.IsTrue(updated.IsValid());
             Assert.AreEqual(_Model.Description, updated.Description);
             Assert.AreEqual(_Model.Name, updated.Name);
 
