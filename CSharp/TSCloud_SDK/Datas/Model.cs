@@ -209,6 +209,67 @@ namespace TDSPRINT.Cloud.SDK.Datas
             }
         }
 
+        public bool UpdateMeta(Hash Meta)
+        {
+            if (!this.IsValid())
+                throw new Exception("Model is not valid");
+
+            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}/meta", SysInfo["ApiPath"], Convert.ToString(this.Id)), Method.PUT);
+
+            request.AddParameter("api_token", SysInfo["ApiToken"]);
+
+            if (Meta != null)
+                request.AddParameter("meta", Meta.Stringify());
+            try
+            {
+                IRestResponse httpResponse = GetRestClient().Execute(request);
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ee)
+            {
+                throw ee;
+            }
+        }
+
+        public bool RemoveMeta(List<String> KeyList)
+        {
+            if (!this.IsValid())
+                throw new Exception("Model is not valid");
+
+            if (KeyList.Count == 0)
+                throw new Exception("Hash key to be removed required");
+
+            string serialized = JsonConvert.SerializeObject(KeyList);
+
+            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}/meta", SysInfo["ApiPath"], Convert.ToString(this.Id)), Method.DELETE);
+            request.AddParameter("api_token", SysInfo["ApiToken"]);
+            request.AddParameter("keys", serialized);
+
+            try
+            {
+                IRestResponse httpResponse = GetRestClient().Execute(request);
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ee)
+            {
+                throw ee;
+            }
+        }
+        
         public List<Comment> GetComments()
         {
             if (!IsSysInfoDefined())
@@ -271,6 +332,27 @@ namespace TDSPRINT.Cloud.SDK.Datas
                 throw ee;
             }
         }
+
+        public Model CopyTo(int TargetFolderId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Model MoveTo(int TargetFolderId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Model Remove()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetDownloadURL()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

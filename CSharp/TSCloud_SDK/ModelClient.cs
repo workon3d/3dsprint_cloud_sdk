@@ -342,10 +342,12 @@ namespace TDSPRINT.Cloud.SDK
             }
         }
 
+        [Obsolete("This method will be deprecated", false)]
         public bool UpdateMeta(Model model, Hash Meta)
         {
             return UpdateMeta(model.Id, Meta);
         }
+        [Obsolete("This method will be deprecated", false)]
         public bool UpdateMeta(int ModelId, Hash Meta)
         {
             if (ModelId == 0)
@@ -380,10 +382,12 @@ namespace TDSPRINT.Cloud.SDK
             }
         }
 
+        [Obsolete("This method will be deprecated", false)]
         public bool RemoveMeta(Model model, List<String> KeyList)
         {
             return RemoveMeta(model.Id, KeyList);
         }
+        [Obsolete("This method will be deprecated", false)]
         public bool RemoveMeta(int ModelId, List<String> KeyList)
         {
             if (ModelId == 0)
@@ -475,11 +479,13 @@ namespace TDSPRINT.Cloud.SDK
             }
         }
 
+        [Obsolete("This method will be deprecated", false)]
         public string GetDownloadURL(int ModelId)
         {
             return String.Format("{0}/{1}/folders/{2}/download?api_token={3}", Hostname, ApiPath, Convert.ToString(ModelId), System.Uri.EscapeUriString(ApiToken));
         }
 
+        [Obsolete("This method will be deprecated", false)]
         public Model Delete(int ModelId)
         {
             RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", ApiPath, Convert.ToString(ModelId)), Method.DELETE);
@@ -520,6 +526,7 @@ namespace TDSPRINT.Cloud.SDK
         //    }
         //}
 
+        [Obsolete("This method will be deprecated", false)]
         public HttpStatusCode Copy(int[] ModelIds, int TargetModelId)
         {
             RestRequest request = new RestRequest(String.Format("{0}/folders/copy", ApiPath), Method.PUT);
@@ -537,12 +544,15 @@ namespace TDSPRINT.Cloud.SDK
                 return HttpStatusCode.InternalServerError;
             }
         }
+
+        [Obsolete("This method will be deprecated", false)]
         public HttpStatusCode Copy(int ModelId, int TargetModelId)
         {
             int[] ModelIds = {ModelId};
             return Copy(ModelIds, TargetModelId);
         }
-        
+
+        [Obsolete("This method will be deprecated", false)]
         public HttpStatusCode Move(int[] ModelIds, int TargetModelId)
         {
             RestRequest request = new RestRequest(String.Format("{0}/folders/move", ApiPath), Method.PUT);
@@ -560,6 +570,7 @@ namespace TDSPRINT.Cloud.SDK
                 return HttpStatusCode.InternalServerError;
             }
         }
+        [Obsolete("This method will be deprecated", false)]
         public HttpStatusCode Move(int ModelId, int TargetModelId)
         {
             int[] ModelIds = { ModelId };
