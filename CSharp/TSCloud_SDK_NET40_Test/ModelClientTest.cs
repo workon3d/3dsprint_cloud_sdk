@@ -105,7 +105,7 @@ namespace TSCloud_SDK_NET40_Test
         [TestMethod()]
         public void GetTest()
         {
-            Model target = _ModelClient.Get(14940);
+            Model target = _ModelClient.Get(_TargetModelId);
             Assert.IsTrue(target.IsValid());
             Assert.AreEqual("wheel.stl", target.Name);
             Assert.AreEqual(2153357, target.Size);
@@ -119,7 +119,7 @@ namespace TSCloud_SDK_NET40_Test
         [TestMethod()]
         public void GetDownloadURLTest()
         {
-            string target = _ModelClient.GetDownloadURL(14940);
+            string target = _ModelClient.GetDownloadURL(_TargetModelId);
 
             Assert.IsNotNull(target);
             Assert.IsTrue(target.IndexOf("http://") == 0);
@@ -143,7 +143,7 @@ namespace TSCloud_SDK_NET40_Test
         [TestMethod()]
         public void RemoveMetaTest()
         {
-            Model model = _ModelClient.Get(14940);
+            Model model = _ModelClient.Get(_TargetModelId);
 
             if (!model.Meta.ContainsKey("unittest"))
             {
@@ -157,7 +157,7 @@ namespace TSCloud_SDK_NET40_Test
             List<String> key_list = new List<String>();
             key_list.Add("unittest");
 
-            bool remove_result = _ModelClient.RemoveMeta(14940, key_list);
+            bool remove_result = _ModelClient.RemoveMeta(_TargetModelId, key_list);
 
             Assert.IsTrue(remove_result);
         }
@@ -169,7 +169,7 @@ namespace TSCloud_SDK_NET40_Test
         [TestMethod()]
         public void UpdateTest()
         {
-            Model target = _ModelClient.Get(14940);
+            Model target = _ModelClient.Get(_TargetModelId);
             target.Description = "description";
             target.Name = "wheel2.stl";
             Model updated = _ModelClient.Update(target);
@@ -191,18 +191,18 @@ namespace TSCloud_SDK_NET40_Test
         public void UpdateMetaTest()
         {
             string content = "Test by Unit test";
-            Model target = _ModelClient.Get(14940);
+            Model target = _ModelClient.Get(_TargetModelId);
             Hash changed = target.Meta;
             if (changed.ContainsKey("unittest"))
                 changed["unittest"] = content;
             else
                 changed.Add("unittest", content);
 
-            bool is_updated = _ModelClient.UpdateMeta(14940, changed);
+            bool is_updated = _ModelClient.UpdateMeta(_TargetModelId, changed);
 
             Assert.IsTrue(is_updated);
 
-            Model updated = _ModelClient.Get(14940);
+            Model updated = _ModelClient.Get(_TargetModelId);
             Assert.AreEqual(changed["unittest"], updated.Meta["unittest"]);
         }
     }

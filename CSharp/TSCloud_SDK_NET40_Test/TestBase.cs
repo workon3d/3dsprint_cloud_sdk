@@ -14,6 +14,7 @@ namespace TSCloud_SDK_NET40_Test
         protected GroupClient _GroupClient = null;
         protected Model _Model = null;
         protected User _CurrentUser = null;
+        protected int _TargetModelId = 14940;
 
         public virtual void Initialize()
         {

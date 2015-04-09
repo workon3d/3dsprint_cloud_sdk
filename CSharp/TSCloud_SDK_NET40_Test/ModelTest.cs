@@ -69,7 +69,7 @@ namespace TSCloud_SDK_NET40_Test
         {
             Initialize();
             _ModelClient = new ModelClient(_TSCloud);
-            _Model = _ModelClient.Get(14940);
+            _Model = _ModelClient.Get(_TargetModelId);
             Assert.IsTrue(_Model.IsValid());
             Assert.IsTrue(_TSCloud.CurrentUser.IsValid());
         }
