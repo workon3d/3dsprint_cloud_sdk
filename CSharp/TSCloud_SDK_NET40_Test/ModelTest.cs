@@ -67,7 +67,7 @@ namespace TSCloud_SDK_NET40_Test
         #region Overrided initializer
         public override void Initialize()
         {
-            Initialize();
+            base.Initialize();
             _ModelClient = new ModelClient(_TSCloud);
             _Model = _ModelClient.Get(_TargetModelId);
             Assert.IsTrue(_Model.IsValid());

@@ -52,7 +52,6 @@ namespace TSCloud_SDK_NET40_Test
         public void MyTestInitialize()
         {
             Initialize();
-
         }
 
         //Use TestCleanup to run code after each test has run
@@ -65,9 +64,8 @@ namespace TSCloud_SDK_NET40_Test
         #region Overrided initializer
         public override void Initialize()
         {
-            Initialize();
+            base.Initialize();
             _ModelClient = new ModelClient(_TSCloud);
-            Assert.IsTrue(_Model.IsValid());
             Assert.IsTrue(_TSCloud.CurrentUser.IsValid());
         }
         #endregion

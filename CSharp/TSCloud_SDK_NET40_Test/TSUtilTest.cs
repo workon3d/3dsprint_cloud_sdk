@@ -6,17 +6,13 @@ using TDSPRINT.Cloud.SDK.Datas;
 
 namespace TSCloud_SDK_NET40_Test
 {
-    
-    
     /// <summary>
     ///This is a test class for TSUtilTest and is intended
     ///to contain all TSUtilTest Unit Tests
     ///</summary>
     [TestClass()]
-    public class TSUtilTest
+    public class TSUtilTest : TestBase
     {
-
-
         private TestContext testContextInstance;
 
         /// <summary>
@@ -76,46 +72,36 @@ namespace TSCloud_SDK_NET40_Test
         //    Assert.Inconclusive("TODO: Implement code to verify target");
         //}
 
-        /// <summary>
+        ///<summary>
         ///A test for ConvertToIds
         ///</summary>
-        //[TestMethod()]
-        //public void ConvertToIdsTest()
-        //{
-        //    List<int> ids = null; // TODO: Initialize to an appropriate value
-        //    string expected = string.Empty; // TODO: Initialize to an appropriate value
-        //    string actual;
-        //    actual = TSUtil.ConvertToIds(ids);
-        //    Assert.AreEqual(expected, actual);
-        //    Assert.Inconclusive("Verify the correctness of this test method.");
-        //}
+        [TestMethod()]
+        public void ConvertToIdsTest()
+        {
+            List<int> ids_list = new List<int>();
+            {
+                ids_list.Add(100);
+                ids_list.Add(200);
+                ids_list.Add(300);
 
-        ///// <summary>
-        /////A test for ConvertToIds
-        /////</summary>
-        //[TestMethod()]
-        //public void ConvertToIdsTest1()
-        //{
-        //    int[] ids = null; // TODO: Initialize to an appropriate value
-        //    string expected = string.Empty; // TODO: Initialize to an appropriate value
-        //    string actual;
-        //    actual = TSUtil.ConvertToIds(ids);
-        //    Assert.AreEqual(expected, actual);
-        //    Assert.Inconclusive("Verify the correctness of this test method.");
-        //}
+            }
 
-        ///// <summary>
-        /////A test for ConvertToIds
-        /////</summary>
-        //[TestMethod()]
-        //public void ConvertToIdsTest2()
-        //{
-        //    List<CommonItem> items = null; // TODO: Initialize to an appropriate value
-        //    string expected = string.Empty; // TODO: Initialize to an appropriate value
-        //    string actual;
-        //    actual = TSUtil.ConvertToIds(items);
-        //    Assert.AreEqual(expected, actual);
-        //    Assert.Inconclusive("Verify the correctness of this test method.");
-        //}
+            int[] ids_array = { 100, 200, 300 };
+
+            List<Model> models = new List<Model>();
+            for (int i = 1; i <= 3; i++)
+            {
+                Model model = new Model();
+                model.Id = i * 100;
+                models.Add(model);
+            }
+
+            string expected = "100,200,300";
+            string actual_list = TSUtil.ConvertToIds(ids_list);
+            string actual_array = TSUtil.ConvertToIds(ids_array);
+
+            Assert.AreEqual(expected, actual_list);
+            Assert.AreEqual(expected, actual_array);
+        }
     }
 }
