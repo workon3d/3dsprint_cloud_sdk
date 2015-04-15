@@ -35,6 +35,7 @@ namespace TDSPRINT.Cloud.SDK
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
                 List<User> user_list = JsonConvert.DeserializeObject<List<User>>(httpResponse.Content, TSCloud.serializer_settings());
+                user_list.ForEach(x => x.SysInfo = GetSysInfo());
 
                 return new Users(user_list);
             }
@@ -63,6 +64,7 @@ namespace TDSPRINT.Cloud.SDK
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
                 User created_user = JsonConvert.DeserializeObject<User>(httpResponse.Content, TSCloud.serializer_settings());
+                created_user.SysInfo = GetSysInfo();
 
                 return created_user;
             }
@@ -98,6 +100,7 @@ namespace TDSPRINT.Cloud.SDK
                 {
                     User user_response = JsonConvert.DeserializeObject<User>(httpResponse.Content, TSCloud.serializer_settings());
                     user_response.StatusCode = httpResponse.StatusCode;
+                    user_response.SysInfo = GetSysInfo();
 
                     return user_response;
                 }
@@ -146,6 +149,7 @@ namespace TDSPRINT.Cloud.SDK
                 {
                     User user_response = JsonConvert.DeserializeObject<User>(httpResponse.Content, TSCloud.serializer_settings());
                     user_response.StatusCode = httpResponse.StatusCode;
+                    user_response.SysInfo = GetSysInfo();
 
                     return user_response;
                 }
@@ -179,6 +183,7 @@ namespace TDSPRINT.Cloud.SDK
                 if(httpResponse.StatusCode == HttpStatusCode.OK)
                 {
                     List<User> user_list = JsonConvert.DeserializeObject<List<User>>(httpResponse.Content, TSCloud.serializer_settings());
+                    user_list.ForEach(x => x.SysInfo = GetSysInfo());
                     return user_list;
                 }
                 else
@@ -203,6 +208,7 @@ namespace TDSPRINT.Cloud.SDK
                 if (httpResponse.StatusCode == HttpStatusCode.OK)
                 {
                     User user = JsonConvert.DeserializeObject<User>(httpResponse.Content, TSCloud.serializer_settings());
+                    user.SysInfo = GetSysInfo();
                     user.StatusCode = httpResponse.StatusCode;
 
                     return user;

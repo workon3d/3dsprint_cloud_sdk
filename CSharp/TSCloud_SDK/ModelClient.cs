@@ -579,14 +579,6 @@ namespace TDSPRINT.Cloud.SDK
         #endregion
 
         #region private method
-        private Hash GetSysInfo()
-        {
-            Hash SysInfo = new Hash();
-            SysInfo["ApiToken"] = CurrentUser.ApiToken;
-            SysInfo["ApiHost"] = this.Hostname;
-            SysInfo["ApiPath"] = this.ApiPath;
-            return SysInfo;
-        }
         //private string parse_model_ids(int[] model_ids)
         //{
         //    int length = model_ids.Length;

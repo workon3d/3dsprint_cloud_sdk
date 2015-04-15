@@ -115,6 +115,7 @@ namespace TDSPRINT.Cloud.SDK
                 if (httpResponse.StatusCode == HttpStatusCode.OK)
                 {
                     User CurrentUser = JsonConvert.DeserializeObject<Datas.User>(httpResponse.Content, TSCloud.serializer_settings());
+                    CurrentUser.SysInfo = GetSysInfo();
                     this.CurrentUser = CurrentUser;
                     m_ApiToken = CurrentUser.ApiToken;
 
@@ -154,6 +155,7 @@ namespace TDSPRINT.Cloud.SDK
                 if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
                     return new User("Unauthorized");
                 User CurrentUser = JsonConvert.DeserializeObject<Datas.User>(httpResponse.Content, TSCloud.serializer_settings());
+                CurrentUser.SysInfo = GetSysInfo();
                 CurrentUser.StatusCode = httpResponse.StatusCode;
                 CurrentUser.ApiToken = api_token;
                 this.CurrentUser = CurrentUser;
@@ -181,6 +183,7 @@ namespace TDSPRINT.Cloud.SDK
                     return new User("Unauthorized");
                 
                 User CurrentUser = JsonConvert.DeserializeObject<Datas.User>(httpResponse.Content, TSCloud.serializer_settings());
+                CurrentUser.SysInfo = GetSysInfo();
 
                 if (CurrentUser.Email != email)
                     return new User("Unauthorized");
@@ -238,6 +241,14 @@ namespace TDSPRINT.Cloud.SDK
         #endregion
 
         #region private method
+        protected Hash GetSysInfo()
+        {
+            Hash SysInfo = new Hash();
+            SysInfo["ApiToken"] = CurrentUser.ApiToken;
+            SysInfo["ApiHost"] = this.Hostname;
+            SysInfo["ApiPath"] = this.ApiPath;
+            return SysInfo;
+        }
         string GetApiHost()
         {
             RestClient = new RestClient(AppHost);

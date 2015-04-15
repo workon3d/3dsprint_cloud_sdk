@@ -61,6 +61,7 @@
     <Compile Include="TestBase.cs" />
     <Compile Include="TSCloudTest.cs" />
     <Compile Include="TSUtilTest.cs" />
+    <Compile Include="UserTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Shadow Include="Test References\TSCloud_SDK.accessor" />

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
+using RestSharp;
 
 namespace TDSPRINT.Cloud.SDK.Datas
 {
@@ -19,6 +20,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
         private Team m_team;
         private string m_role;
         private string m_avatar_url;
+        private List<int> m_group_ids;
         #endregion
 
         #region getter/setter
@@ -122,6 +124,26 @@ namespace TDSPRINT.Cloud.SDK.Datas
                 }
             }
         }
+        public List<int> GroupIds
+        {
+            get { return m_group_ids; }
+
+        }
+        [JsonProperty("groups")]
+        public object _group_ids
+        {
+            set
+            {
+                try
+                {
+                    m_group_ids = JsonConvert.DeserializeObject<List<int>>(value.ToString());
+                }
+                catch
+                {
+                    m_group_ids = null;
+                }
+            }
+        }
         #endregion
 
         #region constructor
@@ -156,6 +178,64 @@ namespace TDSPRINT.Cloud.SDK.Datas
                 return false;
             else
                 return true;
+        }
+        public bool Follow(int ModelId)
+        {
+            if (!IsSysInfoDefined())
+                throw new Exception("SysInfo is not defined");
+
+            if (this.Id == 0)
+               throw new Exception("User ID Required");
+
+            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}/follow", SysInfo["ApiPath"], ModelId), Method.PUT);
+            request.AddParameter("api_token", SysInfo["ApiToken"]);
+            request.AddParameter("u_id", this.Id);
+
+            try
+            {
+                IRestResponse httpResponse = GetRestClient().Execute(request);
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ee)
+            {
+                throw new Exception(ee.ToString());
+            }
+        }
+        public bool Unfollow(int ModelId)
+        {
+            if (!IsSysInfoDefined())
+                throw new Exception("SysInfo is not defined");
+
+            if (this.Id == 0)
+               throw new Exception("User ID Required");
+
+            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}/unfollow", SysInfo["ApiPath"], ModelId), Method.PUT);
+            request.AddParameter("api_token", SysInfo["ApiToken"]);
+            request.AddParameter("u_id", this.Id);
+
+            try
+            {
+                IRestResponse httpResponse = GetRestClient().Execute(request);
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ee)
+            {
+                throw new Exception(ee.ToString());
+            }
         }
         #endregion
 
