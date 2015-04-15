@@ -115,9 +115,10 @@ namespace TDSPRINT.Cloud.SDK
                 if (httpResponse.StatusCode == HttpStatusCode.OK)
                 {
                     User CurrentUser = JsonConvert.DeserializeObject<Datas.User>(httpResponse.Content, TSCloud.serializer_settings());
+                    m_ApiToken = CurrentUser.ApiToken;
                     CurrentUser.SysInfo = GetSysInfo();
                     this.CurrentUser = CurrentUser;
-                    m_ApiToken = CurrentUser.ApiToken;
+
 
                     UserClient UserClient = new UserClient(this);
                     m_users = UserClient.All();
@@ -244,7 +245,7 @@ namespace TDSPRINT.Cloud.SDK
         protected Hash GetSysInfo()
         {
             Hash SysInfo = new Hash();
-            SysInfo["ApiToken"] = CurrentUser.ApiToken;
+            SysInfo["ApiToken"] = ApiToken;
             SysInfo["ApiHost"] = this.Hostname;
             SysInfo["ApiPath"] = this.ApiPath;
             return SysInfo;
