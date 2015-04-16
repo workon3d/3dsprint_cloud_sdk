@@ -269,6 +269,37 @@ namespace TDSPRINT.Cloud.SDK.Datas
                 throw ee;
             }
         }
+
+        public string GetLogs(string From = null, string To = null)
+        {
+            if (!this.IsValid())
+                throw new Exception("Model is not valid");
+
+            if (!IsSysInfoDefined())
+                throw new Exception("SysInfo is not defined");
+
+            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}/logs", SysInfo["ApiPath"], Convert.ToString(this.Id)), Method.GET);
+            request.AddParameter("api_token", SysInfo["ApiToken"]);
+            request.AddParameter("from", From);
+            request.AddParameter("to", To);
+
+            try
+            {
+                IRestResponse httpResponse = GetRestClient().Execute(request);
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    return Convert.ToString(httpResponse.Content);
+                }
+                else
+                {
+                    throw new Exception(String.Format("{0} : {1}", httpResponse.StatusCode, httpResponse.ErrorMessage));
+                }
+            }
+            catch (Exception ee)
+            {
+                throw new Exception(ee.ToString());
+            }
+        }
         
         public List<Comment> GetComments()
         {

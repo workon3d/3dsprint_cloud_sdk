@@ -132,5 +132,18 @@ namespace TSCloud_SDK_NET40_Test
 
             origin.Update();
         }
+
+        /// <summary>
+        ///A test for GetLogs
+        ///</summary>
+        [TestMethod()]
+        public void GetLogsTest()
+        {
+            Model target = _Model;
+            
+            string log = target.GetLogs();
+
+            Assert.IsNotNull(log);
+        }
     }
 }
