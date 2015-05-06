@@ -280,8 +280,10 @@ namespace TDSPRINT.Cloud.SDK.Datas
 
             RestRequest request = new RestRequest(String.Format("{0}/folders/{1}/logs", SysInfo["ApiPath"], Convert.ToString(this.Id)), Method.GET);
             request.AddParameter("api_token", SysInfo["ApiToken"]);
-            request.AddParameter("from", From);
-            request.AddParameter("to", To);
+            if (From != null)
+                request.AddParameter("from", From);
+            if (To != null)
+                request.AddParameter("to", To);
 
             try
             {
