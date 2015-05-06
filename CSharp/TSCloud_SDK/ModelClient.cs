@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using TDSPRINT.Cloud.SDK.Datas;
 using TDSPRINT.Cloud.SDK.Types;
 using TDSPRINT.Cloud.SDK;
+using RestSharp.Contrib;
 
 
 namespace TDSPRINT.Cloud.SDK

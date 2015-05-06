@@ -113,13 +113,13 @@ namespace TSCloud_SampleApp
         }
         private void doSearch()
         {
-            lvFileList.Items.Clear();
-            List<Model> models = ModelClient.Find(tbQuery.Text);
+            //lvFileList.Items.Clear();
+            //List<Model> models = ModelClient.Find(tbQuery.Text);
 
-            foreach (Model model in models)
-            {
-                insertModel(model);
-            }
+            //foreach (Model model in models)
+            //{
+            //    insertModel(model);
+            //}
         }
         private void showItem(object sender)
         {
