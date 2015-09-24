@@ -202,3 +202,8 @@ CSharp/TSCloud_WINCPP_SDK/bin/
 CSharp/TSCloud_WINCPP_TEST/Intermediate/
 CSharp/TSCloud_WINCPP_TEST/bin/
 CSharp/*/bin/Debug
+CSharp/TSCloud_SDK/bin/NET35/Debug/TSCloud_SDK.dll
+CSharp/TSCloud_SDK/bin/NET40/Debug/TSCloud_SDK.dll
+CSharp/TSCloud_SDK/bin/NET45/Debug/Newtonsoft.Json.dll
+CSharp/TSCloud_SDK/bin/NET45/Debug/RestSharp.dll
+CSharp/TSCloud_SDK/bin/NET45/Debug/TSCloud_SDK.dll
