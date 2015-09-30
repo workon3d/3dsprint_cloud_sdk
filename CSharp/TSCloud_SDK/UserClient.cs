@@ -26,24 +26,24 @@ namespace TDSPRINT.Cloud.SDK
         #endregion
 
         #region Method
-        public Users All()
-        {
-            RestRequest request = new RestRequest(String.Format("{0}/users", ApiPath), Method.GET);
-            request.AddParameter("api_token", ApiToken);
+        //public Users All()
+        //{
+        //    RestRequest request = new RestRequest(String.Format("{0}/users", ApiPath), Method.GET);
+        //    request.AddParameter("api_token", ApiToken);
 
-            try
-            {
-                IRestResponse httpResponse = RestClient.Execute(request);
-                List<User> user_list = JsonConvert.DeserializeObject<List<User>>(httpResponse.Content, TSCloud.serializer_settings());
-                user_list.ForEach(x => x.SysInfo = GetSysInfo());
+        //    try
+        //    {
+        //        IRestResponse httpResponse = RestClient.Execute(request);
+        //        List<User> user_list = JsonConvert.DeserializeObject<List<User>>(httpResponse.Content, TSCloud.serializer_settings());
+        //        user_list.ForEach(x => x.SysInfo = GetSysInfo());
 
-                return new Users(user_list);
-            }
-            catch
-            {
-                return new Users();
-            }
-        }
+        //        return new Users(user_list);
+        //    }
+        //    catch
+        //    {
+        //        return new Users();
+        //    }
+        //}
         public User Create(User user)
         {
             if(String.IsNullOrEmpty(user.Email))

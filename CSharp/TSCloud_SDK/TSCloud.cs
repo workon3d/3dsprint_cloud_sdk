@@ -23,7 +23,7 @@ namespace TDSPRINT.Cloud.SDK
         private readonly string m_ApiPath = "api/v1";
         private string m_ApiToken = null;
         private User m_CurrentUser;
-        private Users m_users;
+        //private Users m_users;
         #endregion
 
         #region getter/setter
@@ -51,11 +51,11 @@ namespace TDSPRINT.Cloud.SDK
             get { return m_CurrentUser; }
             set { m_CurrentUser = value; }
         }
-        public Users Users
-        {
-            get { return m_users; }
-            set { m_users = value; }
-        }
+        //public Users Users
+        //{
+        //    get { return m_users; }
+        //    set { m_users = value; }
+        //}
         #endregion
 
         #region constructor
@@ -120,8 +120,8 @@ namespace TDSPRINT.Cloud.SDK
                     this.CurrentUser = CurrentUser;
 
 
-                    UserClient UserClient = new UserClient(this);
-                    m_users = UserClient.All();
+                    //UserClient UserClient = new UserClient(this);
+                    //m_users = UserClient.All();
 
                     if (m_ApiToken != null)
                         return CurrentUser;
@@ -162,8 +162,8 @@ namespace TDSPRINT.Cloud.SDK
                 this.CurrentUser = CurrentUser;
                 this.ApiToken = api_token;
 
-                UserClient UserClient = new UserClient(this);
-                m_users = UserClient.All();
+                //UserClient UserClient = new UserClient(this);
+                //m_users = UserClient.All();
 
                 return CurrentUser;
             }
@@ -194,8 +194,8 @@ namespace TDSPRINT.Cloud.SDK
                 this.CurrentUser = CurrentUser;
                 this.ApiToken = api_token;
 
-                UserClient UserClient = new UserClient(this);
-                m_users = UserClient.All();
+                //UserClient UserClient = new UserClient(this);
+                //m_users = UserClient.All();
 
                 return CurrentUser;
             }

@@ -32,7 +32,7 @@ namespace TDSPRINT.Cloud.SDK
             RestClient = new RestClient(Hostname);
             ApiToken = TSCloud.ApiToken;
             CurrentUser = TSCloud.CurrentUser;
-            Users = TSCloud.Users;
+            // Users = TSCloud.Users;
 
             // Default Configuration
             Configuration = new Hash();
