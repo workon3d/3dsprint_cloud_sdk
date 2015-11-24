@@ -23,6 +23,9 @@ namespace TDSPRINT.Cloud.SDK
         public PrinterClient()
         {
         }
+        public PrinterClient(string AppHost) : base(AppHost)
+        {
+        }
         public PrinterClient(TSCloud TSCloud)
             : this()
         {

@@ -17,14 +17,12 @@ namespace TDSPRINT{
 
 			BaseAPICore::BaseAPICore(const std::wstring& host)
 			{
-				m_TSCloud = gcnew TDSPRINT::Cloud::SDK::TSCloud();
-				if (!host.empty())
-					m_TSCloud->Hostname = StringConverter::nativeToManaged(host);
+				m_TSCloud = gcnew TDSPRINT::Cloud::SDK::TSCloud(StringConverter::nativeToManaged(host));
 			}
 
 			std::wstring BaseAPICore::authenticate(std::wstring Email, std::wstring Password)
 			{
-				msclr::auto_gcroot<TDSPRINT::Cloud::SDK::Datas::User^> user = m_TSCloud->authenticate(
+				msclr::auto_gcroot<TDSPRINT::Cloud::SDK::Datas::User^> user = m_TSCloud->Authenticate(
 					StringConverter::nativeToManaged(Email),
 					StringConverter::nativeToManaged(Password));
 
@@ -50,14 +48,12 @@ namespace TDSPRINT{
 
 			PrinterAPICore::PrinterAPICore(const std::wstring& host)
 			{
-				m_TSCloud = gcnew TDSPRINT::Cloud::SDK::PrinterClient();
-				if (!host.empty())
-					m_TSCloud->Hostname = StringConverter::nativeToManaged(host);
+				m_TSCloud = gcnew TDSPRINT::Cloud::SDK::PrinterClient(StringConverter::nativeToManaged(host));
 			}
 
 			std::wstring PrinterAPICore::authenticate(std::wstring Email, std::wstring Password)
 			{
-				msclr::auto_gcroot<TDSPRINT::Cloud::SDK::Datas::User^> user = m_TSCloud->authenticate(
+				msclr::auto_gcroot<TDSPRINT::Cloud::SDK::Datas::User^> user = m_TSCloud->Authenticate(
 					StringConverter::nativeToManaged(Email),
 					StringConverter::nativeToManaged(Password));
 
@@ -77,9 +73,9 @@ namespace TDSPRINT{
 
 			std::wstring PrinterAPICore::authenticate(std::wstring ApiToken)
 			{
-				msclr::auto_gcroot<TDSPRINT::Cloud::SDK::Datas::User^> user = m_TSCloud->authenticate(StringConverter::nativeToManaged(ApiToken));
+				msclr::auto_gcroot<TDSPRINT::Cloud::SDK::Datas::User^> user = m_TSCloud->Authenticate(StringConverter::nativeToManaged(ApiToken));
 
-				if (user->ApiToken && user->ApiToken->Length != 0) {
+				if (user->Id != 0) {
 					Json::Value result;
 					result["id"] = user->Id;
 					result["api_token"] = StringConverter::ws2s(StringConverter::managedToNative(user->ApiToken));
