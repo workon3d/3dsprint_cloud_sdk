@@ -75,7 +75,7 @@ namespace TDSPRINT{
 			{
 				msclr::auto_gcroot<TDSPRINT::Cloud::SDK::Datas::User^> user = m_TSCloud->Authenticate(StringConverter::nativeToManaged(ApiToken));
 
-				if (user->Id != 0) {
+				if (user->ApiToken && user->ApiToken->Length != 0) {
 					Json::Value result;
 					result["id"] = user->Id;
 					result["api_token"] = StringConverter::ws2s(StringConverter::managedToNative(user->ApiToken));
