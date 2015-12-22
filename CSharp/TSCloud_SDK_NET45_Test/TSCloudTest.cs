@@ -247,11 +247,11 @@ namespace TSCloud_SDK_NET40_Test
         /// <summary>
         ///A test for Users
         ///</summary>
-        [TestMethod()]
-        public void UsersTest()
-        {
-            TSCloud target = _TSCloud;
-            Assert.IsTrue(_TSCloud.Users.All.Count > 0);
-        }
+        //[TestMethod()]
+        //public void UsersTest()
+        //{
+        //    TSCloud target = _TSCloud;
+        //    Assert.IsTrue(_TSCloud.Users.All.Count > 0);
+        //}
     }
 }

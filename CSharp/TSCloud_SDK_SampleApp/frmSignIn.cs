@@ -27,8 +27,20 @@ namespace TSCloud_SampleApp
             InitializeComponent();
         }
 
+        private void doSigninCentercode()
+        {
+            string UserID = tbEmail.Text;
+            string Password = tbPassword.Text;
+
+            JObject result = TSCloud.AuthenticateCenterCode(UserID, Password);
+            MessageBox.Show(result.ToString());
+        }
+
         private void doSignin()
-        {   
+        {
+            doSigninCentercode();
+            return;
+
             string Email = tbEmail.Text;
             string Password = tbPassword.Text;
 
@@ -49,9 +61,10 @@ namespace TSCloud_SampleApp
             
             if (User.IsValid(user))
             {
-                frmMain FileList = new frmMain(TSCloud);
-                FileList.Show();
-                this.Hide();
+                MessageBox.Show(user.ApiToken);
+                //frmMain FileList = new frmMain(TSCloud);
+                //FileList.Show();
+                //this.Hide();
             }
             else
             {

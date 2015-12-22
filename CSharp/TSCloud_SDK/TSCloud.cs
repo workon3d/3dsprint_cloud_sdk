@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 
 using TDSPRINT.Cloud.SDK.Datas;
 
+
 namespace TDSPRINT.Cloud.SDK
 {
     public class TSCloud
@@ -101,11 +102,19 @@ namespace TDSPRINT.Cloud.SDK
         {
             return Authenticate(Email, Password);
         }
+
         public User Authenticate(string Email, string Password)
+        {
+            return Authenticate(Email, Password, "");
+        }
+
+        public User Authenticate(string Email, string Password, string External)
         {
             var request = new RestRequest(ApiPath + "/authenticates", Method.POST);
             request.AddParameter("email", Email.ToLower());
             request.AddParameter("password", Password);
+            if (!string.IsNullOrEmpty(External))
+                request.AddParameter("external", External);
             request.RequestFormat = DataFormat.Json;
 
             try
@@ -140,6 +149,39 @@ namespace TDSPRINT.Cloud.SDK
                 return new User(ee.ToString());
             }
         }
+
+        public JObject AuthenticateCenterCode(string UserID, string Password)
+        {
+            var request = new RestRequest(ApiPath + "/authenticates", Method.POST);
+            request.AddParameter("email", UserID);
+            request.AddParameter("password", Password);
+            request.AddParameter("external", "centercode");
+            request.RequestFormat = DataFormat.Json;
+
+            JObject response = new JObject();
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    Newtonsoft.Json.Linq.JArray array = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(httpResponse.Content, TSCloud.serializer_settings());
+                    response.Add("documents", array);
+                    return response;
+                }
+                else
+                {
+                    response.Add("error", (int)httpResponse.StatusCode);
+                }
+            }
+            catch (Exception ee)
+            {
+                response.Add("error", ee.ToString());
+            }
+
+            return response;
+        }
+        
         [Obsolete("Please use Authenticate(Email, Password)")]
         public User authenticate(string api_token)
         {
