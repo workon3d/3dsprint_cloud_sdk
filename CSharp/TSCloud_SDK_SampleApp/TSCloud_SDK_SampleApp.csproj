@@ -106,8 +106,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="TSCloud_SDK">
-      <HintPath>..\TSCloud_SDK\bin\NET45\Debug\TSCloud_SDK.dll</HintPath>
+    <Reference Include="TSCloud_SDK, Version=1.12.4.21, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\TSCloud_SDK\bin\NET45\Release\TSCloud_SDK.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

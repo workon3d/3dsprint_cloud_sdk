@@ -150,7 +150,7 @@ namespace TDSPRINT.Cloud.SDK
             }
         }
 
-        public JObject AuthenticateCenterCode(string UserID, string Password)
+        public Newtonsoft.Json.Linq.JObject AuthenticateCenterCode(string UserID, string Password)
         {
             var request = new RestRequest(ApiPath + "/authenticates", Method.POST);
             request.AddParameter("email", UserID);
@@ -158,16 +158,14 @@ namespace TDSPRINT.Cloud.SDK
             request.AddParameter("external", "centercode");
             request.RequestFormat = DataFormat.Json;
 
-            JObject response = new JObject();
+            Newtonsoft.Json.Linq.JObject response = new  Newtonsoft.Json.Linq.JObject();
             try
             {
                 IRestResponse httpResponse = RestClient.Execute(request);
 
                 if (httpResponse.StatusCode == HttpStatusCode.OK)
                 {
-                    Newtonsoft.Json.Linq.JArray array = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(httpResponse.Content, TSCloud.serializer_settings());
-                    response.Add("documents", array);
-                    return response;
+                    return JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JObject>(httpResponse.Content, TSCloud.serializer_settings());
                 }
                 else
                 {

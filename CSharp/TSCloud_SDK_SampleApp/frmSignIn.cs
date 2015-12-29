@@ -32,7 +32,7 @@ namespace TSCloud_SampleApp
             string UserID = tbEmail.Text;
             string Password = tbPassword.Text;
 
-            JObject result = TSCloud.AuthenticateCenterCode(UserID, Password);
+            Newtonsoft.Json.Linq.JObject result = TSCloud.AuthenticateCenterCode(UserID, Password);
             MessageBox.Show(result.ToString());
         }
 
