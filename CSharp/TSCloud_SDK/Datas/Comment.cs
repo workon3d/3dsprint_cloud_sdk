@@ -114,9 +114,11 @@ namespace TDSPRINT.Cloud.SDK.Datas
         {
             if (!IsSysInfoDefined())
                 throw new Exception("SysInfo is not defined");
-
-            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}/comments/{2}", SysInfo["ApiPath"], Convert.ToString(this.ItemId), Convert.ToString(this.Id)), Method.DELETE);
-            request.AddParameter("api_token", SysInfo["ApiToken"]);
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+            
+            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}/comments/{2}", SysInfo.ApiPath, Convert.ToString(this.ItemId), Convert.ToString(this.Id)), Method.DELETE);
+            request.AddParameter("api_token", SysInfo.ApiToken);
 
             try
             {

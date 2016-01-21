@@ -13,6 +13,8 @@ namespace TDSPRINT.Cloud.SDK.Datas
         #region variables
         private string m_email;
         private string m_api_token;
+        private string m_refresh_token;
+        private long m_token_expiration;
         //private string m_name = "Unknown";
         private string m_address;
         private string m_company;
@@ -37,6 +39,18 @@ namespace TDSPRINT.Cloud.SDK.Datas
         {
             get { return m_api_token; }
             set { m_api_token = value; }
+        }
+        [JsonProperty("refresh_token")]
+        public string RefreshToken
+        {
+            get { return m_refresh_token; }
+            set { m_refresh_token = value; }
+        }
+        [JsonProperty("api_token_expires_at")]
+        public long TokenExpiration
+        {
+            get { return m_token_expiration; }
+            set { m_token_expiration = value; }
         }
         [JsonProperty("address")]
         public string Address
@@ -186,9 +200,11 @@ namespace TDSPRINT.Cloud.SDK.Datas
 
             if (this.Id == 0)
                throw new Exception("User ID Required");
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
 
-            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}/follow", SysInfo["ApiPath"], ModelId), Method.PUT);
-            request.AddParameter("api_token", SysInfo["ApiToken"]);
+            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}/follow", SysInfo.ApiPath, ModelId), Method.PUT);
+            request.AddParameter("api_token",SysInfo.ApiToken);
             request.AddParameter("u_id", this.Id);
 
             try
@@ -215,9 +231,11 @@ namespace TDSPRINT.Cloud.SDK.Datas
 
             if (this.Id == 0)
                throw new Exception("User ID Required");
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
 
-            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}/unfollow", SysInfo["ApiPath"], ModelId), Method.PUT);
-            request.AddParameter("api_token", SysInfo["ApiToken"]);
+            RestRequest request = new RestRequest(String.Format("{0}/folders/{1}/unfollow", SysInfo.ApiPath, ModelId), Method.PUT);
+            request.AddParameter("api_token",SysInfo.ApiToken);
             request.AddParameter("u_id", this.Id);
 
             try

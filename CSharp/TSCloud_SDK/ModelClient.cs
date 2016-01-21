@@ -15,30 +15,22 @@ using RestSharp.Contrib;
 
 namespace TDSPRINT.Cloud.SDK
 {
-    public class ModelClient : TSCloud
+    public class ModelClient : ClientBase
     {
         #region member variables
         private Hash Configuration;
         #endregion
 
         #region constructor
-        public ModelClient()
+        public ModelClient(TSCloud TSCloud)
+            : base(TSCloud)
         {
-            this.Configuration = null;
-        }
-        public ModelClient(TSCloud TSCloud) : this()
-        {
-            Hostname = TSCloud.Hostname;
-            RestClient = new RestClient(Hostname);
-            ApiToken = TSCloud.ApiToken;
-            CurrentUser = TSCloud.CurrentUser;
-            // Users = TSCloud.Users;
-
             // Default Configuration
             Configuration = new Hash();
             Configuration["PerPage"] = 30;
         }
-        public ModelClient(TSCloud TSCloud, Hash Configuration) : this(TSCloud)
+        public ModelClient(TSCloud TSCloud, Hash Configuration)
+            : this(TSCloud)
         {
             this.Configuration = Configuration;
         }
@@ -67,6 +59,9 @@ namespace TDSPRINT.Cloud.SDK
         }
         public Models GetModels(int Page, Ftype ftype, int FolderId, params GetModelsOption[] GetModelsOptions)
         {
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+
             RestRequest request = new RestRequest(String.Format("{0}/folders", ApiPath), Method.GET);
             if (ftype == Ftype.Folder)
                 request.AddParameter("folder", "true");
@@ -125,6 +120,9 @@ namespace TDSPRINT.Cloud.SDK
         }
         public Model Get(int ModelId)
         {
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+
             RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", ApiPath, ModelId.ToString()), Method.GET);
             request.AddParameter("api_token", ApiToken);
 
@@ -147,6 +145,9 @@ namespace TDSPRINT.Cloud.SDK
 
         public Model Create(Model model)
         {
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+
             RestRequest request = new RestRequest(String.Format("{0}/folders", ApiPath), Method.POST);
             
             request.AddParameter("api_token", ApiToken);
@@ -192,6 +193,9 @@ namespace TDSPRINT.Cloud.SDK
         }
         public Model Create(string ModelName, int ParentId, string FilePath, Hash Meta, Hash Acl)
         {
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+
             RestRequest request = new RestRequest(String.Format("{0}/folders", ApiPath), Method.POST);
             string strModelName;
 
@@ -263,6 +267,8 @@ namespace TDSPRINT.Cloud.SDK
         {
             if (model.Id == 0)
                 throw new Exception("Model ID Required");
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
 
             RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", ApiPath, Convert.ToString(model.Id)), Method.PUT);
 
@@ -353,6 +359,8 @@ namespace TDSPRINT.Cloud.SDK
         {
             if (ModelId == 0)
                 throw new Exception("Model ID Required");
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
 
             RestRequest request = new RestRequest(String.Format("{0}/folders/{1}/meta", ApiPath, Convert.ToString(ModelId)), Method.PUT);
 
@@ -396,6 +404,9 @@ namespace TDSPRINT.Cloud.SDK
 
             if (KeyList.Count == 0)
                 throw new Exception("Hash key to be removed required");
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+
             string serialized = JsonConvert.SerializeObject(KeyList);
 
             RestRequest request = new RestRequest(String.Format("{0}/folders/{1}/meta", ApiPath, Convert.ToString(ModelId)), Method.DELETE);
@@ -467,6 +478,9 @@ namespace TDSPRINT.Cloud.SDK
         [Obsolete("This method will be deprecated, so use Download(int, string)", false)]
         public byte[] Download(int ModelId)
         {
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+
             RestRequest request = new RestRequest(String.Format("{0}/folders/{1}/download", ApiPath, Convert.ToString(ModelId)), Method.GET);
             request.AddParameter("api_token", ApiToken);
             
@@ -483,12 +497,15 @@ namespace TDSPRINT.Cloud.SDK
         [Obsolete("This method will be deprecated", false)]
         public string GetDownloadURL(int ModelId)
         {
-            return String.Format("{0}/{1}/folders/{2}/download?api_token={3}", Hostname, ApiPath, Convert.ToString(ModelId), System.Uri.EscapeUriString(ApiToken));
+            return String.Format("{0}/{1}/folders/{2}/download?api_token={3}", ApiHost, ApiPath, Convert.ToString(ModelId), System.Uri.EscapeUriString(ApiToken));
         }
 
         [Obsolete("This method will be deprecated", false)]
         public Model Delete(int ModelId)
         {
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+
             RestRequest request = new RestRequest(String.Format("{0}/folders/{1}", ApiPath, Convert.ToString(ModelId)), Method.DELETE);
             request.AddParameter("api_token", ApiToken);
 
@@ -530,6 +547,9 @@ namespace TDSPRINT.Cloud.SDK
         [Obsolete("This method will be deprecated", false)]
         public HttpStatusCode Copy(int[] ModelIds, int TargetModelId)
         {
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+
             RestRequest request = new RestRequest(String.Format("{0}/folders/copy", ApiPath), Method.PUT);
             request.AddParameter("ids", TDSPRINT.Cloud.SDK.TSUtil.ConvertToIds(ModelIds));
             request.AddParameter("parent_id", Convert.ToString(TargetModelId));
@@ -556,6 +576,9 @@ namespace TDSPRINT.Cloud.SDK
         [Obsolete("This method will be deprecated", false)]
         public HttpStatusCode Move(int[] ModelIds, int TargetModelId)
         {
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+
             RestRequest request = new RestRequest(String.Format("{0}/folders/move", ApiPath), Method.PUT);
             request.AddParameter("ids", TSUtil.ConvertToIds(ModelIds));
             request.AddParameter("parent_id", Convert.ToString(TargetModelId));
@@ -662,6 +685,9 @@ namespace TDSPRINT.Cloud.SDK
 
         private List<Model> index(int ModelId, int Page, Ftype ftype)
         {
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+
             RestRequest request = new RestRequest(String.Format("{0}/folders", ApiPath), Method.GET);
             if(ftype != Ftype.All)
                 request.AddParameter("ftype", ftype.ToString());

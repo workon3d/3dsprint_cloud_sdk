@@ -22,11 +22,11 @@ namespace TDSPRINT.Cloud.SDK.Datas
         private string m_message;
         private Hash m_meta;
         private HttpStatusCode m_StatusCode;
-        private Hash m_sys_info;
+        private TSCloud m_sys_info;
         #endregion
 
         #region Getter/Setter
-        public Hash SysInfo
+        public TSCloud SysInfo
         {
             protected get { return m_sys_info; }
             set { m_sys_info = value; }
@@ -131,7 +131,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
         }
         public CommonItem()
         {
-            m_sys_info = new Hash();
+            m_sys_info = null;
         }
         #endregion
 
@@ -161,7 +161,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
         }
         protected bool IsSysInfoDefined()
         {
-            return !(SysInfo == null || !SysInfo.ContainsKey("ApiHost") || !SysInfo.ContainsKey("ApiToken") || !SysInfo.ContainsKey("ApiPath"));
+            return !(SysInfo == null || string.IsNullOrEmpty(SysInfo.ApiHost) || string.IsNullOrEmpty(SysInfo.ApiToken) || string.IsNullOrEmpty(SysInfo.ApiPath));
         }
         protected RestClient GetRestClient()
         {
@@ -170,7 +170,7 @@ namespace TDSPRINT.Cloud.SDK.Datas
 
             if (RestClient == null)
             {
-                RestClient = new RestClient(SysInfo["ApiHost"].ToString());
+                RestClient = new RestClient(SysInfo.ApiHost);
                 return RestClient;
             }
             else
@@ -178,6 +178,13 @@ namespace TDSPRINT.Cloud.SDK.Datas
                 return RestClient;
             }
         }
+        protected bool CheckExpiration()
+        {
+            if (!IsSysInfoDefined())
+                return false;
+            return SysInfo.CheckExpiration();
+        }
+
         #endregion
     }
 

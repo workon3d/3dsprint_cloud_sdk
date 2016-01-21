@@ -13,25 +13,16 @@ using TDSPRINT.Cloud.SDK.Datas;
 
 namespace TDSPRINT.Cloud.SDK
 {
-    public class PrinterClient : TSCloud
+    public class PrinterClient : ClientBase
     {
         #region member variables
         private Hash Configuration;
         #endregion
 
         #region constructor
-        public PrinterClient()
-        {
-        }
-        public PrinterClient(string AppHost) : base(AppHost)
-        {
-        }
         public PrinterClient(TSCloud TSCloud)
-            : this()
+            : base(TSCloud)
         {
-            RestClient = new RestClient(TSCloud.Hostname);
-            ApiToken = TSCloud.ApiToken;
-            CurrentUser = TSCloud.CurrentUser;
         }
         public PrinterClient(TSCloud TSCloud, Hash Configuration)
             : this(TSCloud)
@@ -54,6 +45,9 @@ namespace TDSPRINT.Cloud.SDK
 
         public Printers GetPrinters(int Page)
         {
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+
             RestRequest request = new RestRequest(String.Format("{0}/printers", ApiPath), Method.GET);
             request.AddParameter("api_token", ApiToken);
             request.AddParameter("root", "true");
@@ -83,6 +77,9 @@ namespace TDSPRINT.Cloud.SDK
         }
         public Queues GetQueues(int PrinterId, int Page)
         {
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+
             RestRequest request = new RestRequest(String.Format("{0}/queues", ApiPath), Method.GET);
             request.AddParameter("api_token", ApiToken);
             request.AddParameter("parent_id", PrinterId);
@@ -113,6 +110,9 @@ namespace TDSPRINT.Cloud.SDK
 
         public Printer GetPrinter(int PrinterId)
         {
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+
             RestRequest request = new RestRequest(String.Format("{0}/printers/{1}", ApiPath, PrinterId), Method.GET);
             request.AddParameter("api_token", ApiToken);
 
@@ -139,6 +139,9 @@ namespace TDSPRINT.Cloud.SDK
         }
         public Queue GetQueue(int QueueId)
         {
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+
             RestRequest request = new RestRequest(String.Format("{0}/queues/{1}", ApiPath, QueueId), Method.GET);
             request.AddParameter("api_token", ApiToken);
 
@@ -207,6 +210,9 @@ namespace TDSPRINT.Cloud.SDK
         #region Legacy
         private RestRequest CreateRequest(string PrinterName, object MetaJson)
         {
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+
             RestRequest request = new RestRequest(String.Format("{0}/printers", ApiPath), Method.POST);
             Hash Acl = new Hash();
             {
@@ -226,6 +232,9 @@ namespace TDSPRINT.Cloud.SDK
         }
         public Printer Create(string PrinterName, object MetaJson)
         {
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+
             RestRequest request = CreateRequest(PrinterName, MetaJson);
             if (request == null)
                 return new Printer("printer cannot be created without acl or printer name");
@@ -261,7 +270,11 @@ namespace TDSPRINT.Cloud.SDK
         public void BatchUpdate(string dataJson)
         {
             if (RestClient == null)
-                RestClient = new RestClient(Hostname);
+                RestClient = new RestClient(ApiHost);
+
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+
             RestRequest request = new RestRequest(String.Format("{0}/printers/batch_update", ApiPath), Method.PUT);
             
             request.AddParameter("data", dataJson);

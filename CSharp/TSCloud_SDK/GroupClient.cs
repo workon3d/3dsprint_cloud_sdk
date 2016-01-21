@@ -11,24 +11,16 @@ using TDSPRINT.Cloud.SDK.Types;
 
 namespace TDSPRINT.Cloud.SDK
 {
-    public class GroupClient : TSCloud
+    public class GroupClient : ClientBase
     {
         #region member variables
         private Hash Configuration;
         #endregion
 
         #region constructor
-        public GroupClient()
+        public GroupClient(TSCloud TSCloud)
+            : base(TSCloud)
         {
-            this.Configuration = null;
-        }
-        public GroupClient(TSCloud TSCloud) : this()
-        {
-            Hostname = TSCloud.Hostname;
-            RestClient = new RestClient(Hostname);
-            ApiToken = TSCloud.ApiToken;
-            CurrentUser = TSCloud.CurrentUser;
-
             // Default Configuration
             Configuration = new Hash();
             Configuration["PerPage"] = 30;
@@ -43,6 +35,9 @@ namespace TDSPRINT.Cloud.SDK
         #region
         public Groups GetGroups(int Page)
         {
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+
             RestRequest request = new RestRequest(String.Format("{0}/groups", ApiPath), Method.GET);
             request.AddParameter("api_token", ApiToken);
             if (Page != 0)
@@ -76,6 +71,9 @@ namespace TDSPRINT.Cloud.SDK
 
         public Group Create(Group group)
         {
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+
             RestRequest request = new RestRequest(String.Format("{0}/groups", ApiPath), Method.POST);
             request.AddParameter("api_token", ApiToken);
 
@@ -118,6 +116,9 @@ namespace TDSPRINT.Cloud.SDK
 
         public HttpStatusCode Delete(int GroupID)
         {
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+
             RestRequest request = new RestRequest(String.Format("{0}/groups/{1}", ApiPath, Convert.ToString(GroupID)), Method.DELETE);
             request.AddParameter("api_token", ApiToken);
 
@@ -134,6 +135,9 @@ namespace TDSPRINT.Cloud.SDK
 
         public Group Update(Group group)
         {
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+
             RestRequest request = new RestRequest(String.Format("{0}/groups/{1}", ApiPath, Convert.ToString(group.Id)), Method.PUT);
             request.AddParameter("api_token", ApiToken);
 
@@ -176,6 +180,9 @@ namespace TDSPRINT.Cloud.SDK
 
         public Group Get(int GroupID)
         {
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
+
             RestRequest request = new RestRequest(String.Format("{0}/groups/{1}", ApiPath, Convert.ToString(GroupID)), Method.GET);
             request.AddParameter("api_token", ApiToken);
 

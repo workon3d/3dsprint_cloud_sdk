@@ -10,18 +10,12 @@ using TDSPRINT.Cloud.SDK.Types;
 
 namespace TDSPRINT.Cloud.SDK
 {
-    public class UserClient : TSCloud
+    public class UserClient : ClientBase
     {
         #region Constructor
-        public UserClient()
+        public UserClient(TSCloud TSCloud)
+            : base(TSCloud)
         {
-        }
-        public UserClient(TSCloud TSCloud) : this()
-        {
-            Hostname = TSCloud.Hostname;
-            RestClient = new RestClient(Hostname);
-            ApiToken = TSCloud.ApiToken;
-            CurrentUser = TSCloud.CurrentUser;
         }
         #endregion
 
@@ -48,6 +42,8 @@ namespace TDSPRINT.Cloud.SDK
         {
             if(String.IsNullOrEmpty(user.Email))
                 throw new Exception("Email required");
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
 
             RestRequest request = new RestRequest(String.Format("{0}/users", ApiPath), Method.POST);
             request.AddParameter("api_token", ApiToken);
@@ -123,6 +119,8 @@ namespace TDSPRINT.Cloud.SDK
         {
             if (user.Id == 0)
                 throw new Exception("User ID Required");
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
 
             RestRequest request = new RestRequest(String.Format("{0}/users/{1}", ApiPath, Convert.ToString(user.Id)), Method.PUT);
             request.AddParameter("api_token", ApiToken);
@@ -172,6 +170,8 @@ namespace TDSPRINT.Cloud.SDK
         {
             if (emails.Length < 1)
                 throw new Exception("emails Required");
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
 
             RestRequest request = new RestRequest(String.Format("{0}/users", ApiPath), Method.GET);
             request.AddParameter("api_token", ApiToken);
@@ -199,6 +199,8 @@ namespace TDSPRINT.Cloud.SDK
 
         public User Get(int UserID)
         {
+            if (!CheckExpiration())
+                throw new Exception("token refresh fails");
             RestRequest request = new RestRequest(String.Format("{0}/users/{1}", ApiPath, Convert.ToString(UserID)), Method.GET);
             request.AddParameter("api_token", ApiToken);
 

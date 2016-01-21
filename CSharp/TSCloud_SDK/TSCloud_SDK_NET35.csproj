@@ -69,8 +69,10 @@
     <Compile Include="Datas\Hash.cs" />
     <Compile Include="Datas\JObject.cs" />
     <Compile Include="Datas\Preview.cs" />
+    <Compile Include="Datas\RefreshResponse.cs" />
     <Compile Include="Datas\Team.cs" />
     <Compile Include="GroupClient.cs" />
+    <Compile Include="RefreshTokenWorker.cs" />
     <Compile Include="Types\QueueStatus.cs" />
     <Compile Include="UserClient.cs" />
     <Compile Include="PrinterClient.cs" />

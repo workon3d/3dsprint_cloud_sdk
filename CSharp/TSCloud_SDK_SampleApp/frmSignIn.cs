@@ -38,8 +38,8 @@ namespace TSCloud_SampleApp
 
         private void doSignin()
         {
-            doSigninCentercode();
-            return;
+//            doSigninCentercode();
+//            return;
 
             string Email = tbEmail.Text;
             string Password = tbPassword.Text;
