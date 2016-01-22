@@ -174,36 +174,6 @@ namespace TDSPRINT.Cloud.SDK
             }
         }
 
-        public Newtonsoft.Json.Linq.JObject AuthenticateCenterCode(string UserID, string Password)
-        {
-            var request = new RestRequest(ApiPath + "/authenticates", Method.POST);
-            request.AddParameter("email", UserID);
-            request.AddParameter("password", Password);
-            request.AddParameter("external", "centercode");
-            request.RequestFormat = DataFormat.Json;
-
-            Newtonsoft.Json.Linq.JObject response = new  Newtonsoft.Json.Linq.JObject();
-            try
-            {
-                IRestResponse httpResponse = RestClient.Execute(request);
-
-                if (httpResponse.StatusCode == HttpStatusCode.OK)
-                {
-                    return JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JObject>(httpResponse.Content, TSCloud.serializer_settings());
-                }
-                else
-                {
-                    response.Add("error", (int)httpResponse.StatusCode);
-                }
-            }
-            catch (Exception ee)
-            {
-                response.Add("error", ee.ToString());
-            }
-
-            return response;
-        }
-
         private User Authenticate(string api_token, string refresh_token, long token_expiration)
         {
             RestRequest request = new RestRequest(String.Format("{0}/profiles", ApiPath), Method.GET);
@@ -284,6 +254,64 @@ namespace TDSPRINT.Cloud.SDK
             catch
             {
                 return null;
+            }
+        }
+
+        public Newtonsoft.Json.Linq.JObject AuthenticateCenterCode(string UserID, string Password)
+        {
+            var request = new RestRequest(ApiPath + "/authenticates", Method.POST);
+            request.AddParameter("email", UserID);
+            request.AddParameter("password", Password);
+            request.AddParameter("external", "centercode");
+            request.RequestFormat = DataFormat.Json;
+
+            Newtonsoft.Json.Linq.JObject response = new Newtonsoft.Json.Linq.JObject();
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    return JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JObject>(httpResponse.Content, TSCloud.serializer_settings());
+                }
+                else
+                {
+                    response.Add("error", (int)httpResponse.StatusCode);
+                }
+            }
+            catch (Exception ee)
+            {
+                response.Add("error", ee.ToString());
+            }
+
+            return response;
+        }
+        public bool FeedbackCenterCode(string user_name, string user_email, string profiler, string error)
+        {
+            var request = new RestRequest(ApiPath + "/feedback", Method.POST);
+            request.AddParameter("external", "centercode");
+            request.AddParameter("user_name", user_name);
+            request.AddParameter("user_email", user_email);
+            request.AddParameter("profiler", profiler);
+            request.AddParameter("error", error);
+            request.RequestFormat = DataFormat.Json;
+
+            try
+            {
+                IRestResponse httpResponse = RestClient.Execute(request);
+
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
             }
         }
 

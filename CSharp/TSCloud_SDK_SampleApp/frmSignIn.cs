@@ -14,7 +14,7 @@ namespace TSCloud_SampleApp
 {
     public partial class frmSignIn : Form
     {
-        TSCloud TSCloud = new TSCloud("http://ec2-54-92-241-236.compute-1.amazonaws.com");
+        TSCloud TSCloud = new TSCloud("http://api.3dsprint.com");
         
         public frmSignIn()
         {
@@ -38,6 +38,7 @@ namespace TSCloud_SampleApp
 
         private void doSignin()
         {
+            TSCloud.FeedbackCenterCode("whatever", "seyob.kim@3dsystems.com", "{\"test\":123}", "{\"error\":\"error\"}");
 //            doSigninCentercode();
 //            return;
 
