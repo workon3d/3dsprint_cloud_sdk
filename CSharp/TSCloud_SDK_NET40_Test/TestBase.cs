@@ -33,11 +33,7 @@ namespace TSCloud_SDK_NET40_Test
             current_user.Role = "admin";
             current_user.Company = "test";
 
-            Hash SysInfo = new Hash();
-            SysInfo["ApiToken"] = "inska";
-            SysInfo["ApiHost"] = "http://ec2-54-92-241-236.compute-1.amazonaws.com";
-            SysInfo["ApiPath"] = "api/v1";
-            current_user.SysInfo = SysInfo;
+            current_user.SysInfo = _TSCloud;
 
             _TSCloud.CurrentUser = current_user;
             _TSCloud.ApiToken = "inska";

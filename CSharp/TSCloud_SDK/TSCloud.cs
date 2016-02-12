@@ -14,7 +14,7 @@ using TDSPRINT.Cloud.SDK.Datas;
 
 namespace TDSPRINT.Cloud.SDK
 {
-    public class TSCloud
+    public class TSCloud : IDisposable
     {
         #region member variables
         public RestClient RestClient;
@@ -27,6 +27,7 @@ namespace TDSPRINT.Cloud.SDK
         private User m_CurrentUser;
         private long m_Expiration;
         private string m_RefreshToken = null;
+        private Thread m_RefreshThread = null;
         //private Users m_users;
         #endregion
 
@@ -99,6 +100,15 @@ namespace TDSPRINT.Cloud.SDK
 
             RestClient = new RestClient(this.ApiHost);
         }
+        public void Dispose()
+        {
+            RefreshThread = null;
+        }
+
+        ~TSCloud()
+        {
+            Dispose();
+        }
         #endregion
 
         #region public method
@@ -155,7 +165,8 @@ namespace TDSPRINT.Cloud.SDK
 
                     if (ApiToken != null)
                     {
-                        new Thread(new RefreshTokenWorker(this).Start).Start();
+                        RefreshThread = new Thread(new RefreshTokenWorker(this).Start);
+                        RefreshThread.Start();
                         return CurrentUser;
                     }
                     else
@@ -196,7 +207,8 @@ namespace TDSPRINT.Cloud.SDK
                 //UserClient UserClient = new UserClient(this);
                 //m_users = UserClient.All();
 
-                new Thread(new RefreshTokenWorker(this).Start).Start();
+                RefreshThread = new Thread(new RefreshTokenWorker(this).Start);
+                RefreshThread.Start();
                 return CurrentUser;
             }
             catch (Exception ee)
@@ -354,7 +366,8 @@ namespace TDSPRINT.Cloud.SDK
                     RefreshToken = CurrentUser.RefreshToken = refresh.RefreshToken;
                     Expiration = CurrentUser.TokenExpiration = refresh.TokenExpiration;
 
-                    new Thread(new RefreshTokenWorker(this).Start).Start();
+                    RefreshThread = new Thread(new RefreshTokenWorker(this).Start);
+                    RefreshThread.Start();
                 }
                 else {
                     return false;
@@ -402,6 +415,28 @@ namespace TDSPRINT.Cloud.SDK
         {
             return new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc).AddSeconds(timestamp).ToLocalTime();
         }
+
+        Thread RefreshThread
+        {
+            get
+            {
+                return m_RefreshThread;
+            }
+            set {
+                if (m_RefreshThread != null)
+                {
+                    try
+                    {
+                        m_RefreshThread.Abort();
+                    }
+                    catch
+                    {
+                    }
+                }
+                m_RefreshThread = value;
+            }
+        }
+
         #endregion
 
         #region static method
