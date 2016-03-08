@@ -14,12 +14,12 @@ namespace TSCloud_SampleApp
 {
     public partial class frmSignIn : Form
     {
-        TSCloud TSCloud = new TSCloud("http://api.3dsprint.com");
+        TSCloud cloud_client = new TSCloud("http://api.3dsprint.com");
         
         public frmSignIn()
         {
             // Please check whether internet connection state is online or not on the other thread before authentication.
-            if (!TSCloud.IsOnline())
+            if (!cloud_client.IsOnline())
             {
                 MessageBox.Show("Please check internet connection");
             }
@@ -27,42 +27,60 @@ namespace TSCloud_SampleApp
             InitializeComponent();
         }
 
+        private void CreateFolderSample()
+        {
+            string Email = tbEmail.Text;
+            string Password = tbPassword.Text;
+
+            User user = cloud_client.Authenticate(Email, Password);
+
+            if (User.IsValid(user))
+            {
+                TDSPRINT.Cloud.SDK.ModelClient model_client = new TDSPRINT.Cloud.SDK.ModelClient(cloud_client);
+                Model created_folder = model_client.Create("folder_on_root", null);
+                Model folder_in_folder = model_client.Create("folder_in_created_folder", created_folder.Id);
+
+                TDSPRINT.Cloud.SDK.Datas.Model file = new TDSPRINT.Cloud.SDK.Datas.Model();
+                file.Filepath = new System.Diagnostics.StackTrace(true).GetFrame(0).GetFileName();
+                file.ParentId = (int?)created_folder.Id;
+                file.Meta = new TDSPRINT.Cloud.SDK.Datas.Hash();
+                file.Meta.Add("test", "test_meta");
+                
+                model_client.Create(file);
+            }
+        }
+
         private void doSigninCentercode()
         {
             string UserID = tbEmail.Text;
             string Password = tbPassword.Text;
 
-            Newtonsoft.Json.Linq.JObject result = TSCloud.AuthenticateCenterCode(UserID, Password);
+            Newtonsoft.Json.Linq.JObject result = cloud_client.AuthenticateCenterCode(UserID, Password);
             MessageBox.Show(result.ToString());
         }
 
         private void doSignin()
         {
-            TSCloud.FeedbackCenterCode("whatever", "seyob.kim@3dsystems.com", "{\"test\":123}", "{\"error\":\"error\"}");
-//            doSigninCentercode();
-//            return;
-
             string Email = tbEmail.Text;
             string Password = tbPassword.Text;
 
-            User user = TSCloud.Authenticate(Email, Password);
-
-            // Get Desktop Settings
-            Hash settings = TSCloud.GetDesktopSettings();
-
-            if (settings == null)
-            {
-                settings = new Hash();
-                settings.Add("last_signed_in", null);
-            }
+            User user = cloud_client.Authenticate(Email, Password);
             
-            // Update Desktop Settings
-            settings["last_signed_in"] = Convert.ToString(DateTime.Now);
-            Hash updated_settings = TSCloud.UpdateDesktopSettings(settings);
+            // Get Desktop Settings
+            //Hash settings = TSCloud.GetDesktopSettings();
+
+            //if (settings == null)
+            //{
+            //    settings = new Hash();
+            //    settings.Add("last_signed_in", null);
+            //}
+            
+            //// Update Desktop Settings
+            //settings["last_signed_in"] = Convert.ToString(DateTime.Now);
+            //Hash updated_settings = TSCloud.UpdateDesktopSettings(settings);
             
             if (User.IsValid(user))
             {
-                MessageBox.Show(user.ApiToken);
                 //frmMain FileList = new frmMain(TSCloud);
                 //FileList.Show();
                 //this.Hide();
@@ -75,7 +93,8 @@ namespace TSCloud_SampleApp
 
         private void btnSignIn_Click(object sender, EventArgs e)
         {
-            doSignin();
+            CreateFolderSample();
+            //doSignin();
         }
 
         private void tbPassword_KeyDown(object sender, KeyEventArgs e)
