@@ -270,6 +270,18 @@ namespace TDSPRINT.Cloud.SDK.Datas
     public class Users : CommonList
     {
         private List<User> m_users;
+        [JsonProperty("contents")]
+        public List<User> Contents
+        {
+            get
+            {
+                return m_users;
+            }
+            set
+            {
+                m_users = value;
+            }
+        }
 
         public List<User> All
         {

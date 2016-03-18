@@ -182,9 +182,9 @@ namespace TDSPRINT.Cloud.SDK
                 IRestResponse httpResponse = RestClient.Execute(request);
                 if(httpResponse.StatusCode == HttpStatusCode.OK)
                 {
-                    List<User> user_list = JsonConvert.DeserializeObject<List<User>>(httpResponse.Content, TSCloud.serializer_settings());
-                    user_list.ForEach(x => x.SysInfo = GetSysInfo());
-                    return user_list;
+                    Users user_list = JsonConvert.DeserializeObject<Users>(httpResponse.Content, TSCloud.serializer_settings());
+                    user_list.All.ForEach(x => x.SysInfo = GetSysInfo());
+                    return user_list.All;
                 }
                 else
                 {
